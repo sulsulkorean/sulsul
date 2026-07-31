@@ -5,18 +5,15 @@ cd "$(dirname "$0")"
 
 echo "🚀 GitHub로 SULSUL 블로그 업데이트를 시작합니다..."
 
-# 변경사항이 있는지 확인
-if [[ -z $(git status -s) ]]; then
-  echo "✅ 추가되거나 변경된 파일이 없습니다."
-  exit 0
+# 변경사항이 있는지 확인하여 커밋
+if [[ -n $(git status -s) ]]; then
+  git add .
+  COMMIT_MSG="Add new programmatic seo posts - $(date +'%Y-%m-%d %H:%M:%S')"
+  git commit -m "$COMMIT_MSG"
+else
+  echo "✅ 새로 추가된 파일은 없지만, 아직 전송되지 않은 내역이 있는지 확인 후 푸시합니다."
 fi
 
-# 모든 변경사항 추가
-git add .
-
-# 현재 날짜 및 시간으로 커밋 메시지 생성
-COMMIT_MSG="Add new programmatic seo posts - $(date +'%Y-%m-%d %H:%M:%S')"
-git commit -m "$COMMIT_MSG"
 
 # 메인 브랜치로 푸시 (원격 저장소 이름이 origin 이고 브랜치가 main 이라고 가정)
 git push origin main
