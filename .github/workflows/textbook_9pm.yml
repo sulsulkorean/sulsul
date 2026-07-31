@@ -27,7 +27,7 @@ jobs:
 
       - name: Run Textbook SEO Script
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI }}
         run: |
           python3 generate_seo_posts.py --mode textbook --count 10
 
