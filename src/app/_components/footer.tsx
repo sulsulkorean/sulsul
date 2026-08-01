@@ -14,8 +14,8 @@ export function Footer() {
               {SITE_TAGLINE}
             </p>
             <p className="text-sm text-slate-500">
-              Speaking gym first. PDF workbook as a bonus. Secure PayPal
-              checkout.
+              Practise 100 survival patterns out loud, get corrected as you
+              speak, then use them in Seoul.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 lg:pl-4 lg:w-1/2">
