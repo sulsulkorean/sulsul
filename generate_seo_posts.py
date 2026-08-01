@@ -491,54 +491,9 @@ ogImage.url: "{cover}"
         temperature=0.5,
     )
     draft = enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
-    draft = expand_if_thin(draft, system, user, cover, iso_date)
-    return draft
-
-
-def body_word_count(text):
-    parts = re.split(r"^---\s*$", text, maxsplit=2, flags=re.M)
-    body = parts[2] if len(parts) >= 3 else text
-    return len(re.findall(r"\b[\w']+\b", body))
-
-
-def expand_if_thin(draft, system, user, cover, iso_date):
-    """GPT reliably lands near 600 words on a 1,100-word brief. Rather than
-    discard an otherwise sound draft, send it back once with the gap named."""
-    count = body_word_count(draft)
-    if count >= MIN_WORDS:
-        return draft
-
-    print(f"  draft is {count} words; requesting expansion to {MIN_WORDS}+")
-    revision = f"""Your draft came in at {count} words. It needs {MIN_WORDS}-{MAX_WORDS}.
-
-Rewrite it in full, keeping the frontmatter, the title and every phrase you already
-teach. Close the gap with material that is NOT in the draft:
-
-- Add the reply side to at least 3 sections: what the Korean speaker says back, and
-  how the reader answers that. Write it as You / Them / You.
-- Add a "What usually goes wrong" line to at least 2 sections.
-- Add 3-4 new distinct phrases for situations the draft skips.
-- Do NOT repeat any phrase more than twice in the whole post, and do not restate the
-  FAQ in the body.
-
-Output ONLY the finished markdown file, starting with "---" on line 1.
-
---- CURRENT DRAFT ---
-{draft}"""
-
-    raw = api_call_with_retry(
-        [
-            {"role": "system", "content": system},
-            {"role": "user", "content": user},
-            {"role": "assistant", "content": draft},
-            {"role": "user", "content": revision},
-        ],
-        temperature=0.5,
+    return revise_to_pass(
+        draft, system, user, cover, iso_date, existing_posts
     )
-    expanded = enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
-    new_count = body_word_count(expanded)
-    print(f"  expansion: {count} -> {new_count} words")
-    return expanded if new_count > count else draft
 
 
 def enforce_frontmatter(text, cover, iso_date):
@@ -549,24 +504,123 @@ def enforce_frontmatter(text, cover, iso_date):
         return text
     fm, body = parts[1], parts[2]
 
-    def set_field(block, key, value, quote=True):
-        val = f'"{value}"' if quote else value
+    def set_field(block, key, value):
         pattern = rf"(?m)^{key}:.*$"
         if re.search(pattern, block):
-            return re.sub(pattern, f"{key}: {val}", block, count=1)
-        return block.rstrip("\n") + f"\n{key}: {val}\n"
+            return re.sub(pattern, f'{key}: "{value}"', block, count=1)
+        return block.rstrip("\n") + f'\n{key}: "{value}"\n'
 
     fm = set_field(fm, "coverImage", cover)
     fm = set_field(fm, "date", iso_date)
     fm = set_field(fm, "updated", iso_date)
 
-    # ogImage is nested; rewrite its url line wherever it sits
     if re.search(r"(?m)^ogImage:", fm):
         fm = re.sub(r'(?m)^(\s+)url:.*$', rf'\g<1>url: "{cover}"', fm, count=1)
     else:
         fm = fm.rstrip("\n") + f'\nogImage:\n  url: "{cover}"\n'
 
     return f"---{fm}---{body}"
+
+
+def body_word_count(text):
+    parts = re.split(r"^---\s*$", text, maxsplit=2, flags=re.M)
+    body = parts[2] if len(parts) >= 3 else text
+    return len(re.findall(r"\b[\w']+\b", body))
+
+
+def fix_instructions(reasons):
+    """Turn gate failures into edits the model can actually act on."""
+    steps = []
+    for r in reasons:
+        if r.startswith("too short"):
+            have = int(re.search(r"(\d+)", r).group(1))
+            steps.append(
+                f"- The draft is {have} words and must reach {MIN_WORDS}-{MAX_WORDS}. "
+                f"Add roughly {MIN_WORDS - have + 200} words of NEW material: more "
+                "situations, more of what the Korean speaker says back, more mistakes "
+                "and fixes. Do not pad existing sentences."
+            )
+        elif r.startswith("too long"):
+            steps.append(f"- Cut the post down to {MAX_WORDS} words or fewer.")
+        elif r.startswith("phrase repeated"):
+            phrase = r.split(": ", 1)[1]
+            steps.append(
+                f'- "{phrase}" appears too many times. Keep it in at most two places '
+                "and replace the others with different phrases that fit those spots."
+            )
+        elif r == "missing markdown table":
+            steps.append(
+                "- Add a markdown table with a header row, a |---|---| separator row "
+                "and 4-6 data rows mapping situation to phrase."
+            )
+        elif r == "CTA is H3 and merges into the FAQ":
+            steps.append('- Change the CTA heading from "###" to "##".')
+        elif r.startswith("non-question H3 inside FAQ"):
+            steps.append(
+                "- Every \"###\" after the FAQ heading must be a question. Move anything "
+                "else out of the FAQ."
+            )
+        elif r.startswith("banned phrase"):
+            steps.append(f'- Remove this wording entirely: "{r.split(": ", 1)[1]}".')
+        elif r == "body contains H1":
+            steps.append('- Remove the "# " heading; the site renders the title.')
+        elif r.startswith("missing FAQ") or r.startswith("FAQ H3 count"):
+            steps.append(
+                '- End with "## Frequently Asked Questions" holding 4-6 "###" questions.'
+            )
+        elif r.startswith("title too long"):
+            steps.append("- Shorten the title to 60 characters or fewer.")
+        elif r.startswith("too many sulsul.app"):
+            steps.append("- Link to sulsul.app once, in the CTA only.")
+        elif r == "missing sulsul.app CTA":
+            steps.append("- Add the CTA block with the sulsul.app link.")
+    return steps
+
+
+def revise_to_pass(draft, system, user, cover, iso_date, existing_posts, rounds=2):
+    """One-shot generation lands short and repetitive no matter how the brief is
+    worded, so feed the gate's own findings back instead of discarding the draft."""
+    for attempt in range(1, rounds + 1):
+        reasons = validate_post(draft, existing_posts)
+        if not reasons:
+            return draft
+        steps = fix_instructions(reasons)
+        if not steps:
+            return draft
+
+        print(f"  revision {attempt}: " + "; ".join(reasons))
+        revision = (
+            "Your draft failed the publish gate. Fix exactly these problems:\n\n"
+            + "\n".join(steps)
+            + "\n\nKeep everything that already works: the frontmatter, the title, the "
+            "both-sides exchanges, the numbered steps, the FAQ and the CTA. Never "
+            "delete a section to satisfy a word count, and never solve a problem by "
+            "repeating a phrase you have already taught.\n\n"
+            'Output ONLY the finished markdown file, starting with "---" on line 1.'
+        )
+
+        raw = api_call_with_retry(
+            [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+                {"role": "assistant", "content": draft},
+                {"role": "user", "content": revision},
+            ],
+            temperature=0.5,
+        )
+        candidate = enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
+        if len(validate_post(candidate, existing_posts)) <= len(reasons):
+            draft = candidate
+
+    return draft
+
+
+def has_table(text):
+    for line in text.splitlines():
+        stripped = line.strip()
+        if stripped and set(stripped) <= set("|-: ") and "-" in stripped and "|" in stripped:
+            return True
+    return False
 
 
 def validate_post(text, existing_posts):
@@ -603,7 +657,7 @@ def validate_post(text, existing_posts):
     if faq_h3 < 4:
         reasons.append(f"FAQ H3 count too low: {faq_h3}")
 
-    if not re.search(r"(?m)^\s*\|?[\s:|-]*-{3,}[\s:|-]*\|", text):
+    if not has_table(text):
         reasons.append("missing markdown table")
 
     if re.search(r"(?mi)^###\s+Say it out loud", body):
