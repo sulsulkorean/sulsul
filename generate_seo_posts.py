@@ -478,7 +478,35 @@ ogImage.url: "{cover}"
         ],
         temperature=0.5,
     )
-    return strip_code_fences(raw)
+    return enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
+
+
+def enforce_frontmatter(text, cover, iso_date):
+    """The model is asked for these values but only the code knows them for
+    certain, and a single wrong character fails the publish gate."""
+    parts = re.split(r"^---\s*$", text, maxsplit=2, flags=re.M)
+    if len(parts) < 3:
+        return text
+    fm, body = parts[1], parts[2]
+
+    def set_field(block, key, value, quote=True):
+        val = f'"{value}"' if quote else value
+        pattern = rf"(?m)^{key}:.*$"
+        if re.search(pattern, block):
+            return re.sub(pattern, f"{key}: {val}", block, count=1)
+        return block.rstrip("\n") + f"\n{key}: {val}\n"
+
+    fm = set_field(fm, "coverImage", cover)
+    fm = set_field(fm, "date", iso_date)
+    fm = set_field(fm, "updated", iso_date)
+
+    # ogImage is nested; rewrite its url line wherever it sits
+    if re.search(r"(?m)^ogImage:", fm):
+        fm = re.sub(r'(?m)^(\s+)url:.*$', rf'\g<1>url: "{cover}"', fm, count=1)
+    else:
+        fm = fm.rstrip("\n") + f'\nogImage:\n  url: "{cover}"\n'
+
+    return f"---{fm}---{body}"
 
 
 def validate_post(text, existing_posts):
@@ -515,7 +543,7 @@ def validate_post(text, existing_posts):
     if faq_h3 < 4:
         reasons.append(f"FAQ H3 count too low: {faq_h3}")
 
-    if "|---" not in text and "| ---" not in text:
+    if not re.search(r"(?m)^\s*\|?[\s:|-]*-{3,}[\s:|-]*\|", text):
         reasons.append("missing markdown table")
 
     cta_count = len(re.findall(r"https://sulsul\.app", text))
