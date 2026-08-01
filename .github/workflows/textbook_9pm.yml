@@ -38,10 +38,19 @@ jobs:
         run: |
           python3 tools/check_public_copy.py
 
+      - name: Keep rejected drafts out of the public repository
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rejected-drafts-textbook
+          path: _rejected/
+          if-no-files-found: ignore
+          retention-days: 30
+
       - name: Commit and Push
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add _posts _rejected || true
+          git add _posts || true
           git commit -m "Auto: textbook SEO posts (quality-gated, max 3)" || echo "No changes to commit"
           git push origin main

@@ -53,6 +53,34 @@ MAX_PHRASE_REPEATS = 7
 MIN_EXCHANGES = 3
 MAX_H2 = 10
 
+# Trend seeds come from a news index rather than a web search, and the query
+# rotates by day so two runs do not open with the same story.
+TREND_QUERIES = [
+    "k-pop",
+    "korean drama",
+    "hallyu korean culture",
+    "korean entertainment",
+    "k-drama streaming",
+]
+TREND_BACKOFF_SECONDS = 25
+
+# A seed has to be about Korea or the Korean wave.
+TREND_REQUIRED = re.compile(
+    r"\bkorea\w*\b|\bk-?pop\b|\bk-?drama\b|\bk-?beauty\b|\bhallyu\b|\bseoul\b"
+    r"|\bhangul\b|\bhanbok\b|\bkimchi\b|\bbts\b|\bblackpink\b|\bstray kids\b"
+    r"|\btwice\b|\baespa\b|\bnewjeans\b|\bseventeen\b|\benhypen\b",
+    re.I,
+)
+
+# Encyclopedia entries and shop fronts can mention Korea and still carry no
+# story. These are the shapes that actually got published and had to be deleted.
+TREND_EXCLUDED = re.compile(
+    r"wikipedia|wikiwand|wiktionary|\bwiki\b|나무위키|namu\.wiki|britannica"
+    r"|dictionary|\bused car\b|중고차|abcmouse|starfall|cbeebies|sofatutor"
+    r"|\bclinic\b|\bhospital\b|nasal|congestion|\bstuffy\b",
+    re.I,
+)
+
 # Topic -> cover image routing. Keep in sync with src/lib/images.ts
 SCENES = {
     "cafe": "/assets/blog/scenes/cafe.jpg",
@@ -375,24 +403,62 @@ def title_similarity(a, b):
     return len(ta & tb) / max(len(ta | tb), 1)
 
 
+def trend_seed_ok(item):
+    title = item["title"]
+    text = f"{title} {item['snippet']}"
+    if len(title) < 15:
+        return False, "title is a site name, not a story"
+    if TREND_EXCLUDED.search(text):
+        return False, "reference page or unrelated topic"
+    if not TREND_REQUIRED.search(text):
+        return False, "nothing to do with Korea"
+    return True, ""
+
+
 def fetch_trend_news(count):
-    print("Searching live K-culture news...")
-    results = DDGS().text(
-        "K-Pop OR K-Drama OR BTS OR Netflix Korea",
-        max_results=max(count * 3, count),
-    )
-    keywords = []
-    for r in results:
-        keywords.append(
-            {
-                "title": r.get("title", ""),
-                "snippet": r.get("body", ""),
-                "link": r.get("href", ""),
+    """Return K-culture news seeds, or nothing at all.
+
+    The first version searched the whole web for "K-Pop OR K-Drama OR BTS",
+    which returns site fronts and dictionary entries rather than stories, and
+    those seeds became the posts about a used-car dealer, the letter K and
+    nasal congestion. The news index answers with articles, and the guard drops
+    whatever still arrives off-topic. Returning an empty list is a valid
+    outcome: no seed is better than a seed about the wrong subject.
+    """
+    day = datetime.utcnow().timetuple().tm_yday
+    queries = [TREND_QUERIES[(day + i) % len(TREND_QUERIES)] for i in range(3)]
+
+    for attempt, query in enumerate(queries):
+        if attempt:
+            time.sleep(TREND_BACKOFF_SECONDS)
+        print(f"Searching K-culture news for {query!r}...")
+        try:
+            results = list(DDGS().news(query, max_results=max(count * 4, 8)))
+        except Exception as e:
+            print(f"  search unavailable ({e}); trying another query.")
+            continue
+
+        seeds = []
+        for r in results:
+            item = {
+                "title": (r.get("title") or "").strip(),
+                "snippet": (r.get("body") or r.get("excerpt") or "").strip(),
+                "link": (r.get("url") or r.get("href") or "").strip(),
             }
-        )
-        if len(keywords) >= count:
-            break
-    return keywords
+            ok, why = trend_seed_ok(item)
+            if not ok:
+                print(f"  dropped ({why}): {item['title'][:60]}")
+                continue
+            seeds.append(item)
+            if len(seeds) >= count:
+                break
+
+        if seeds:
+            return seeds
+        print("  no on-topic story in this batch.")
+
+    print("No usable K-culture news today. Writing nothing rather than guessing.")
+    return []
 
 
 def generate_keywords(library_content, count, existing_titles):
@@ -812,18 +878,46 @@ def save_post(text, existing_posts):
         slug = f"{slug}-{datetime.utcnow().strftime('%H%M%S')}"
         filepath = os.path.join(BLOG_POSTS_DIR, f"{slug}.md")
 
+    title = extract_title(text)
+
     if reasons:
         reject_path = os.path.join(REJECTED_DIR, f"{slug}.md")
         with open(reject_path, "w", encoding="utf-8") as f:
             f.write("<!-- REJECTED: " + " | ".join(reasons) + " -->\n")
             f.write(text)
         print(f"Rejected ({'; '.join(reasons)}) -> {reject_path}")
-        return None
+        return {"slug": slug, "title": title, "kept": False, "reasons": reasons}
 
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(text)
     print(f"Published: {filepath}")
-    return {"slug": slug, "title": extract_title(text)}
+    return {"slug": slug, "title": title, "kept": True, "reasons": []}
+
+
+def write_run_summary(mode, results):
+    """Record what the gate did, so the pass rate is visible without opening
+    every log. GitHub renders this at the top of the run page."""
+    kept = [r for r in results if r["kept"]]
+    lines = [
+        f"### SULSUL blog — {mode} run",
+        "",
+        f"Passed the gate: **{len(kept)} of {len(results)}**",
+        "",
+        "| Draft | Result |",
+        "|---|---|",
+    ]
+    for r in results:
+        verdict = "kept" if r["kept"] else "rejected — " + "; ".join(r["reasons"][:3])
+        lines.append(f"| {r['title'][:70]} | {verdict} |")
+    if not results:
+        lines.append("| (no draft attempted) | nothing on topic to write about |")
+
+    summary = "\n".join(lines) + "\n\n"
+    path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if path:
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(summary)
+    print("\n" + summary)
 
 
 def main():
@@ -854,29 +948,36 @@ def main():
         titles = "; ".join(p["title"] for p in existing)
         items = generate_keywords(library_content, args.count, titles)
 
+    if not items:
+        print("Nothing to write about this run.")
+        write_run_summary(args.mode, [])
+        return
+
     print("\nQueue:")
     for i, item in enumerate(items, 1):
         label = item["title"] if args.mode == "trend" else item
         print(f"  {i}. {label}")
     print()
 
-    published = 0
+    results = []
     for item in items:
+        label = item["title"] if args.mode == "trend" else str(item)
         try:
             post = generate_blog_post(
                 item, library_content, voice_content, args.mode, existing
             )
             saved = save_post(post, existing)
-            if saved:
-                existing.append(saved)
-                published += 1
+            results.append(saved)
+            if saved["kept"]:
+                existing.append({"slug": saved["slug"], "title": saved["title"]})
         except Exception as e:
             print(f"Failed on item: {e}")
+            results.append(
+                {"slug": "", "title": label[:70], "kept": False, "reasons": [str(e)[:80]]}
+            )
 
-    print(
-        f"\nDone. Published {published}/{len(items)} posts. Rejected files (if any) are in _rejected/"
-    )
-    print("Deploy: ./push_to_blog.sh")
+    write_run_summary(args.mode, results)
+    print("Rejected drafts (if any) are in _rejected/")
 
 
 if __name__ == "__main__":

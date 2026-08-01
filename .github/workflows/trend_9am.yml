@@ -1,4 +1,4 @@
-name: Trend SEO Post Generator (9 AM KST)
+name: Trend Post Drafts for Review (9 AM KST)
 
 on:
   schedule:
@@ -6,16 +6,19 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
+# Trend posts start from an outside news story, so they are the ones that can go
+# off-brand. They wait for a human merge; textbook posts still publish on their own.
 jobs:
-  generate-and-deploy:
+  draft-for-review:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,7 +30,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install openai duckduckgo-search
 
-      - name: Run Trend SEO Script (2 posts/day)
+      - name: Write Trend Drafts (2 max)
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI }}
           SULSUL_BLOG_MODEL: gpt-4o
@@ -38,10 +41,68 @@ jobs:
         run: |
           python3 tools/check_public_copy.py
 
-      - name: Commit and Push
+      - name: Keep rejected drafts out of the public repository
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rejected-drafts-trend
+          path: _rejected/
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Look for drafts that passed the gate
+        id: drafts
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add _posts _rejected || true
-          git commit -m "Auto: trend SEO posts (quality-gated, max 2)" || echo "No changes to commit"
-          git push origin main
+          if [ -n "$(git status --porcelain _posts)" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "올릴 초안이 없습니다. 블로그는 그대로입니다." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Open a review request instead of publishing
+        if: steps.drafts.outputs.found == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          today=$(date -u +%Y-%m-%d)
+          branch="trend-draft/${today}-$(date -u +%H%M)"
+
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$branch"
+          git add _posts
+          git commit -m "Trend drafts awaiting review (${today})"
+          git push origin "$branch"
+
+          {
+            echo "블로그에 올릴 **초안**입니다. 아직 아무것도 발행되지 않았습니다."
+            echo
+            echo "- **Merge** 를 누르면 블로그에 올라갑니다."
+            echo "- **Close** 를 누르면 버려집니다."
+            echo "- 아무것도 안 하셔도 블로그는 그대로입니다."
+            echo
+            echo "### 이번 초안"
+            git diff --name-only HEAD~1 HEAD -- _posts | while read -r f; do
+              title=$(grep -m1 '^title:' "$f" | sed -e 's/^title:[[:space:]]*//' -e 's/^"//' -e 's/"$//')
+              echo "- ${title:-$f}"
+              echo "  (\`$f\`)"
+            done
+            echo
+            echo "### 읽을 때 볼 것"
+            echo
+            echo "1. 주제가 한국어 말하기와 맞는지"
+            echo "2. 가격 숫자가 없는지"
+            echo "3. 사람이 읽어서 재미있는지"
+          } > pr_body.md
+
+          if ! gh pr create --base main --head "$branch" \
+               --title "블로그 트렌드 초안 검토 — ${today}" \
+               --body-file pr_body.md; then
+            {
+              echo "검토 요청을 자동으로 만들지 못했습니다. 아래 링크에서 열어주세요."
+              echo
+              echo "https://github.com/${GITHUB_REPOSITORY}/compare/main...${branch}?expand=1"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
