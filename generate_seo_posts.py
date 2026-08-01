@@ -11,6 +11,7 @@ import re
 import glob
 import time
 import argparse
+from collections import Counter
 import subprocess
 import sys
 import random
@@ -40,6 +41,8 @@ REJECTED_DIR = os.path.join(ROOT, "_rejected")
 # Enforced here rather than in the workflow files so a stale schedule
 # can never push us back into scaled-content territory.
 MAX_PER_RUN = {"trend": 2, "textbook": 3}
+MIN_WORDS = 1000
+MAX_WORDS = 1800
 
 # Topic -> cover image routing. Keep in sync with src/lib/images.ts
 SCENES = {
@@ -163,15 +166,24 @@ Match the VOICE SAMPLES supplied in the user message: warm, direct, specific, se
 2. ANSWER-FIRST PARAGRAPH, 40-60 words: a complete, self-contained answer to the title query, containing the primary keyword and at least one concrete Korean phrase. It must make full sense when lifted out with zero surrounding context. This is the paragraph AI engines quote.
 3. A "> " blockquote right after it, 3-5 bullets, each a full standalone sentence carrying one concrete fact (a phrase, a rule, a situation). No vague bullets.
 4. 5-8 "##" sections. Every H2 is a real question a person asks ("What do you actually say at a Korean cafe counter?") or a concrete task. Never "Understanding the Basics", never "Conclusion".
-5. Every section stands alone: repeat the entity names ("SULSUL", "Korean", the situation) instead of "it / this / that" across sections.
-6. Include at least one markdown TABLE (situation -> phrase, or a comparison).
-7. Include one numbered step-by-step section, 3-7 steps, each step starting with a verb, written so it could be lifted as a HowTo.
-8. FAQ section near the end: "## Frequently Asked Questions", then 4-6 questions as "###". Each answer 40-70 words, self-contained, phrased the way people actually ask an AI.
-9. CTA block LAST, using the template in section E.
-10. Length 1,100-1,600 English WORDS. Never pad to hit a number.
+5. Each "##" section runs 150-250 words and must carry material found nowhere else in the post. A section that only restates a phrase already taught is a failed section: delete it and write a different one.
+6. At least 3 sections show BOTH sides of the exchange. Understanding the reply is the part that actually defeats people, so write it out:
+
+   You: **한국어** — *romanization* — "English"
+   Them: **한국어** — *romanization* — "English"
+   You: **한국어** — *romanization* — "English"
+
+7. At least 2 sections carry a "What usually goes wrong" line: the specific mistake a learner makes at this exact moment, and what to do instead.
+8. Never use the same Korean phrase in more than two places in the whole post. A row in the table counts as one of those two. Do not restate FAQ answers in the body or body content in the FAQ.
+9. Every section stands alone: repeat the entity names ("SULSUL", "Korean", the situation) instead of "it / this / that" across sections.
+10. Include at least one markdown TABLE (situation -> phrase, or a comparison).
+11. Include one numbered step-by-step section, 3-7 steps, each step starting with a verb, written so it could be lifted as a HowTo.
+12. FAQ section near the end: "## Frequently Asked Questions", then 4-6 questions as "###". Each answer 40-70 words, self-contained, phrased the way people actually ask an AI. The FAQ contains questions ONLY. Nothing else may sit under a "###" after this point.
+13. CTA block LAST, using the template in section E. Its heading is "##", never "###", or it merges into the FAQ.
+14. Length 1,100-1,600 English WORDS. This is a hard floor, not a target: a 600-word draft is discarded unread. Reach it with new material — more situations, more replies, more mistakes — never by repeating a phrase or inflating sentences.
 
 ## C. Korean examples — mandatory format
-Teach 5-10 phrases. Every phrase uses exactly this block:
+Teach 8-12 DISTINCT phrases — never the same phrase twice. Every phrase uses exactly this block:
 
 **한국어 문장** — *romanization*
 "Natural English"
@@ -190,7 +202,7 @@ Rules: 해요체 by default (합쇼체 only where the situation demands it). Rev
 
 ---
 
-### Say it out loud, not just in your head
+## Say it out loud, not just in your head
 
 <one line naming the exact situation this post covers, and the fact that reading it is not the same as saying it when someone is waiting for your answer>
 
@@ -478,7 +490,55 @@ ogImage.url: "{cover}"
         ],
         temperature=0.5,
     )
-    return enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
+    draft = enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
+    draft = expand_if_thin(draft, system, user, cover, iso_date)
+    return draft
+
+
+def body_word_count(text):
+    parts = re.split(r"^---\s*$", text, maxsplit=2, flags=re.M)
+    body = parts[2] if len(parts) >= 3 else text
+    return len(re.findall(r"\b[\w']+\b", body))
+
+
+def expand_if_thin(draft, system, user, cover, iso_date):
+    """GPT reliably lands near 600 words on a 1,100-word brief. Rather than
+    discard an otherwise sound draft, send it back once with the gap named."""
+    count = body_word_count(draft)
+    if count >= MIN_WORDS:
+        return draft
+
+    print(f"  draft is {count} words; requesting expansion to {MIN_WORDS}+")
+    revision = f"""Your draft came in at {count} words. It needs {MIN_WORDS}-{MAX_WORDS}.
+
+Rewrite it in full, keeping the frontmatter, the title and every phrase you already
+teach. Close the gap with material that is NOT in the draft:
+
+- Add the reply side to at least 3 sections: what the Korean speaker says back, and
+  how the reader answers that. Write it as You / Them / You.
+- Add a "What usually goes wrong" line to at least 2 sections.
+- Add 3-4 new distinct phrases for situations the draft skips.
+- Do NOT repeat any phrase more than twice in the whole post, and do not restate the
+  FAQ in the body.
+
+Output ONLY the finished markdown file, starting with "---" on line 1.
+
+--- CURRENT DRAFT ---
+{draft}"""
+
+    raw = api_call_with_retry(
+        [
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+            {"role": "assistant", "content": draft},
+            {"role": "user", "content": revision},
+        ],
+        temperature=0.5,
+    )
+    expanded = enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
+    new_count = body_word_count(expanded)
+    print(f"  expansion: {count} -> {new_count} words")
+    return expanded if new_count > count else draft
 
 
 def enforce_frontmatter(text, cover, iso_date):
@@ -531,9 +591,9 @@ def validate_post(text, existing_posts):
         reasons.append("empty coverImage")
 
     words = re.findall(r"\b[\w']+\b", body)
-    if len(words) < 1000:
+    if len(words) < MIN_WORDS:
         reasons.append(f"too short: {len(words)} words")
-    if len(words) > 1800:
+    if len(words) > MAX_WORDS:
         reasons.append(f"too long: {len(words)} words")
 
     if "## frequently asked questions" not in lower:
@@ -545,6 +605,24 @@ def validate_post(text, existing_posts):
 
     if not re.search(r"(?m)^\s*\|?[\s:|-]*-{3,}[\s:|-]*\|", text):
         reasons.append("missing markdown table")
+
+    if re.search(r"(?mi)^###\s+Say it out loud", body):
+        reasons.append("CTA is H3 and merges into the FAQ")
+
+    faq_split = re.split(r"(?mi)^##\s+Frequently Asked Questions\s*$", body, maxsplit=1)
+    if len(faq_split) == 2:
+        for h3 in re.findall(r"(?m)^###\s+(.+)$", faq_split[1]):
+            if "?" not in h3:
+                reasons.append(f"non-question H3 inside FAQ: {h3[:40]}")
+                break
+
+    for phrase, hits in Counter(
+        m.group(0).strip()
+        for m in re.finditer(r"[가-힣][가-힣 ]{3,20}[가-힣]", body)
+    ).items():
+        if hits > 3:
+            reasons.append(f"phrase repeated {hits}x: {phrase}")
+            break
 
     cta_count = len(re.findall(r"https://sulsul\.app", text))
     if cta_count < 1:
