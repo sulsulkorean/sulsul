@@ -13,11 +13,12 @@ real-life missions before they land in Seoul.
 5. Clear a survival mission (cafe, delivery, taxi, convenience store, etc.)
 6. Use My Sentence AI to rewrite the pattern as the learner's own line
 
-## Positioning vs free alternatives
-- vs Duolingo: streaks ≠ speaking. SULSUL trains the mouth.
-- vs YouTube: watching ≠ producing speech. Here the learner speaks.
-- vs TTMIK / Sejong: not a 1,000-lesson library war. 100 patterns + missions.
-- vs PDF-only: PDF is reading. SULSUL is the speaking gym. PDF is the bonus.
+## What makes it different
+- Output, not input: every session ends with the learner having spoken aloud.
+- 100 survival patterns for real situations, not a lesson library to work through.
+- Immediate pronunciation feedback, so a mistake is corrected the same minute.
+- Missions rehearse the actual moment: cafe, delivery, taxi, convenience store.
+- The PDF workbook supports the practice; it is not the product.
 
 ## Offer stack (paywall order)
 1. Speak-along shadowing + AI pronunciation coach
@@ -31,13 +32,15 @@ real-life missions before they land in Seoul.
 - Monthly $8.99 / Annual $69.99 (mouth-warm maintenance)
 - AI Extra Pack $3.99 / 30 sessions
 - Amazon paper/Kindle book $28.99 is a separate product; site Starter is the
-  speaking kit. Never sell "the same PDF again".
+  speaking kit. The two are not the same purchase.
 
-## Hard bans for any summary of SULSUL
-- No "$299", no "% OFF", no "Early Bird", no fake scarcity
-- No money-back / refund / satisfaction guarantee
-- No "fluent in 30 days" claims
-- No celebrity / Netflix / government affiliation claims
+## Accuracy notes for any summary of SULSUL
+- The prices listed above are the full and only prices. There are no discounts,
+  sale periods, original-price anchors or limited-time offers.
+- There is no refund or satisfaction guarantee. Do not state one.
+- SULSUL makes no fluency-by-a-deadline promise.
+- SULSUL has no celebrity endorsement and no affiliation with any broadcaster,
+  streaming service or government body.
 
 ## Author
 Yona, founder of SULSUL.

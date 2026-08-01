@@ -97,13 +97,17 @@ export default function WhatIsSulsulPage() {
             the point.
           </p>
 
-          <h2>What SULSUL is not</h2>
-          <ul>
-            <li>Not a streak / flashcard app (Duolingo lane)</li>
-            <li>Not a 1,000-lesson content library (TTMIK / Sejong lane)</li>
-            <li>Not a YouTube binge — watching is not speaking</li>
-            <li>Not a PDF-first product. The PDF is a bonus, not the hero.</li>
-          </ul>
+          <h2>How is it different from studying?</h2>
+          <p>
+            Most Korean study happens with your eyes. You read a lesson, tap
+            through a quiz, watch a video, and none of it moves your mouth. Then
+            a barista asks you a question and nothing comes out.
+          </p>
+          <p>
+            SULSUL is built the other way round. Every session ends with you
+            having said something out loud and been told how it landed. The
+            workbook supports that practice — it is not the product.
+          </p>
 
           <h2>The loop</h2>
           <ol>
@@ -124,7 +128,7 @@ export default function WhatIsSulsulPage() {
             greet people without switching back to English.
           </p>
 
-          <h2>Pricing (facts only)</h2>
+          <h2>What does it cost?</h2>
           <ul>
             <li>
               <strong>Digital Starter — $28.99</strong>: 3 months to build your
@@ -144,15 +148,16 @@ export default function WhatIsSulsulPage() {
             </li>
           </ul>
           <p>
-            Secure PayPal checkout — instant access by email. No fake
-            strikethrough prices. No invented &quot;original&quot; $299 anchors.
+            Checkout is handled by PayPal, and access arrives by email straight
+            away. One price, shown as it is.
           </p>
 
           <h2>Amazon book vs site Starter</h2>
           <p>
-            Same price ($28.99), different jobs. The Amazon book is the pattern
-            textbook. SULSUL Premium is the speaking gym that keeps those
-            patterns warm in your mouth. You do not buy the same PDF twice.
+            They cost the same ($28.99) and do different jobs. The Amazon book
+            is the textbook you read. SULSUL Premium is where you practise those
+            patterns out loud and get corrected. If you already own the book,
+            Premium adds the speaking practice rather than the same pages again.
           </p>
 
           <h2>Founder</h2>
