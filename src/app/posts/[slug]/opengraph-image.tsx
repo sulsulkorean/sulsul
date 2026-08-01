@@ -28,12 +28,10 @@ export default async function OpengraphImage(props: Params) {
 
   let title = SITE_NAME;
   let category = "Survival Korean";
-  try {
-    const post = getPostBySlug(slug);
+  const post = getPostBySlug(slug);
+  if (post) {
     title = post.title || title;
     category = post.category || category;
-  } catch {
-    // fall back to brand defaults
   }
 
   return new ImageResponse(
