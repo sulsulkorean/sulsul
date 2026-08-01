@@ -1,0 +1,43 @@
+# SULSUL Korean — Full Entity Card
+
+## One-sentence definition
+SULSUL is a Korean speaking gym that trains travellers and K-culture fans to
+say 100 survival patterns out loud, get AI pronunciation fixes, and pass
+real-life missions before they land in Seoul.
+
+## Product loop
+1. Pick a survival pattern from the 100-pattern core
+2. Listen
+3. Shadow it out loud
+4. Receive an AI pronunciation coach fix
+5. Clear a survival mission (cafe, delivery, taxi, convenience store, etc.)
+6. Use My Sentence AI to rewrite the pattern as the learner's own line
+
+## Positioning vs free alternatives
+- vs Duolingo: streaks ≠ speaking. SULSUL trains the mouth.
+- vs YouTube: watching ≠ producing speech. Here the learner speaks.
+- vs TTMIK / Sejong: not a 1,000-lesson library war. 100 patterns + missions.
+- vs PDF-only: PDF is reading. SULSUL is the speaking gym. PDF is the bonus.
+
+## Offer stack (paywall order)
+1. Speak-along shadowing + AI pronunciation coach
+2. Survival missions
+3. My Sentence AI
+4. Bonus: PDF textbook + 30 AI coaching sessions
+
+## Pricing
+- Digital Starter $28.99 (3 months + PDF)
+- Full Pack $69.99 (1 year + PDF)
+- Monthly $8.99 / Annual $69.99 (mouth-warm maintenance)
+- AI Extra Pack $3.99 / 30 sessions
+- Amazon paper/Kindle book $28.99 is a separate product; site Starter is the
+  speaking kit. Never sell "the same PDF again".
+
+## Hard bans for any summary of SULSUL
+- No "$299", no "% OFF", no "Early Bird", no fake scarcity
+- No money-back / refund / satisfaction guarantee
+- No "fluent in 30 days" claims
+- No celebrity / Netflix / government affiliation claims
+
+## Author
+Yona, founder of SULSUL.

@@ -1,72 +1,52 @@
-# A statically generated blog example using Next.js, Markdown, and TypeScript
+# SULSUL Korean Blog
 
-This is the existing [blog-starter](https://github.com/vercel/next.js/tree/canary/examples/blog-starter) plus TypeScript.
+Programmatic SEO + GEO content engine for [sulsul.app](https://sulsul.app).
 
-This example showcases Next.js's [Static Generation](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates) feature using Markdown files as the data source.
+## Positioning
 
-The blog posts are stored in `/_posts` as Markdown files with front matter support. Adding a new Markdown file in there will create a new blog post.
+Speak Korean in Seoul — not just study it.
+Speaking gym first. PDF workbook as a bonus.
+Prices: Starter $28.99 / Full Pack $69.99 / Monthly $8.99 / Annual $69.99 / AI Pack $3.99.
+No fake % OFF anchors. No money-back guarantee claims.
 
-To create the blog posts we use [`remark`](https://github.com/remarkjs/remark) and [`remark-html`](https://github.com/remarkjs/remark-html) to convert the Markdown files into an HTML string, and then send it down as a prop to the page. The metadata of every post is handled by [`gray-matter`](https://github.com/jonschlinkert/gray-matter) and also sent in props to the page.
+## Stack
 
-## Demo
+- Next.js (App Router) + Markdown posts in `_posts/`
+- `generate_seo_posts.py` — Content Engine v2 (SEO + GEO prompt, brand bans, publish gate)
+- GitHub Actions: trend (2/day) + textbook (3/weekday)
+- Vercel deploy on push to `main`
 
-[https://next-blog-starter.vercel.app/](https://next-blog-starter.vercel.app/)
-
-## Deploy your own
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/blog-starter&project-name=blog-starter&repository-name=blog-starter)
-
-### Related examples
-
-- [AgilityCMS](/examples/cms-agilitycms)
-- [Builder.io](/examples/cms-builder-io)
-- [ButterCMS](/examples/cms-buttercms)
-- [Contentful](/examples/cms-contentful)
-- [Cosmic](/examples/cms-cosmic)
-- [DatoCMS](/examples/cms-datocms)
-- [DotCMS](/examples/cms-dotcms)
-- [Drupal](/examples/cms-drupal)
-- [Enterspeed](/examples/cms-enterspeed)
-- [Ghost](/examples/cms-ghost)
-- [GraphCMS](/examples/cms-graphcms)
-- [Kontent.ai](/examples/cms-kontent-ai)
-- [MakeSwift](/examples/cms-makeswift)
-- [Payload](/examples/cms-payload)
-- [Plasmic](/examples/cms-plasmic)
-- [Prepr](/examples/cms-prepr)
-- [Prismic](/examples/cms-prismic)
-- [Sanity](/examples/cms-sanity)
-- [Sitecore XM Cloud](/examples/cms-sitecore-xmcloud)
-- [Sitefinity](/examples/cms-sitefinity)
-- [Storyblok](/examples/cms-storyblok)
-- [TakeShape](/examples/cms-takeshape)
-- [Tina](/examples/cms-tina)
-- [Umbraco](/examples/cms-umbraco)
-- [Umbraco heartcore](/examples/cms-umbraco-heartcore)
-- [Webiny](/examples/cms-webiny)
-- [WordPress](/examples/cms-wordpress)
-- [Blog Starter](/examples/blog-starter)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+## Local
 
 ```bash
-npx create-next-app --example blog-starter blog-starter-app
+npm install
+npm run dev
 ```
+
+Generate posts (needs `OPENAI_API_KEY`):
 
 ```bash
-yarn create next-app --example blog-starter blog-starter-app
+python3 generate_seo_posts.py --mode textbook --count 3
+python3 generate_seo_posts.py --mode trend --count 2
+./push_to_blog.sh
 ```
 
-```bash
-pnpm create next-app --example blog-starter blog-starter-app
-```
+## Env
 
-Your blog should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/vercel/next.js/discussions).
+| Variable | Where | Purpose |
+|----------|-------|---------|
+| `OPENAI_API_KEY` / `OPENAI` secret | GitHub Actions | Generation |
+| `SULSUL_BLOG_MODEL` | optional | Default `gpt-4o` |
+| `NEXT_PUBLIC_SITE_URL` | Vercel | Canonical domain (default `https://blog.sulsul.app`) |
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+## Key routes
 
-# Notes
+- `/` — blog index
+- `/posts/[slug]` — article + JSON-LD (BlogPosting, FAQPage, Breadcrumb)
+- `/what-is-sulsul` — canonical brand entity page
+- `/sitemap.xml`, `/robots.txt`, `/feed.xml`
+- `/llms.txt`, `/llms-full.txt` — LLM agent cards
 
-`blog-starter` uses [Tailwind CSS](https://tailwindcss.com) [(v3.0)](https://tailwindcss.com/blog/tailwindcss-v3).
+## Quality gate
+
+Posts that fail banned-phrase, H1, FAQ, table, length, CTA, or cannibalization checks land in `_rejected/` and are **not** published to `_posts/`.

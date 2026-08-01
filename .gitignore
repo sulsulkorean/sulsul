@@ -38,3 +38,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local rejected drafts (optional)
+# _rejected/
+
+# local preview scratch
+tmp_img/
+
+# internal strategy docs (keep local, repo is public)
+BLOG_SEO_GEO_ENGINE_V2.md
+CEO_ACTION_CHECKLIST.md
+BLOG_IMAGE_SYSTEM.md
