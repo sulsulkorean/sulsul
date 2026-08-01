@@ -2,9 +2,9 @@ name: Trend SEO Post Generator (9 AM KST)
 
 on:
   schedule:
-    # 00:00 UTC는 한국 시간으로 아침 9:00 입니다.
+    # 00:00 UTC = 09:00 KST
     - cron: '0 0 * * *'
-  workflow_dispatch: # 수동 실행 버튼 허용
+  workflow_dispatch:
 
 jobs:
   generate-and-deploy:
@@ -27,16 +27,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install openai duckduckgo-search
 
-      - name: Run Trend SEO Script
+      - name: Run Trend SEO Script (2 posts/day)
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI }}
+          SULSUL_BLOG_MODEL: gpt-4o
         run: |
-          python3 generate_seo_posts.py --mode trend --count 20
+          python3 generate_seo_posts.py --mode trend --count 2
 
       - name: Commit and Push
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
-          git commit -m "Auto-generated Trend SEO posts (9 AM)" || echo "No changes to commit"
+          git add _posts _rejected || true
+          git commit -m "Auto: trend SEO posts (quality-gated, max 2)" || echo "No changes to commit"
           git push origin main

@@ -2,9 +2,9 @@ name: Textbook SEO Post Generator (9 PM KST)
 
 on:
   schedule:
-    # 12:00 UTC는 한국 시간으로 밤 9:00 입니다.
-    - cron: '0 12 * * *'
-  workflow_dispatch: # 수동 실행 버튼 허용
+    # 12:00 UTC = 21:00 KST — Mon-Fri only
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch:
 
 jobs:
   generate-and-deploy:
@@ -27,16 +27,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install openai duckduckgo-search
 
-      - name: Run Textbook SEO Script
+      - name: Run Textbook SEO Script (3 posts, weekdays)
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI }}
+          SULSUL_BLOG_MODEL: gpt-4o
         run: |
-          python3 generate_seo_posts.py --mode textbook --count 10
+          python3 generate_seo_posts.py --mode textbook --count 3
 
       - name: Commit and Push
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
-          git commit -m "Auto-generated Textbook SEO posts (9 PM)" || echo "No changes to commit"
+          git add _posts _rejected || true
+          git commit -m "Auto: textbook SEO posts (quality-gated, max 3)" || echo "No changes to commit"
           git push origin main
