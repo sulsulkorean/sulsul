@@ -122,29 +122,26 @@ def generate_blog_post(keyword_data, library_content, voice_content, mode):
 작성 가이드:
 1. 글의 톤앤매너는 [대표님 말투]와 완벽하게 일치해야 해. 친절하지만 전문적인 톤을 유지할 것.
 2. 구글 SEO를 위해 제목(H1), 소제목(H2, H3), 불릿 포인트 등을 적극 활용해 가독성을 높일 것.
-3. **[필수]** 시각적 재미를 위해 글의 본문 중간(소제목과 소제목 사이)에 아래의 이미지 마크다운 코드를 반드시 1개 이상 분산 삽입해:
-   - `![SULSUL Mascot](/assets/blog/mascot.png)`
-   - `![SULSUL Book](/assets/blog/book_cover.png)`
-4. **[필수]** 글의 맨 마지막 결론 부분에는 독자가 당장 앱을 설치하고 싶도록 강렬한 CTA(Call To Action) 멘트와 함께, 아래 마크다운을 통째로 복사해서 삽입해:
+3. **[필수]** 글의 맨 마지막 결론 부분에는 독자가 당장 앱을 설치하고 싶도록 강렬한 CTA(Call To Action) 멘트와 함께, 아래 마크다운을 통째로 복사해서 삽입해:
    ```markdown
    Ready to master Korean like a native? 
-   Try the **SULSUL App** completely free for 30 days and unlock your full potential!
+   Start your journey with the **SULSUL App** today and unlock your full potential!
    
-   [![SULSUL App](/assets/blog/app_landing.png)](https://sulsul.app)
+   [Visit SULSUL.app](https://sulsul.app)
    ```
-5. 출력은 완벽한 Markdown 포맷이어야 하며, Next.js 블로그용 Frontmatter를 최상단에 포함해.
+4. 출력은 완벽한 Markdown 포맷이어야 하며, Next.js 블로그용 Frontmatter를 최상단에 포함해.
 
 Frontmatter 예시:
 ---
 title: "The Ultimate Guide to: {target_keyword.replace('"', '')}"
 excerpt: "A brief 2 sentence summary of this post."
-coverImage: "/assets/blog/app_landing.png"
+coverImage: ""
 date: "{datetime.now().strftime('%Y-%m-%dT%H:%M:%S.000Z')}"
 author:
   name: Yona
   picture: "/assets/blog/authors/jj.jpeg"
 ogImage:
-  url: "/assets/blog/app_landing.png"
+  url: ""
 ---
 
 여기서부터 마크다운 본문을 시작해.
