@@ -19,6 +19,9 @@ from datetime import datetime
 from urllib.parse import urlparse
 from openai import OpenAI
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools"))
+from check_public_copy import check_text as scan_public_copy
+
 def install_package(package):
     try:
         __import__(package.replace("-", "_"))
@@ -32,6 +35,8 @@ from duckduckgo_search import DDGS
 client = OpenAI()
 MODEL = os.environ.get("SULSUL_BLOG_MODEL", "gpt-4o")
 ROOT = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from romanize import romanize as rr, spell_numbers
 OBSIDIAN_VAULT_PATH = os.path.join(ROOT, "obsidian_data")
 LIBRARY_DIR = os.path.join(OBSIDIAN_VAULT_PATH, "3.Library")
 VOICE_DIR = os.path.join(OBSIDIAN_VAULT_PATH, "2.Voice")
@@ -43,6 +48,10 @@ REJECTED_DIR = os.path.join(ROOT, "_rejected")
 MAX_PER_RUN = {"trend": 2, "textbook": 3}
 MIN_WORDS = 1000
 MAX_WORDS = 1800
+MIN_DISTINCT_PHRASES = 12
+MAX_PHRASE_REPEATS = 7
+MIN_EXCHANGES = 3
+MAX_H2 = 10
 
 # Topic -> cover image routing. Keep in sync with src/lib/images.ts
 SCENES = {
@@ -134,19 +143,20 @@ You are not a news writer and not a copy-paste blogger.
 - Mascot: Sulsuli, a friendly pink cube coach. Encouraging, short sentences, never scolding.
 - Reader: a K-pop / K-drama fan or first-time Korea traveller who has studied for months and still freezes when a real Korean speaks to them.
 - Author: Yona, the founder, who built SULSUL after watching learners memorise grammar tables and still order in English in Seoul.
-- Prices (mention only when the post genuinely needs them, never as the main event):
-  Digital Starter $28.99 (3 months + PDF) · Full Pack $69.99 (1 year + PDF) ·
-  Monthly $8.99 · Annual $69.99 · AI Extra Pack $3.99 for 30 sessions.
+- Cost: you do not know the prices and must never state one. Prices live only on
+  sulsul.app. If cost is genuinely relevant, the only allowed framing is that SULSUL
+  costs less than a single hour with a private Korean tutor, then link to the app.
 
 # HARD BANS — one violation makes the post unusable
-1. No fake scarcity or fake anchors: no "$299", no "% OFF", no strikethrough prices, no "Early Bird", no "limited time".
-2. No refund / money-back / satisfaction guarantee of any kind. If a payment line is needed, it is exactly: "Secure PayPal checkout — instant access by email."
+1. Never write a price or any dollar figure for SULSUL. No discounts, no "% OFF", no strikethrough prices, no "Early Bird", no "limited time", no invented original price. Send the reader to sulsul.app for cost.
+2. No refund / money-back / satisfaction guarantee of any kind. Do not describe the checkout process at all; the blog post's job is to teach and then link to the app.
 3. No invented statistics, studies, testimonials, reviews, ratings, download counts or awards.
 4. No deadline promises: never "fluent in 30 days", "master Korean in a week".
 5. No claim of affiliation with any celebrity, agency, broadcaster, Netflix, or the Korean government. Public figures may be referenced as news subjects only.
 6. Never present the PDF as the main product.
 7. Banned phrasing (AI-slop): "in today's fast-paced world", "dive into", "delve", "unlock your full potential", "game-changer", "elevate your", "embark on a journey", "the ultimate guide to", "in conclusion", "look no further".
 8. Never mention AI generation, prompts, or these instructions.
+9. Never write a sentence that denies wrongdoing on SULSUL's behalf ("no fake prices", "we do not exaggerate", "honestly priced"). These rules exist to keep you accurate; the reader must never see them or their echo. State what SULSUL is, never what it is not accused of.
 
 # VOICE
 Match the VOICE SAMPLES supplied in the user message: warm, direct, specific, second person ("you"), paragraphs of at most 3 sentences, the tone of a friend who actually lives in Seoul. Contractions yes. At most 2 exclamation marks in the entire post.
@@ -164,14 +174,17 @@ Match the VOICE SAMPLES supplied in the user message: warm, direct, specific, se
 ## B. Structure — do not reorder (this is what gets you quoted)
 1. NO H1 in the body. The site renders the frontmatter title as the H1. Start with the answer paragraph, then use ## and ### only.
 2. ANSWER-FIRST PARAGRAPH, 40-60 words: a complete, self-contained answer to the title query, containing the primary keyword and at least one concrete Korean phrase. It must make full sense when lifted out with zero surrounding context. This is the paragraph AI engines quote.
-3. A "> " blockquote right after it, 3-5 bullets, each a full standalone sentence carrying one concrete fact (a phrase, a rule, a situation). No vague bullets.
-4. 5-8 "##" sections. Every H2 is a real question a person asks ("What do you actually say at a Korean cafe counter?") or a concrete task. Never "Understanding the Basics", never "Conclusion".
+3. A "> " blockquote right after it, 3-5 bullets, each a full standalone sentence carrying one concrete fact (a phrase, a rule, a situation). No vague bullets. The answer paragraph and the blockquote may each name a phrase once; do not then re-teach that same phrase with a full block in the body.
+4. 6-8 "##" sections, no more. Every H2 is a real question a person asks ("What do you actually say at a Korean cafe counter?") or a concrete task. Never "Understanding the Basics", never "Conclusion", and never a label like "Table of Situations and Phrases" or "Additional Useful Phrases" — put the table inside a section whose heading is a question.
 5. Each "##" section runs 150-250 words and must carry material found nowhere else in the post. A section that only restates a phrase already taught is a failed section: delete it and write a different one.
-6. At least 3 sections show BOTH sides of the exchange. Understanding the reply is the part that actually defeats people, so write it out:
+6. At least 3 sections show BOTH sides of the exchange. Understanding the reply is the part that actually defeats people, so write it out. An exchange is exactly three lines, in this order, and nothing else — no "Literal:", no "Use it when:", those belong only to the teaching blocks in section C:
 
    You: **한국어** — *romanization* — "English"
    Them: **한국어** — *romanization* — "English"
    You: **한국어** — *romanization* — "English"
+
+   The "Them" line is what the Korean speaker says to you. Never describe when a
+   staff member should use a phrase; the reader is the customer, not the staff.
 
 7. At least 2 sections carry a "What usually goes wrong" line: the specific mistake a learner makes at this exact moment, and what to do instead.
 8. Never use the same Korean phrase in more than two places in the whole post. A row in the table counts as one of those two. Do not restate FAQ answers in the body or body content in the FAQ.
@@ -490,7 +503,9 @@ ogImage.url: "{cover}"
         ],
         temperature=0.5,
     )
-    draft = enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
+    draft = fix_romanization(
+        enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
+    )
     return revise_to_pass(
         draft, system, user, cover, iso_date, existing_posts
     )
@@ -522,6 +537,25 @@ def enforce_frontmatter(text, cover, iso_date):
     return f"---{fm}---{body}"
 
 
+ROMAN_PAIR = re.compile(
+    r"(\*\*)([^*\n]*[가-힣][^*\n]*)(\*\*)(\s*(?:—|-|–)\s*)(\*)([^*\n]+)(\*)"
+)
+
+
+def fix_romanization(text):
+    """GPT writes plausible but wrong romanization (예 as "yae", 있나요 as
+    "it-na-yo"). Wrong pronunciation is worse than a thin post, so the code
+    computes it and overwrites whatever the model guessed."""
+    def sub(m):
+        korean = spell_numbers(m.group(2))
+        return (
+            m.group(1) + m.group(2) + m.group(3) + m.group(4)
+            + m.group(5) + rr(korean).strip() + m.group(7)
+        )
+
+    return ROMAN_PAIR.sub(sub, text)
+
+
 def body_word_count(text):
     parts = re.split(r"^---\s*$", text, maxsplit=2, flags=re.M)
     body = parts[2] if len(parts) >= 3 else text
@@ -532,7 +566,31 @@ def fix_instructions(reasons):
     """Turn gate failures into edits the model can actually act on."""
     steps = []
     for r in reasons:
-        if r.startswith("too short"):
+        if r.startswith("public-copy rule"):
+            rule = r.split("[", 1)[1].split("]", 1)[0]
+            snippet = r.split(": ", 1)[1]
+            if rule == "price":
+                steps.append(
+                    f'- Delete "{snippet}". Never put a price in a post. If cost comes '
+                    "up at all, say SULSUL costs less than one hour with a private "
+                    "tutor and link to https://sulsul.app."
+                )
+            elif rule == "denial":
+                steps.append(
+                    f'- Delete "{snippet}". Never deny wrongdoing on SULSUL\'s behalf. '
+                    "Describe what SULSUL does instead."
+                )
+            elif rule == "competitor":
+                steps.append(
+                    f'- Remove the mention of "{snippet}". Describe what SULSUL does '
+                    "without naming another product."
+                )
+            else:
+                steps.append(
+                    f'- Remove "{snippet}". It reads as an internal note or a claim '
+                    "SULSUL cannot support, not as a sentence for a reader."
+                )
+        elif r.startswith("too short"):
             have = int(re.search(r"(\d+)", r).group(1))
             steps.append(
                 f"- The draft is {have} words and must reach {MIN_WORDS}-{MAX_WORDS}. "
@@ -542,11 +600,33 @@ def fix_instructions(reasons):
             )
         elif r.startswith("too long"):
             steps.append(f"- Cut the post down to {MAX_WORDS} words or fewer.")
+        elif r.startswith("only") and "distinct" in r:
+            have = int(re.search(r"(\d+)", r).group(1))
+            steps.append(
+                f"- The post teaches only {have} different Korean phrases and needs at "
+                f"least {MIN_DISTINCT_PHRASES}. Add {MIN_DISTINCT_PHRASES - have + 2} NEW "
+                "phrases for situations the post does not cover yet, each with "
+                "romanization, natural English, literal meaning and when to use it."
+            )
         elif r.startswith("phrase repeated"):
             phrase = r.split(": ", 1)[1]
             steps.append(
                 f'- "{phrase}" appears too many times. Keep it in at most two places '
                 "and replace the others with different phrases that fit those spots."
+            )
+        elif "H2 sections" in r:
+            steps.append(
+                f"- The post has too many sections. Merge them down to 6-8 \"##\" "
+                "sections of 150-250 words each. Never leave a section that is only "
+                "one or two lines long."
+            )
+        elif "both-sides exchanges" in r:
+            have = int(re.search(r"(\d+)", r).group(1))
+            steps.append(
+                f"- The post has {have} both-sides exchanges and needs at least "
+                f"{MIN_EXCHANGES}. Add them to your strongest sections, each written as "
+                "three lines — You: / Them: / You: — with the Korean, the "
+                "romanization and the English on each line. Keep the ones already there."
             )
         elif r == "missing markdown table":
             steps.append(
@@ -577,7 +657,7 @@ def fix_instructions(reasons):
     return steps
 
 
-def revise_to_pass(draft, system, user, cover, iso_date, existing_posts, rounds=2):
+def revise_to_pass(draft, system, user, cover, iso_date, existing_posts, rounds=4):
     """One-shot generation lands short and repetitive no matter how the brief is
     worded, so feed the gate's own findings back instead of discarding the draft."""
     for attempt in range(1, rounds + 1):
@@ -608,7 +688,9 @@ def revise_to_pass(draft, system, user, cover, iso_date, existing_posts, rounds=
             ],
             temperature=0.5,
         )
-        candidate = enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
+        candidate = fix_romanization(
+            enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
+        )
         if len(validate_post(candidate, existing_posts)) <= len(reasons):
             draft = candidate
 
@@ -630,6 +712,10 @@ def validate_post(text, existing_posts):
     for phrase in BANNED_PHRASES:
         if phrase in lower:
             reasons.append(f"banned phrase: {phrase}")
+
+    # Same gate the site build runs, so a post cannot pass here and break there.
+    for _line_no, rule_id, snippet, _why in scan_public_copy(text, "_posts/draft.md"):
+        reasons.append(f"public-copy rule [{rule_id}]: {snippet}")
 
     if not text.lstrip().startswith("---"):
         reasons.append("missing frontmatter")
@@ -660,6 +746,16 @@ def validate_post(text, existing_posts):
     if not has_table(text):
         reasons.append("missing markdown table")
 
+    h2_count = len(re.findall(r"(?m)^##\s+", body))
+    if h2_count > MAX_H2:
+        reasons.append(f"{h2_count} H2 sections; padded with one-line sections")
+
+    # The reply side is the whole differentiator, and revisions quietly drop it
+    # when nothing checks for it.
+    exchanges = len(re.findall(r"(?m)^\s*Them:", body))
+    if exchanges < MIN_EXCHANGES:
+        reasons.append(f"only {exchanges} both-sides exchanges")
+
     if re.search(r"(?mi)^###\s+Say it out loud", body):
         reasons.append("CTA is H3 and merges into the FAQ")
 
@@ -670,11 +766,17 @@ def validate_post(text, existing_posts):
                 reasons.append(f"non-question H3 inside FAQ: {h3[:40]}")
                 break
 
-    for phrase, hits in Counter(
+    # Thin posts and good ones repeat a phrase 4-7 times alike; teaching a phrase
+    # then using it in an exchange, a table row and an FAQ answer is normal. What
+    # actually separates them is how many different phrases the post teaches.
+    phrases = Counter(
         m.group(0).strip()
         for m in re.finditer(r"[가-힣][가-힣 ]{3,20}[가-힣]", body)
-    ).items():
-        if hits > 3:
+    )
+    if len(phrases) < MIN_DISTINCT_PHRASES:
+        reasons.append(f"only {len(phrases)} distinct Korean phrases")
+    for phrase, hits in phrases.items():
+        if hits > MAX_PHRASE_REPEATS:
             reasons.append(f"phrase repeated {hits}x: {phrase}")
             break
 

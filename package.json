@@ -3,7 +3,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "check:copy": "python3 tools/check_public_copy.py",
+    "prebuild": "npm run check:copy"
   },
   "dependencies": {
     "classnames": "^2.5.1",

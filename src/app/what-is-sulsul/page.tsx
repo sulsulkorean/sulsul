@@ -33,36 +33,11 @@ export default function WhatIsSulsulPage() {
     url: APP_URL,
     description:
       "Korean speaking gym built around 100 survival patterns, speak-along shadowing, AI pronunciation coaching, survival missions, and My Sentence AI. PDF workbook is a bonus.",
-    offers: [
-      {
-        "@type": "Offer",
-        name: "Digital Starter",
-        price: "28.99",
-        priceCurrency: "USD",
-        description: "3 months Premium speaking habit + PDF workbook",
-      },
-      {
-        "@type": "Offer",
-        name: "Full Pack",
-        price: "69.99",
-        priceCurrency: "USD",
-        description: "1-year Premium speaking gym + PDF workbook",
-      },
-      {
-        "@type": "Offer",
-        name: "Monthly",
-        price: "8.99",
-        priceCurrency: "USD",
-        description: "Keep your Korean mouth warm after a package or Amazon book",
-      },
-      {
-        "@type": "Offer",
-        name: "Annual",
-        price: "69.99",
-        priceCurrency: "USD",
-        description: "One year of speaking maintenance",
-      },
-    ],
+    offers: {
+      "@type": "Offer",
+      url: APP_URL,
+      category: "Subscription and one-off packages",
+    },
     author: {
       "@type": "Person",
       name: "Yona",
@@ -129,35 +104,26 @@ export default function WhatIsSulsulPage() {
           </p>
 
           <h2>What does it cost?</h2>
-          <ul>
-            <li>
-              <strong>Digital Starter — $28.99</strong>: 3 months to build your
-              speaking habit · PDF included
-            </li>
-            <li>
-              <strong>Full Pack — $69.99</strong>: 1-year Premium speaking gym ·
-              best for your Korea trip year
-            </li>
-            <li>
-              <strong>Monthly — $8.99</strong> / <strong>Annual — $69.99</strong>:
-              keep your Korean mouth warm after a package or an Amazon book
-            </li>
-            <li>
-              <strong>AI Extra Pack — $3.99</strong> for 30 coaching sessions
-              (add-on, not the main offer)
-            </li>
-          </ul>
           <p>
-            Checkout is handled by PayPal, and access arrives by email straight
-            away. One price, shown as it is.
+            A private Korean tutor usually runs $30–50 for a single hour. SULSUL
+            costs less than one of those sessions and you can keep training your
+            speaking every day, for months.
+          </p>
+          <p>
+            There are short packages and monthly plans depending on how long you
+            have before your trip.{" "}
+            <a href={appLink("what_is_pricing")}>
+              See the current plans on sulsul.app
+            </a>
+            .
           </p>
 
           <h2>Amazon book vs site Starter</h2>
           <p>
-            They cost the same ($28.99) and do different jobs. The Amazon book
-            is the textbook you read. SULSUL Premium is where you practise those
-            patterns out loud and get corrected. If you already own the book,
-            Premium adds the speaking practice rather than the same pages again.
+            They do different jobs. The Amazon book is the textbook you read.
+            SULSUL Premium is where you practise those patterns out loud and get
+            corrected on the spot. If you already own the book, Premium adds the
+            speaking practice rather than the same pages again.
           </p>
 
           <h2>Founder</h2>
