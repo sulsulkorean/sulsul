@@ -113,13 +113,12 @@ export default function WhatIsSulsulPage() {
                 <span className="text-[#FE64AB]">SULSUL Korean?</span>
               </h1>
               <p className="mt-7 max-w-xl text-xl font-semibold leading-relaxed text-slate-700 dark:text-slate-200 sm:text-2xl">
-                Learn the line in the book. Hear it, say it, and use it in the
-                app — before a real person in Seoul is waiting for your answer.
+                Don&apos;t freeze in Seoul. Speak Korean for real — SULSUL.
               </p>
               <p className="mt-5 max-w-xl text-base leading-7 text-slate-600 dark:text-slate-400">
-                SULSUL connects 100 practical Korean patterns with listening,
-                shadowing, pronunciation feedback, survival missions, review,
-                and personalized sentence practice.
+                A practical Korean speaking kit for your first trip: master 100
+                survival patterns, speak them out loud, and practice real
+                situations before you land.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -144,25 +143,23 @@ export default function WhatIsSulsulPage() {
                 height={730}
                 priority
                 alt="SULSUL Korean speaking practice for a real trip to Seoul"
-                className="w-full rounded-[2rem] border border-white/80 shadow-2xl dark:border-slate-800"
+                className="h-auto w-full rounded-[2rem] border border-white/80 object-contain shadow-2xl dark:border-slate-800"
               />
             </div>
           </section>
 
-          <section className="mb-24 rounded-[2rem] bg-slate-950 px-6 py-12 text-white sm:px-12 lg:px-16">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE64AB]">
-              The short answer
+          <section className="mb-24 rounded-[2rem] border border-[#FE64AB]/20 bg-[#fff4ed] px-6 py-12 text-slate-950 shadow-sm sm:px-12 lg:px-16">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#d94487]">
+              Why SULSUL exists
             </p>
             <h2 className="mt-4 max-w-4xl text-3xl font-black tracking-tight sm:text-4xl">
-              SULSUL is one connected Korean speaking system — not a pile of
-              disconnected lessons.
+              You&apos;ve been training your eyes. SULSUL trains your mouth.
             </h2>
-            <p className="mt-6 max-w-4xl text-lg leading-8 text-slate-300">
-              The book gives you a clear path through 100 useful patterns,
-              cultural context, and real-life situations. The web app turns
-              those same patterns into something your mouth can retrieve:
-              listen, shadow, check your attempt, handle the reply, and make
-              the sentence your own.
+            <p className="mt-6 max-w-4xl text-lg leading-8 text-slate-700">
+              Other apps track streaks. Videos show lessons. SULSUL makes you
+              open your mouth: learn one practical pattern in the book, then
+              listen, shadow, and use it in a real-life mission inside the web
+              app.
             </p>
           </section>
 
@@ -173,25 +170,53 @@ export default function WhatIsSulsulPage() {
             <h2 className="mx-auto mt-4 max-w-3xl text-4xl font-black tracking-tight sm:text-5xl">
               The book shows you what to say. The app trains you to say it.
             </h2>
-            <div className="mt-12 overflow-hidden rounded-[2rem] border border-slate-200 bg-[#fffaf6] p-3 shadow-xl dark:border-slate-800 dark:bg-slate-900">
-              <Image
-                src="/assets/blog/covers/whats-inside.png"
-                width={1300}
-                height={730}
-                alt="Overview of SULSUL Korean patterns, missions, culture units, and study plan"
-                className="w-full rounded-[1.4rem]"
-              />
+            <div className="mt-12 grid gap-5 text-left sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                [
+                  "100",
+                  "Essential Patterns",
+                  "The reusable sentence frames you need for everyday Korean.",
+                ],
+                [
+                  "LISTEN",
+                  "Voice Shadowing",
+                  "Hear the full line, repeat it aloud, and check your attempt.",
+                ],
+                [
+                  "MISSION",
+                  "Real Situations",
+                  "Use the pattern in cafés, transport, restaurants, and shops.",
+                ],
+                [
+                  "MY LINE",
+                  "My Sentence AI",
+                  "Turn the pattern into a sentence that fits your own life.",
+                ],
+              ].map(([label, title, copy]) => (
+                <div
+                  key={title}
+                  className="rounded-3xl border border-pink-100 bg-[#fffaf6] p-7 shadow-lg shadow-pink-100/60 dark:border-pink-900/40 dark:bg-slate-900 dark:shadow-none"
+                >
+                  <p className="text-sm font-black tracking-[0.14em] text-[#FE64AB]">
+                    {label}
+                  </p>
+                  <h3 className="mt-4 text-xl font-black">{title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
+                    {copy}
+                  </p>
+                </div>
+              ))}
             </div>
           </section>
 
           <section className="mb-24 grid items-center gap-12 lg:grid-cols-2">
             <div className="order-2 lg:order-1">
               <Image
-                src="/assets/blog/covers/book.png"
-                width={1300}
-                height={730}
-                alt="Front and back cover of the SULSUL Korean practical textbook"
-                className="w-full rounded-[2rem] border border-slate-200 shadow-xl dark:border-slate-800"
+                src="/assets/blog/covers/sulsul-book-stack.png"
+                width={1024}
+                height={677}
+                alt="Three copies of the SULSUL Korean practical speaking book"
+                className="h-auto w-full rounded-[2rem] border border-slate-200 object-contain shadow-xl dark:border-slate-800"
               />
             </div>
             <div className="order-1 lg:order-2">
@@ -267,7 +292,7 @@ export default function WhatIsSulsulPage() {
               width={1300}
               height={730}
               alt="SULSUL interactive web app with reading, shadowing, and My Sentence practice"
-              className="w-full rounded-[2rem] border border-slate-200 shadow-xl dark:border-slate-800"
+              className="h-auto w-full rounded-[2rem] border border-slate-200 object-contain shadow-xl dark:border-slate-800"
             />
           </section>
 
@@ -308,13 +333,15 @@ export default function WhatIsSulsulPage() {
           </section>
 
           <section className="mb-24 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-            <Image
-              src="/assets/blog/covers/app-access.png"
-              width={1300}
-              height={730}
-              alt="SULSUL book QR path connecting readers to speaking practice in the web app"
-              className="w-full rounded-[2rem] border border-slate-200 shadow-xl dark:border-slate-800"
-            />
+            <div className="rounded-[2rem] border border-pink-100 bg-[#fff7f0] p-3 shadow-xl dark:border-pink-900/40">
+              <Image
+                src="/assets/blog/covers/app-access-safe.png"
+                width={1200}
+                height={630}
+                alt="SULSUL book QR path connecting readers to speaking practice in the web app"
+                className="h-auto w-full rounded-[1.4rem] object-contain"
+              />
+            </div>
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE64AB]">
                 Book → app
