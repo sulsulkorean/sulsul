@@ -45,6 +45,9 @@ next-env.d.ts
 # local preview scratch
 tmp_img/
 
+# drafts written only to be read, never published
+_preview/
+
 # internal strategy docs (keep local, repo is public)
 BLOG_SEO_GEO_ENGINE_V2.md
 CEO_ACTION_CHECKLIST.md

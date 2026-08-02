@@ -42,6 +42,8 @@ LIBRARY_DIR = os.path.join(OBSIDIAN_VAULT_PATH, "3.Library")
 VOICE_DIR = os.path.join(OBSIDIAN_VAULT_PATH, "2.Voice")
 BLOG_POSTS_DIR = os.path.join(ROOT, "_posts")
 REJECTED_DIR = os.path.join(ROOT, "_rejected")
+# Drafts written to be read, not published. The site never loads this folder.
+PREVIEW_DIR = os.path.join(ROOT, "_preview")
 
 # Enforced here rather than in the workflow files so a stale schedule
 # can never push us back into scaled-content territory.
@@ -55,12 +57,13 @@ MAX_H2 = 10
 
 # Trend seeds come from a news index rather than a web search, and the query
 # rotates by day so two runs do not open with the same story.
+# K-culture traffic hooks only — not finance, not generic "Korean + anything".
 TREND_QUERIES = [
     "k-pop",
-    "korean drama",
-    "hallyu korean culture",
-    "korean entertainment",
-    "k-drama streaming",
+    "k-drama",
+    "korean idol",
+    "korean movie film",
+    "korean food k-culture",
 ]
 TREND_BACKOFF_SECONDS = 25
 
@@ -77,8 +80,17 @@ TREND_REQUIRED = re.compile(
 TREND_EXCLUDED = re.compile(
     r"wikipedia|wikiwand|wiktionary|\bwiki\b|나무위키|namu\.wiki|britannica"
     r"|dictionary|\bused car\b|중고차|abcmouse|starfall|cbeebies|sofatutor"
-    r"|\bclinic\b|\bhospital\b|nasal|congestion|\bstuffy\b",
+    r"|\bclinic\b|\bhospital\b|nasal|congestion|\bstuffy\b"
+    r"|\bstock\b|\bstocks\b|\bshare price\b|\binvestor|\binvestment\b|\bwall street\b"
+    r"|\bmarket cap\b|\bnasdaq\b|\bnyse\b|\bipo\b|\bearnings\b|\bdividend\b"
+    r"|\btrading\b|\bequity\b|\bportfolio\b|\bfinancial\b|\bsec filing\b",
     re.I,
+)
+
+# "Korean" alone is not enough — finance and business wires slip through without this.
+TREND_HOOK_STOPWORDS = frozenset(
+    "korean korea south north the and for with from that this their about into over "
+    "after will says said year years week weeks month months news new latest".split()
 )
 
 # Topic -> cover image routing. Keep in sync with src/lib/images.ts
@@ -194,8 +206,9 @@ Match the VOICE SAMPLES supplied in the user message: warm, direct, specific, se
 ## A. Target query
 - Choose ONE primary long-tail query (4+ words) that a real learner would type or ask an AI.
 - The title IS that query, answered. Never a news headline.
-  Good: "How to Order Coffee in Korean Without Freezing"
+  Good: "How to Congratulate Someone in Korean Like a Fan"
   Bad:  "The Ultimate Guide to: BTS Jin Carries the Olympic Torch"
+  Bad:  "How to Order Coffee in Korean Without Freezing" (evergreen travel — not for trend mode)
 - Title <= 60 characters, primary keyword inside the first 5 words.
 - The exact primary keyword must appear in: the title, the first 100 words, one H2, and the excerpt. Nowhere else forced. Keyword density stays under 1.5%.
 
@@ -203,7 +216,7 @@ Match the VOICE SAMPLES supplied in the user message: warm, direct, specific, se
 1. NO H1 in the body. The site renders the frontmatter title as the H1. Start with the answer paragraph, then use ## and ### only.
 2. ANSWER-FIRST PARAGRAPH, 40-60 words: a complete, self-contained answer to the title query, containing the primary keyword and at least one concrete Korean phrase. It must make full sense when lifted out with zero surrounding context. This is the paragraph AI engines quote.
 3. A "> " blockquote right after it, 3-5 bullets, each a full standalone sentence carrying one concrete fact (a phrase, a rule, a situation). No vague bullets. The answer paragraph and the blockquote may each name a phrase once; do not then re-teach that same phrase with a full block in the body.
-4. 6-8 "##" sections, no more. Every H2 is a real question a person asks ("What do you actually say at a Korean cafe counter?") or a concrete task. Never "Understanding the Basics", never "Conclusion", and never a label like "Table of Situations and Phrases" or "Additional Useful Phrases" — put the table inside a section whose heading is a question.
+4. HARD LIMIT: at most 10 "##" headings in the whole file, counting FAQ and CTA. Use 6-7 teaching "##" sections, then "## Frequently Asked Questions", then the CTA "##" last. Every teaching H2 is a real question ("What do you actually say at a Korean cafe counter?") or a concrete task. Never "Understanding the Basics", never "Conclusion", never a label like "Table of Situations and Phrases" — put the markdown table and the numbered step list INSIDE a teaching section, never as their own "##".
 5. Each "##" section runs 150-250 words and must carry material found nowhere else in the post. A section that only restates a phrase already taught is a failed section: delete it and write a different one.
 6. At least 3 sections show BOTH sides of the exchange. Understanding the reply is the part that actually defeats people, so write it out. An exchange is exactly three lines, in this order, and nothing else — no "Literal:", no "Use it when:", those belong only to the teaching blocks in section C:
 
@@ -322,22 +335,23 @@ def api_call_with_retry(messages, temperature=0.5, max_retries=5):
     raise Exception("OpenAI API failed after retries.")
 
 
-def list_existing_posts():
+def list_existing_posts(dirs=None):
     posts = []
-    if not os.path.exists(BLOG_POSTS_DIR):
-        return posts
-    for filepath in glob.glob(os.path.join(BLOG_POSTS_DIR, "*.md")):
-        slug = os.path.basename(filepath)[:-3]
-        title = slug
-        try:
-            with open(filepath, "r", encoding="utf-8") as f:
-                text = f.read()
-            m = re.search(r'^title:\s*["\']?(.*?)["\']?\s*$', text, re.M)
-            if m:
-                title = m.group(1).strip()
-        except Exception:
-            pass
-        posts.append({"slug": slug, "title": title})
+    for directory in dirs or [BLOG_POSTS_DIR]:
+        if not os.path.exists(directory):
+            continue
+        for filepath in glob.glob(os.path.join(directory, "*.md")):
+            slug = os.path.basename(filepath)[:-3]
+            title = slug
+            try:
+                with open(filepath, "r", encoding="utf-8") as f:
+                    text = f.read()
+                m = re.search(r'^title:\s*["\']?(.*?)["\']?\s*$', text, re.M)
+                if m:
+                    title = m.group(1).strip()
+            except Exception:
+                pass
+            posts.append({"slug": slug, "title": title})
     return posts
 
 
@@ -409,10 +423,42 @@ def trend_seed_ok(item):
     if len(title) < 15:
         return False, "title is a site name, not a story"
     if TREND_EXCLUDED.search(text):
-        return False, "reference page or unrelated topic"
+        return False, "reference page, finance, or unrelated topic"
     if not TREND_REQUIRED.search(text):
         return False, "nothing to do with Korea"
     return True, ""
+
+
+def news_hook_tokens(news):
+    """Distinctive words from the seed — not generic 'korean' / 'entertainment'."""
+    text = f"{news.get('title', '')} {news.get('snippet', '')}"
+    tokens = re.findall(r"[a-z0-9]{4,}", text.lower())
+    seen = []
+    for token in tokens:
+        if token in TREND_HOOK_STOPWORDS or token in seen:
+            continue
+        seen.append(token)
+    return seen[:10]
+
+
+def opening_references_news(body, news):
+    """Trend posts must hook the seed in the first ~120 words, not jump to a template."""
+    words = re.findall(r"\b[\w']+\b", body)
+    opening = " ".join(words[:120]).lower()
+    if not opening.strip():
+        return False
+    outlet = domain_of(news.get("link", "")).lower()
+    if outlet and outlet not in ("source",) and outlet.split(".")[0] in opening:
+        return True
+    for token in news_hook_tokens(news):
+        if token in opening:
+            return True
+    # Romanized / Korean names from the headline (e.g. Lee Soo-man).
+    for token in re.findall(r"[A-Z][a-z]+(?:-[A-Z][a-z]+)?", news.get("title", "")):
+        low = token.lower()
+        if len(low) >= 4 and low not in TREND_HOOK_STOPWORDS and low in opening:
+            return True
+    return False
 
 
 def fetch_trend_news(count):
@@ -513,7 +559,7 @@ def generate_blog_post(keyword_data, library_content, voice_content, mode, exist
 [SOURCE URL] {news.get('link', '')}
 [SOURCE OUTLET] {outlet}
 
-Use the news ONLY as the first 2-3 sentences of the opening and as the reason this Korean matters right now. Then derive a long-tail language query from it and write an evergreen post that is still useful a year from now.
+Use the news ONLY as the first 2-3 sentences of the opening and as the reason this Korean matters right now. Name the outlet or a person/event from the headline in those opening sentences — a post that jumps straight to a generic cafe/travel template fails. Then derive a long-tail language query from it and write an evergreen post that is still useful a year from now.
 
 Example derivation:
   News:  "BTS Jin carries the Olympic torch in Paris"
@@ -573,7 +619,8 @@ ogImage.url: "{cover}"
         enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
     )
     return revise_to_pass(
-        draft, system, user, cover, iso_date, existing_posts
+        draft, system, user, cover, iso_date, existing_posts,
+        trend_seed=keyword_data if mode == "trend" else None,
     )
 
 
@@ -658,11 +705,12 @@ def fix_instructions(reasons):
                 )
         elif r.startswith("too short"):
             have = int(re.search(r"(\d+)", r).group(1))
+            need = MIN_WORDS - have
             steps.append(
-                f"- The draft is {have} words and must reach {MIN_WORDS}-{MAX_WORDS}. "
-                f"Add roughly {MIN_WORDS - have + 200} words of NEW material: more "
-                "situations, more of what the Korean speaker says back, more mistakes "
-                "and fixes. Do not pad existing sentences."
+                f"- BODY WORD COUNT: {have} words now; minimum is {MIN_WORDS}. "
+                f"Add at least {need} new words (aim for {need + 150} to be safe) as "
+                "NEW situations, staff replies, and learner mistakes — never by repeating "
+                "a phrase you already taught or inflating existing sentences."
             )
         elif r.startswith("too long"):
             steps.append(f"- Cut the post down to {MAX_WORDS} words or fewer.")
@@ -681,10 +729,21 @@ def fix_instructions(reasons):
                 "and replace the others with different phrases that fit those spots."
             )
         elif "H2 sections" in r:
+            have = int(re.search(r"(\d+)", r).group(1))
+            teach_max = MAX_H2 - 2
             steps.append(
-                f"- The post has too many sections. Merge them down to 6-8 \"##\" "
-                "sections of 150-250 words each. Never leave a section that is only "
-                "one or two lines long."
+                f'- The post has {have} "##" headings but the maximum is {MAX_H2} total '
+                f"(including FAQ and CTA). Merge teaching sections until at most "
+                f'{teach_max} "##" remain before FAQ. Put the markdown table and numbered '
+                'steps INSIDE a teaching section — never as their own "##". Keep FAQ and '
+                "CTA as the last two headings."
+            )
+        elif r.startswith("trend hook missing"):
+            headline = r.split(": ", 1)[1] if ": " in r else "the news seed"
+            steps.append(
+                f'- Rewrite the opening 2-3 sentences to reference this news: "{headline}". '
+                "Name the outlet or a person/event from the headline, then derive the title "
+                "from that story. Do not jump to a generic cafe/travel template."
             )
         elif "both-sides exchanges" in r:
             have = int(re.search(r"(\d+)", r).group(1))
@@ -723,11 +782,13 @@ def fix_instructions(reasons):
     return steps
 
 
-def revise_to_pass(draft, system, user, cover, iso_date, existing_posts, rounds=4):
+def revise_to_pass(
+    draft, system, user, cover, iso_date, existing_posts, trend_seed=None, rounds=4
+):
     """One-shot generation lands short and repetitive no matter how the brief is
     worded, so feed the gate's own findings back instead of discarding the draft."""
     for attempt in range(1, rounds + 1):
-        reasons = validate_post(draft, existing_posts)
+        reasons = validate_post(draft, existing_posts, trend_seed=trend_seed)
         if not reasons:
             return draft
         steps = fix_instructions(reasons)
@@ -739,9 +800,10 @@ def revise_to_pass(draft, system, user, cover, iso_date, existing_posts, rounds=
             "Your draft failed the publish gate. Fix exactly these problems:\n\n"
             + "\n".join(steps)
             + "\n\nKeep everything that already works: the frontmatter, the title, the "
-            "both-sides exchanges, the numbered steps, the FAQ and the CTA. Never "
-            "delete a section to satisfy a word count, and never solve a problem by "
-            "repeating a phrase you have already taught.\n\n"
+            "both-sides exchanges, the numbered steps, the FAQ and the CTA. Merging two "
+            "thin ## sections into one IS allowed. Never delete a both-sides exchange or "
+            "FAQ item to satisfy word count, and never solve a problem by repeating a "
+            "phrase you have already taught.\n\n"
             'Output ONLY the finished markdown file, starting with "---" on line 1.'
         )
 
@@ -757,7 +819,7 @@ def revise_to_pass(draft, system, user, cover, iso_date, existing_posts, rounds=
         candidate = fix_romanization(
             enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
         )
-        if len(validate_post(candidate, existing_posts)) <= len(reasons):
+        if len(validate_post(candidate, existing_posts, trend_seed=trend_seed)) <= len(reasons):
             draft = candidate
 
     return draft
@@ -771,7 +833,7 @@ def has_table(text):
     return False
 
 
-def validate_post(text, existing_posts):
+def validate_post(text, existing_posts, trend_seed=None):
     reasons = []
     lower = text.lower()
 
@@ -864,19 +926,24 @@ def validate_post(text, existing_posts):
             reasons.append(f"cannibalizes existing: {p['slug']}")
             break
 
+    if trend_seed and not opening_references_news(body, trend_seed):
+        headline = trend_seed.get("title", "news seed")[:80]
+        reasons.append(f"trend hook missing: opening ignores news ({headline})")
+
     return reasons
 
 
-def save_post(text, existing_posts):
-    os.makedirs(BLOG_POSTS_DIR, exist_ok=True)
+def save_post(text, existing_posts, out_dir=None, trend_seed=None):
+    out_dir = out_dir or BLOG_POSTS_DIR
+    os.makedirs(out_dir, exist_ok=True)
     os.makedirs(REJECTED_DIR, exist_ok=True)
 
-    reasons = validate_post(text, existing_posts)
+    reasons = validate_post(text, existing_posts, trend_seed=trend_seed)
     slug = extract_frontmatter_slug(text)
-    filepath = os.path.join(BLOG_POSTS_DIR, f"{slug}.md")
+    filepath = os.path.join(out_dir, f"{slug}.md")
     if os.path.exists(filepath):
         slug = f"{slug}-{datetime.utcnow().strftime('%H%M%S')}"
-        filepath = os.path.join(BLOG_POSTS_DIR, f"{slug}.md")
+        filepath = os.path.join(out_dir, f"{slug}.md")
 
     title = extract_title(text)
 
@@ -924,18 +991,30 @@ def main():
     parser = argparse.ArgumentParser(description="SULSUL Blog Content Engine v2")
     parser.add_argument("--mode", choices=["textbook", "trend"], default="textbook")
     parser.add_argument("--count", type=int, default=3, help="Posts to generate (default 3)")
+    parser.add_argument(
+        "--preview",
+        action="store_true",
+        help="Write to _preview/ instead of _posts/ and ignore the per-run cap. "
+        "For reading drafts before deciding anything; nothing here can be published.",
+    )
     args = parser.parse_args()
 
-    cap = MAX_PER_RUN[args.mode]
-    if args.count > cap:
-        print(f"Requested {args.count} posts; capping at {cap} for {args.mode} mode.")
-        args.count = cap
+    if args.preview:
+        out_dir = PREVIEW_DIR
+        print(f"Preview run: drafts go to {os.path.relpath(PREVIEW_DIR, ROOT)}/, not to the blog.")
+    else:
+        out_dir = BLOG_POSTS_DIR
+        cap = MAX_PER_RUN[args.mode]
+        if args.count > cap:
+            print(f"Requested {args.count} posts; capping at {cap} for {args.mode} mode.")
+            args.count = cap
 
     print(f"SULSUL Blog Engine v2 — mode={args.mode}, count={args.count}, model={MODEL}\n")
 
     library_content = read_markdown_files(LIBRARY_DIR)
     voice_content = read_markdown_files(VOICE_DIR)
-    existing = list_existing_posts()
+    # A preview draft still counts as written, so later drafts do not repeat it.
+    existing = list_existing_posts([BLOG_POSTS_DIR, PREVIEW_DIR] if args.preview else None)
 
     if not library_content:
         print(f"Warning: no textbook files in {LIBRARY_DIR}")
@@ -966,7 +1045,12 @@ def main():
             post = generate_blog_post(
                 item, library_content, voice_content, args.mode, existing
             )
-            saved = save_post(post, existing)
+            saved = save_post(
+                post,
+                existing,
+                out_dir,
+                trend_seed=item if args.mode == "trend" else None,
+            )
             results.append(saved)
             if saved["kept"]:
                 existing.append({"slug": saved["slug"], "title": saved["title"]})
