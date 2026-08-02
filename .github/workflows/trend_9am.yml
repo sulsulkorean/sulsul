@@ -6,8 +6,8 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
-# Trend posts start from an outside news story, so they are the ones that can go
-# off-brand. They wait for a human merge; textbook posts still publish on their own.
+# Trend posts start from an outside news story, so they wait for a human merge.
+# Textbook drafts now use the same review boundary.
 jobs:
   draft-for-review:
     runs-on: ubuntu-latest

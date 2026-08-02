@@ -39,8 +39,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# local rejected drafts (optional)
-# _rejected/
+# local rejected drafts
+_rejected/
 
 # local preview scratch
 tmp_img/
@@ -52,3 +52,4 @@ _preview/
 BLOG_SEO_GEO_ENGINE_V2.md
 CEO_ACTION_CHECKLIST.md
 BLOG_IMAGE_SYSTEM.md
+PREVIEW_REVIEW.md

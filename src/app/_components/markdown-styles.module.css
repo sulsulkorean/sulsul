@@ -16,3 +16,17 @@
 .markdown h3 {
   @apply text-2xl mt-8 mb-4 leading-snug;
 }
+
+.markdown img {
+  @apply block w-full h-auto my-10 rounded-2xl shadow-md;
+  max-height: 34rem;
+  object-fit: contain;
+  background: #f8fafc;
+}
+
+@media (max-width: 640px) {
+  .markdown img {
+    @apply my-8 rounded-xl;
+    max-height: 28rem;
+  }
+}

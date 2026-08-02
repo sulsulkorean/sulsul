@@ -19,7 +19,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Everything a browser or an AI crawler can fetch.
-SCAN_DIRS = ["src", "public", "_posts"]
+SCAN_DIRS = ["src", "public", "_posts", "_scheduled"]
 SCAN_EXTS = {".tsx", ".ts", ".jsx", ".js", ".md", ".mdx", ".txt", ".html"}
 SKIP_PARTS = {"node_modules", ".next", ".git", "_rejected", "out", "build"}
 # Machine-readable briefs may address an AI summariser directly.

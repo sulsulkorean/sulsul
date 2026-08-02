@@ -169,6 +169,14 @@ BANNED_PHRASES = [
     "in conclusion",
 ]
 
+INLINE_IMAGE_PATHS = {
+    *SCENES.values(),
+    "/assets/blog/covers/app-screen-1.png",
+    "/assets/blog/covers/app-screen-2.png",
+    "/assets/blog/covers/app-screen-3.png",
+    "/assets/blog/covers/app-screen-4.png",
+}
+
 SYSTEM_PROMPT = """# ROLE
 You are the lead SEO + GEO (Generative Engine Optimization) editor for SULSUL — a Korean speaking-practice app at https://sulsul.app.
 You write English blog posts with two jobs:
@@ -235,6 +243,12 @@ Match the VOICE SAMPLES supplied in the user message: warm, direct, specific, se
 12. FAQ section near the end: "## Frequently Asked Questions", then 4-6 questions as "###". Each answer 40-70 words, self-contained, phrased the way people actually ask an AI. The FAQ contains questions ONLY. Nothing else may sit under a "###" after this point.
 13. CTA block LAST, using the template in section E. Its heading is "##", never "###", or it merges into the FAQ.
 14. Length 1,100-1,600 English WORDS. This is a hard floor, not a target: a 600-word draft is discarded unread. Reach it with new material — more situations, more replies, more mistakes — never by repeating a phrase or inflating sentences.
+15. Add exactly TWO inline Markdown images between teaching sections, spaced apart.
+    Use only the image paths supplied in the user message. Give each image a
+    descriptive English alt text that names the situation; never use "image"
+    or "photo" as the whole alt text. One should show the real-life scene and
+    one should show speaking practice. Do not put an image before the answer,
+    inside the FAQ, or inside the CTA.
 
 ## C. Korean examples — mandatory format
 Teach 8-12 DISTINCT phrases — never the same phrase twice. Every phrase uses exactly this block:
@@ -246,13 +260,23 @@ Use it when: one concrete situation
 
 Rules: 해요체 by default (합쇼체 only where the situation demands it). Revised Romanization. Check every particle. If you are not fully certain a phrase is natural, use a simpler phrase you are certain of. Never invent slang.
 
-## D. Trust signals (E-E-A-T)
+## D. Real-world accuracy
+- Every You / Them / You exchange must follow the actual order of the interaction.
+  The "Them" line must logically answer or react to the line immediately before it.
+- Never invent a discount percentage, shop policy, hotel policy, police procedure,
+  cultural custom, or claim that something is "common in Korea".
+- Never tell the reader to "always" ask for a discount. Fixed-price shops are fixed
+  price; negotiation belongs only where a seller explicitly signals it.
+- A generic homepage is not evidence. Omit a source rather than attaching an
+  unrelated homepage to a claim.
+
+## E. Trust signals (E-E-A-T)
 - One short first-person note from Yona, 1-2 sentences, specific and plausible (what learners actually get wrong at the counter). No invented numbers, no named students.
 - If SOURCE URL is supplied, cite it once inline as a markdown link in the first 3 sections, attributed to the outlet by name.
 - Add 1-2 external links only to pages you are certain exist (e.g. Visit Korea, the National Institute of Korean Language). If unsure a URL exists, omit it. Never fabricate a URL.
 - Add 2-3 internal links from the EXISTING POSTS list with descriptive anchor text. If that list is empty, skip internal links.
 
-## E. CTA block — keep the structure, rewrite the first two lines to fit this post
+## F. CTA block — keep the structure, rewrite the first two lines to fit this post
 
 ---
 
@@ -264,7 +288,7 @@ SULSUL is a speaking gym for exactly that moment: pick a survival pattern, say i
 
 **[Start speaking with SULSUL](https://sulsul.app/?utm_source=blog&utm_medium=post&utm_campaign=seo)**
 
-## F. Output format
+## G. Output format
 Output ONLY the finished markdown file. Start with "---" on line 1. No code fences around it, no preface, no closing remarks.
 
 Frontmatter schema (fill every field, keep this key order):
@@ -582,6 +606,9 @@ Write the post that fully answers this query and leaves the reader able to say t
     user = f"""[DATE] {iso_date}
 [COVER IMAGE] {cover}
 
+[ALLOWED INLINE IMAGES — choose exactly two, spaced between teaching sections]
+{chr(10).join(f"- {path}" for path in sorted(INLINE_IMAGE_PATHS))}
+
 [VOICE SAMPLES — copy this tone, not this content]
 {voice}
 
@@ -779,6 +806,40 @@ def fix_instructions(reasons):
             steps.append("- Link to sulsul.app once, in the CTA only.")
         elif r == "missing sulsul.app CTA":
             steps.append("- Add the CTA block with the sulsul.app link.")
+        elif r.startswith("inline image count"):
+            steps.append(
+                "- Add exactly two Markdown images, spaced between teaching sections. "
+                "Choose only from the allowed inline-image list in the brief, use a "
+                "specific descriptive alt text, and keep images out of FAQ and CTA."
+            )
+        elif r.startswith("invalid inline image"):
+            steps.append(
+                "- Replace the unapproved image path with one from the allowed "
+                "inline-image list in the brief."
+            )
+        elif r == "duplicate inline image":
+            steps.append("- Use two different inline images, not the same file twice.")
+        elif r == "empty inline image alt text":
+            steps.append(
+                "- Give both inline images descriptive English alt text naming the "
+                "specific Korean-speaking situation."
+            )
+        elif r.startswith("unsupported percentage"):
+            steps.append(
+                "- Remove the exact percentage. Do not invent a discount, survey, "
+                "success rate, or other numeric claim."
+            )
+        elif r.startswith("unsupported culture claim"):
+            steps.append(
+                "- Rewrite the blanket cultural claim as a narrow, situational fact. "
+                "Do not claim something is common in Korea or tell readers to always "
+                "ask for a discount."
+            )
+        elif r == "generic Visit Korea homepage used as a source":
+            steps.append(
+                "- Remove the generic Visit Korea homepage source. A homepage does not "
+                "support the article's specific claims."
+            )
     return steps
 
 
@@ -863,6 +924,41 @@ def validate_post(text, existing_posts, trend_seed=None):
         reasons.append(f"too short: {len(words)} words")
     if len(words) > MAX_WORDS:
         reasons.append(f"too long: {len(words)} words")
+
+    inline_images = re.findall(r"!\[([^\]]*)\]\(([^)]+)\)", body)
+    if len(inline_images) != 2:
+        reasons.append(f"inline image count: {len(inline_images)} (need exactly 2)")
+    else:
+        paths = [path.strip() for _alt, path in inline_images]
+        for path in paths:
+            if path not in INLINE_IMAGE_PATHS:
+                reasons.append(f"invalid inline image: {path}")
+                break
+        if len(set(paths)) != len(paths):
+            reasons.append("duplicate inline image")
+        if any(not alt.strip() for alt, _path in inline_images):
+            reasons.append("empty inline image alt text")
+
+    percentage = re.search(r"\b\d{1,3}\s*%", body)
+    if percentage:
+        reasons.append(f"unsupported percentage: {percentage.group(0)}")
+
+    culture_claim = re.search(
+        r"\b(?:bargaining|asking for discounts?) is common in korea\b"
+        r"|\balways (?:ask|use) [^.]{0,40}(?:discount|lower price)",
+        body,
+        re.I,
+    )
+    if culture_claim:
+        reasons.append(f"unsupported culture claim: {culture_claim.group(0)[:70]}")
+
+    if re.search(
+        r'(?mi)^\s*-\s*title:\s*["\']?Visit Korea["\']?\s*$', fm
+    ) and re.search(
+        r'(?mi)^\s*url:\s*["\']?https://english\.visitkorea\.or\.kr/?["\']?\s*$',
+        fm,
+    ):
+        reasons.append("generic Visit Korea homepage used as a source")
 
     if "## frequently asked questions" not in lower:
         reasons.append("missing FAQ section")

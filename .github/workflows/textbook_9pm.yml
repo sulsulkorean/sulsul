@@ -7,15 +7,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate-and-deploy:
+  draft-for-review:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -47,10 +48,59 @@ jobs:
           if-no-files-found: ignore
           retention-days: 30
 
-      - name: Commit and Push
+      - name: Look for drafts that passed the gate
+        id: drafts
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add _posts || true
-          git commit -m "Auto: textbook SEO posts (quality-gated, max 3)" || echo "No changes to commit"
-          git push origin main
+          if [ -n "$(git status --porcelain _posts)" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "검토할 교재 초안이 없습니다. 블로그는 그대로입니다." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Open a review request instead of publishing
+        if: steps.drafts.outputs.found == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          today=$(date -u +%Y-%m-%d)
+          branch="textbook-draft/${today}-$(date -u +%H%M)"
+
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$branch"
+          git add _posts
+          git commit -m "Textbook drafts awaiting review (${today})"
+          git push origin "$branch"
+
+          {
+            echo "교재에서 만든 **초안**입니다. 아직 블로그에는 발행되지 않았습니다."
+            echo
+            echo "- **Merge** 를 누르면 발행됩니다."
+            echo "- **Close** 를 누르면 버려집니다."
+            echo "- 아무것도 누르지 않으면 블로그는 바뀌지 않습니다."
+            echo
+            echo "### 이번 초안"
+            git diff --name-only HEAD~1 HEAD -- _posts | while read -r f; do
+              title=$(grep -m1 '^title:' "$f" | sed -e 's/^title:[[:space:]]*//' -e 's/^"//' -e 's/"$//')
+              echo "- ${title:-$f}"
+              echo "  (\`$f\`)"
+            done
+            echo
+            echo "### 읽을 때 볼 것"
+            echo
+            echo "1. 대화 순서가 실제 상황과 맞는지"
+            echo "2. 한글·뜻·로마자 표기가 맞는지"
+            echo "3. 본문 이미지 두 장이 주제와 맞는지"
+          } > pr_body.md
+
+          if ! gh pr create --base main --head "$branch" \
+               --title "블로그 교재 초안 검토 — ${today}" \
+               --body-file pr_body.md; then
+            {
+              echo "검토 요청을 자동으로 만들지 못했습니다. 아래 링크에서 열어주세요."
+              echo
+              echo "https://github.com/${GITHUB_REPOSITORY}/compare/main...${branch}?expand=1"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
