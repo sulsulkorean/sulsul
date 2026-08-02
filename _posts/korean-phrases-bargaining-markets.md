@@ -2,8 +2,8 @@
 title: "Korean Phrases for Bargaining in Markets"
 excerpt: "Learn when price negotiation is appropriate in Korea and use polite Korean phrases to ask about discounts, bundles, and final prices."
 slug: "korean-phrases-bargaining-markets"
-date: "2026-08-01T18:08:06.000Z"
-updated: "2026-08-01T18:08:06.000Z"
+date: "2026-08-02T16:57:39.000Z"
+updated: "2026-08-02T16:57:39.000Z"
 coverImage: "/assets/blog/scenes/shopping.jpg"
 ogImage:
   url: "/assets/blog/scenes/shopping.jpg"

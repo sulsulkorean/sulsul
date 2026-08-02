@@ -2,8 +2,8 @@
 title: "How to Compliment a Korean Friend's Cooking"
 excerpt: "To compliment a Korean friend's cooking, use phrases like '정말 맛있어요' (jeongmal masisseoyo) meaning 'It's really delicious.' Learn more Korean compliments here."
 slug: "compliment-korean-friends-cooking"
-date: "2026-08-01T18:15:31.000Z"
-updated: "2026-08-01T18:15:31.000Z"
+date: "2026-08-02T16:57:39.000Z"
+updated: "2026-08-02T16:57:39.000Z"
 coverImage: "/assets/blog/scenes/small-talk.jpg"
 ogImage:
   url: "/assets/blog/scenes/small-talk.jpg"

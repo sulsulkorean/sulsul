@@ -2,8 +2,8 @@
 title: "How to Greet Someone in Different Korean Politeness Levels"
 excerpt: "Learn how to greet someone in Korean using different politeness levels, from informal to formal, with specific phrases and contexts."
 slug: "greet-korean-politeness-levels"
-date: "2026-08-01T18:23:27.000Z"
-updated: "2026-08-01T18:23:27.000Z"
+date: "2026-08-02T16:57:39.000Z"
+updated: "2026-08-02T16:57:39.000Z"
 coverImage: "/assets/blog/covers/whats-inside.png"
 ogImage:
   url: "/assets/blog/covers/whats-inside.png"

@@ -2,8 +2,8 @@
 title: "How to Check Into a Hotel in Korean Without Freezing"
 excerpt: "Use a realistic Korean hotel check-in script, understand the receptionist’s questions, and ask clearly about breakfast, luggage, and room details."
 slug: "check-into-hotel-korean"
-date: "2026-08-01T18:11:17.000Z"
-updated: "2026-08-01T18:11:17.000Z"
+date: "2026-08-02T16:57:39.000Z"
+updated: "2026-08-02T16:57:39.000Z"
 coverImage: "/assets/blog/covers/app-screen-2.png"
 ogImage:
   url: "/assets/blog/covers/app-screen-2.png"

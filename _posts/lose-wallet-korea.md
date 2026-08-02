@@ -2,8 +2,8 @@
 title: "What to Say if You Lose Your Wallet in Korea?"
 excerpt: "If you lose your wallet in Korea, report it to the police with '지갑을 잃어버렸어요' (*jigabeul ilheobeoryeosseoyo*). This phrase means 'I lost my wallet.'"
 slug: "lose-wallet-korea"
-date: "2026-08-01T18:13:38.000Z"
-updated: "2026-08-01T18:13:38.000Z"
+date: "2026-08-02T16:57:39.000Z"
+updated: "2026-08-02T16:57:39.000Z"
 coverImage: "/assets/blog/covers/app-screen-1.png"
 ogImage:
   url: "/assets/blog/covers/app-screen-1.png"

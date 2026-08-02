@@ -2,8 +2,8 @@
 title: "Common K-drama Phrases to Use in Conversation"
 excerpt: "Learn common K-drama phrases like '보고 싶어요' and '괜찮아질 거예요' to use in real conversations and impress your Korean friends."
 slug: "common-k-drama-phrases-conversation"
-date: "2026-08-01T18:17:35.000Z"
-updated: "2026-08-01T18:17:35.000Z"
+date: "2026-08-02T16:57:39.000Z"
+updated: "2026-08-02T16:57:39.000Z"
 coverImage: "/assets/blog/covers/start-speaking.png"
 ogImage:
   url: "/assets/blog/covers/start-speaking.png"

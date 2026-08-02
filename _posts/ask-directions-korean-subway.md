@@ -2,8 +2,8 @@
 title: "How to Ask for Directions in Korean Subway"
 excerpt: "To ask for directions in a Korean subway, say '지하철역 어디예요?' for 'Where is the subway station?' and listen for replies like '이쪽으로 가세요' meaning 'Go this way.'"
 slug: "ask-directions-korean-subway"
-date: "2026-08-01T18:04:56.000Z"
-updated: "2026-08-01T18:04:56.000Z"
+date: "2026-08-02T16:57:39.000Z"
+updated: "2026-08-02T16:57:39.000Z"
 coverImage: "/assets/blog/scenes/transport.jpg"
 ogImage:
   url: "/assets/blog/scenes/transport.jpg"

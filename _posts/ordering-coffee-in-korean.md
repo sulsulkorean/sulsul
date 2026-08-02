@@ -2,8 +2,8 @@
 title: "What to Say When Ordering Coffee in Korean"
 excerpt: "Order confidently at a Korean cafe with natural phrases for choosing a drink, size, temperature, takeout, payment, and clarification."
 slug: "ordering-coffee-in-korean"
-date: "2026-08-01T18:03:20.000Z"
-updated: "2026-08-01T18:03:20.000Z"
+date: "2026-08-02T16:57:39.000Z"
+updated: "2026-08-02T16:57:39.000Z"
 coverImage: "/assets/blog/scenes/cafe.jpg"
 ogImage:
   url: "/assets/blog/scenes/cafe.jpg"

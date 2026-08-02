@@ -2,8 +2,8 @@
 title: "What to Say When Buying Clothes in Korea"
 excerpt: "Shop for clothes in Korea with natural phrases for browsing, sizes, fitting rooms, prices, promotions, payment, and exchanges."
 slug: "buying-clothes-in-korea"
-date: "2026-08-01T18:21:27.000Z"
-updated: "2026-08-01T18:21:27.000Z"
+date: "2026-08-02T16:57:39.000Z"
+updated: "2026-08-02T16:57:39.000Z"
 coverImage: "/assets/blog/covers/app-screen-3.png"
 ogImage:
   url: "/assets/blog/covers/app-screen-3.png"

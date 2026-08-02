@@ -2,8 +2,8 @@
 title: "How to Politely Ask for Help in Korean"
 excerpt: "To ask for help in Korean, use '도와주세요' for 'Please help me.' It's a polite way to request assistance. Learn more phrases to navigate daily situations."
 slug: "politely-ask-for-help-in-korean"
-date: "2026-08-01T18:19:27.000Z"
-updated: "2026-08-01T18:19:27.000Z"
+date: "2026-08-02T16:57:39.000Z"
+updated: "2026-08-02T16:57:39.000Z"
 coverImage: "/assets/blog/covers/app-screen-1.png"
 ogImage:
   url: "/assets/blog/covers/app-screen-1.png"
