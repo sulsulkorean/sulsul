@@ -32,11 +32,23 @@ def install_package(package):
 install_package("duckduckgo-search")
 from duckduckgo_search import DDGS
 
-client = OpenAI()
-MODEL = os.environ.get("SULSUL_BLOG_MODEL", "gpt-4o")
+# Lazy so sibling scripts can import helpers without requiring a key at import time.
+_client = None
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
+from load_env import load_env
 from romanize import romanize as rr, spell_numbers
+
+load_env(ROOT)
+MODEL = os.environ.get("SULSUL_BLOG_MODEL", "gpt-4o")
+
+
+def get_client():
+    global _client
+    if _client is None:
+        load_env(ROOT)
+        _client = OpenAI()
+    return _client
 OBSIDIAN_VAULT_PATH = os.path.join(ROOT, "obsidian_data")
 LIBRARY_DIR = os.path.join(OBSIDIAN_VAULT_PATH, "3.Library")
 VOICE_DIR = os.path.join(OBSIDIAN_VAULT_PATH, "2.Voice")
@@ -48,12 +60,20 @@ PREVIEW_DIR = os.path.join(ROOT, "_preview")
 # Enforced here rather than in the workflow files so a stale schedule
 # can never push us back into scaled-content territory.
 MAX_PER_RUN = {"trend": 2, "textbook": 3}
-MIN_WORDS = 1000
-MAX_WORDS = 1800
-MIN_DISTINCT_PHRASES = 12
-MAX_PHRASE_REPEATS = 7
-MIN_EXCHANGES = 3
-MAX_H2 = 10
+# 2026-08-03: cut from 1000-1800 words after CEO feedback that posts were a wall
+# of text — too long, too many near-duplicate phrases, table broke on mobile.
+MIN_WORDS = 550
+MAX_WORDS = 800
+MIN_DISTINCT_PHRASES = 6
+MAX_PHRASE_REPEATS = 5
+MIN_EXCHANGES = 1
+MAX_H2 = 8
+MIN_INLINE_IMAGES = 3
+MAX_INLINE_IMAGES = 4
+MIN_FAQ_H3 = 3
+MAX_FAQ_H3 = 4
+MAX_TABLE_COLS = 2
+MAX_TABLE_ROWS = 5
 
 # Trend seeds come from a news index rather than a web search, and the query
 # rotates by day so two runs do not open with the same story.
@@ -118,7 +138,7 @@ IMAGE_RULES = [
     (r"cafe|coffee|barista|americano|latte", SCENES["cafe"]),
     (r"convenience store|\bgs25\b|7-?eleven|\bsnack|\bkiosk\b", SCENES["convenience"]),
     (r"subway|\bbus\b|taxi|train|\bktx\b|airport|transport|direction|metro", SCENES["transport"]),
-    (r"restaurant|order food|\bmenu\b|dining|\bbbq\b|delivery|\beat\b|\bmeal\b", SCENES["restaurant"]),
+    (r"restaurant|order\w* food|food\b|\bmenu\b|dining|\bbbq\b|delivery|\beat\b|\bmeal\b", SCENES["restaurant"]),
     (r"\bbook\b|textbook|\bpdf\b|workbook|amazon|100 pattern", BRAND_COVERS["book"]),
     (r"kakao|\btext(ing|s)?\b|\bmessage|\bchat\b|\bdm\b|social media|comment", SCENES["messaging"]),
     (r"\bshop|\bstore\b|\bbuy\b|\bprice|market|\bsize\b|try on|refund|myeongdong", SCENES["shopping"]),
@@ -137,6 +157,24 @@ FALLBACK_COVERS = [
     "/assets/blog/covers/app-screen-3.png",
     "/assets/blog/covers/app-screen-4.png",
 ]
+
+
+def relevant_inline_images(topic_text, cover):
+    """2026-08-03: giving the model the full image list (even with accurate
+    descriptions) still produced an off-topic pick — a cafe-counter photo
+    used to pad out a convenience-store post to three images, just because
+    it needed a third slot. Restrict the offered pool instead of trusting
+    the choice: only the scene(s) that actually match this topic, plus the
+    four generic SULSUL app/mascot screens, which fit any topic because they
+    show no specific location."""
+    text = (topic_text or "").lower()
+    matched_scenes = {
+        img for pattern, img in IMAGE_RULES
+        if img in SCENES.values() and re.search(pattern, text)
+    }
+    app_screens = {p for p in INLINE_IMAGE_PATHS if "app-screen" in p}
+    pool = (matched_scenes | app_screens) - {cover}
+    return sorted(pool)
 
 
 def pick_cover(topic_text):
@@ -175,6 +213,26 @@ INLINE_IMAGE_PATHS = {
     "/assets/blog/covers/app-screen-2.png",
     "/assets/blog/covers/app-screen-3.png",
     "/assets/blog/covers/app-screen-4.png",
+}
+
+# 2026-08-03: the model never actually sees these image files, so it wrote
+# plausible-sounding alt text for the surrounding paragraph instead of a
+# description of the photo — e.g. shopping.jpg (a clothing boutique) got
+# captioned "Paying at a Korean restaurant". Checked every file by hand once
+# and the code now forces this exact text every time, the same way
+# fix_romanization overrides a guessed pronunciation.
+INLINE_IMAGE_ALT = {
+    SCENES["cafe"]: "Counter of a cozy Korean cafe with pastries and a coffee machine",
+    SCENES["convenience"]: "Shelves and checkout counter inside a Korean convenience store",
+    SCENES["transport"]: "Turnstiles and platform signage at a Seoul subway station",
+    SCENES["restaurant"]: "A Korean BBQ restaurant dining room set for a meal",
+    SCENES["shopping"]: "Racks of clothes inside a Korean clothing boutique",
+    SCENES["small_talk"]: "A riverside park near a Seoul university at sunset",
+    SCENES["messaging"]: "A cozy bedroom at night, set up for texting a friend in Korean",
+    "/assets/blog/covers/app-screen-1.png": "SULSUL mascot Sulsuli waving hello, with the tagline Don't freeze in Seoul, speak Korean for real",
+    "/assets/blog/covers/app-screen-2.png": "SULSUL mascot Sulsuli looking upset beside the question Are you learning Korean the wrong way?",
+    "/assets/blog/covers/app-screen-3.png": "SULSUL web app screen showing a Korean phrase card with a microphone icon for voice practice",
+    "/assets/blog/covers/app-screen-4.png": "SULSUL mascot Sulsuli next to a breakdown of the app's 100 patterns and practice features",
 }
 
 SYSTEM_PROMPT = """# ROLE
@@ -222,43 +280,52 @@ Match the VOICE SAMPLES supplied in the user message: warm, direct, specific, se
 
 ## B. Structure — do not reorder (this is what gets you quoted)
 1. NO H1 in the body. The site renders the frontmatter title as the H1. Start with the answer paragraph, then use ## and ### only.
-2. ANSWER-FIRST PARAGRAPH, 40-60 words: a complete, self-contained answer to the title query, containing the primary keyword and at least one concrete Korean phrase. It must make full sense when lifted out with zero surrounding context. This is the paragraph AI engines quote.
-3. A "> " blockquote right after it, 3-5 bullets, each a full standalone sentence carrying one concrete fact (a phrase, a rule, a situation). No vague bullets. The answer paragraph and the blockquote may each name a phrase once; do not then re-teach that same phrase with a full block in the body.
-4. HARD LIMIT: at most 10 "##" headings in the whole file, counting FAQ and CTA. Use 6-7 teaching "##" sections, then "## Frequently Asked Questions", then the CTA "##" last. Every teaching H2 is a real question ("What do you actually say at a Korean cafe counter?") or a concrete task. Never "Understanding the Basics", never "Conclusion", never a label like "Table of Situations and Phrases" — put the markdown table and the numbered step list INSIDE a teaching section, never as their own "##".
-5. Each "##" section runs 150-250 words and must carry material found nowhere else in the post. A section that only restates a phrase already taught is a failed section: delete it and write a different one.
-6. At least 3 sections show BOTH sides of the exchange. Understanding the reply is the part that actually defeats people, so write it out. An exchange is exactly three lines, in this order, and nothing else — no "Literal:", no "Use it when:", those belong only to the teaching blocks in section C:
+2. ANSWER-FIRST PARAGRAPH, 40-60 words: a complete, self-contained answer to the title query, containing the primary keyword and at least one concrete Korean phrase. It must make full sense when lifted out with zero surrounding context. This is the paragraph AI engines quote. EVERY Korean phrase here has *italic Revised Romanization* right next to it — a reader who cannot read Hangul yet must still be able to say it. Never drop the romanization to save words; cut something else instead.
+3. A "> " blockquote right after it, 3-5 bullets, each a full standalone sentence carrying one concrete fact (a phrase, a rule, a situation), and each Korean phrase in it followed by *italic Revised Romanization*, the same rule as above. No vague bullets. The answer paragraph and the blockquote may each name a phrase once; do not then re-teach that same phrase with a full block in the body.
+4. HARD LIMIT: at most 8 "##" headings in the whole file, counting FAQ and CTA. Use 4-5 teaching "##" sections, then "## Frequently Asked Questions", then the CTA "##" last. Every teaching H2 is a real question ("What do you actually say at a Korean cafe counter?") or a concrete task. Never "Understanding the Basics", never "Conclusion", never a label like "Table of Situations and Phrases" — put the markdown table and the numbered step list INSIDE a teaching section, under its "##", with NO heading of their own (not "##", not "###") introducing them.
+5. Each "##" section runs 80-140 words and must carry material found nowhere else in the post. Write in short, scannable paragraphs of 1-3 sentences — a reader skimming on a phone should be able to grab the point without reading every word. A section that only restates a phrase already taught is a failed section: delete it and write a different one.
+6. At least 1 section shows BOTH sides of the exchange. Understanding the reply is the part that actually defeats people, so write it out. An exchange is exactly three lines, in this order, and nothing else — no "Literal:", no "Use it when:", those belong only to the teaching blocks in section C:
 
    You: **한국어** — *romanization* — "English"
    Them: **한국어** — *romanization* — "English"
    You: **한국어** — *romanization* — "English"
 
+   Each of those three lines is a plain paragraph line. NEVER put a "#", "##" or
+   "###" in front of "You:" or "Them:" — that turns three lines of dialogue into
+   three separate document headings and breaks the post's structure.
    The "Them" line is what the Korean speaker says to you. Never describe when a
    staff member should use a phrase; the reader is the customer, not the staff.
 
-7. At least 2 sections carry a "What usually goes wrong" line: the specific mistake a learner makes at this exact moment, and what to do instead.
+7. At least 1 section carries a "What usually goes wrong" line: the specific mistake a learner makes at this exact moment, and what to do instead.
 8. Never use the same Korean phrase in more than two places in the whole post. A row in the table counts as one of those two. Do not restate FAQ answers in the body or body content in the FAQ.
 9. Every section stands alone: repeat the entity names ("SULSUL", "Korean", the situation) instead of "it / this / that" across sections.
-10. Include at least one markdown TABLE (situation -> phrase, or a comparison).
-11. Include one numbered step-by-step section, 3-7 steps, each step starting with a verb, written so it could be lifted as a HowTo.
-12. FAQ section near the end: "## Frequently Asked Questions", then 4-6 questions as "###". Each answer 40-70 words, self-contained, phrased the way people actually ask an AI. The FAQ contains questions ONLY. Nothing else may sit under a "###" after this point.
+10. Include exactly ONE markdown TABLE with AT MOST 2 columns and AT MOST 5 rows (e.g. situation -> phrase, or Korean -> English meaning). Every cell is short — one phrase or a few words, never a full sentence, never a third column — so it renders cleanly on a phone screen without breaking. Every Korean phrase in the table still gets its *italic romanization* inside the same cell, right after the phrase — a table cell is not exempt from the romanization rule.
+11. Include one numbered step-by-step section, 3-5 steps, each step ONE short sentence starting with a verb, written so it could be lifted as a HowTo.
+12. FAQ section near the end: "## Frequently Asked Questions", then 3-4 questions as "###". Each answer 30-50 words, self-contained, phrased the way people actually ask an AI. The FAQ contains questions ONLY. Nothing else may sit under a "###" after this point.
 13. CTA block LAST, using the template in section E. Its heading is "##", never "###", or it merges into the FAQ.
-14. Length 1,100-1,600 English WORDS. This is a hard floor, not a target: a 600-word draft is discarded unread. Reach it with new material — more situations, more replies, more mistakes — never by repeating a phrase or inflating sentences.
-15. Add exactly TWO inline Markdown images between teaching sections, spaced apart.
-    Use only the image paths supplied in the user message. Give each image a
-    descriptive English alt text that names the situation; never use "image"
-    or "photo" as the whole alt text. One should show the real-life scene and
-    one should show speaking practice. Do not put an image before the answer,
-    inside the FAQ, or inside the CTA.
+14. Length 550-800 English WORDS. Longer is not better: a reader on a phone abandons a wall of text. Cut ruthlessly — every sentence must teach something new — instead of padding with a restated phrase, an inflated sentence, or an extra FAQ item.
+15. Add THREE to FOUR inline Markdown images, spaced roughly every 100-150 words
+    so the reader is never far from a visual break. Use only the image paths
+    supplied in the user message, never the same one twice, and never the same
+    file already used as COVER IMAGE — the cover renders once at the top of the
+    page already, so repeating it in the body wastes one of your three-to-four
+    slots on a photo the reader already saw. Choose images whose description in
+    the brief actually matches the section they sit in — a shopping-boutique
+    photo does not belong next to a restaurant section just because you need an
+    image there. Copy the alt text exactly as given in the brief; do not
+    paraphrase or invent your own, it is describing the real photo, not this
+    paragraph. Mix real-life scenes with speaking-practice screens. Do not put
+    an image before the answer, inside the FAQ, or inside the CTA.
 
 ## C. Korean examples — mandatory format
-Teach 8-12 DISTINCT phrases — never the same phrase twice. Every phrase uses exactly this block:
+Teach 5-6 DISTINCT phrases — never the same phrase twice. Fewer, carefully chosen phrases beat many thin ones; pick only what this exact query needs. Every phrase uses exactly this block:
 
 **한국어 문장** — *romanization*
 "Natural English"
 Literal: word-by-word meaning
 Use it when: one concrete situation
 
-Rules: 해요체 by default (합쇼체 only where the situation demands it). Revised Romanization. Check every particle. If you are not fully certain a phrase is natural, use a simpler phrase you are certain of. Never invent slang.
+Rules: 해요체 by default (합쇼체 only where the situation demands it). Revised Romanization. Check every particle. If you are not fully certain a phrase is natural, use a simpler phrase you are certain of. Never invent slang. Never write a bracket placeholder like [Destination] or [Name] inside a Korean phrase — every phrase must be a complete, real, romanizable example (a specific place, a specific name), never a fill-in-the-blank template.
 
 ## D. Real-world accuracy
 - Every You / Them / You exchange must follow the actual order of the interaction.
@@ -286,7 +353,7 @@ Rules: 해요체 by default (합쇼체 only where the situation demands it). Rev
 
 SULSUL is a speaking gym for exactly that moment: pick a survival pattern, say it out loud, get an instant fix from the AI pronunciation coach, then run the real situation as a mission. The 100-pattern PDF workbook comes along as a bonus.
 
-**[Start speaking with SULSUL](https://sulsul.app/?utm_source=blog&utm_medium=post&utm_campaign=seo)**
+**[Start speaking with SULSUL here!!](https://sulsul.app/?utm_source=blog&utm_medium=post&utm_campaign=seo)**
 
 ## G. Output format
 Output ONLY the finished markdown file. Start with "---" on line 1. No code fences around it, no preface, no closing remarks.
@@ -320,12 +387,13 @@ sources:
 [ ] Title is a query, <=60 chars, no banned phrasing
 [ ] Body has no H1
 [ ] First paragraph works as a standalone 40-60 word answer
-[ ] >= 1 table, >= 1 numbered step list, 4-6 FAQ items
+[ ] exactly 1 table (<=2 columns, <=5 rows), >= 1 numbered step list, 3-4 FAQ items
 [ ] frontmatter faq entries match the FAQ section word for word
 [ ] Every Korean phrase uses the 4-line block and is natural
+[ ] Every bold Korean phrase, everywhere in the file — opening paragraph, blockquote, exchanges, table cells, FAQ answers — has *italic Revised Romanization* in the same sentence the first time it appears
 [ ] No banned claim, no invented number, no fabricated URL
 [ ] CTA block is last and links to sulsul.app with the UTM
-[ ] 1,100-1,600 words
+[ ] 550-800 words, 3-4 inline images spaced through the post, no wall of text
 """
 
 def read_markdown_files(directory):
@@ -346,7 +414,7 @@ def read_markdown_files(directory):
 def api_call_with_retry(messages, temperature=0.5, max_retries=5):
     for attempt in range(max_retries):
         try:
-            response = client.chat.completions.create(
+            response = get_client().chat.completions.create(
                 model=MODEL,
                 messages=messages,
                 temperature=temperature,
@@ -606,8 +674,8 @@ Write the post that fully answers this query and leaves the reader able to say t
     user = f"""[DATE] {iso_date}
 [COVER IMAGE] {cover}
 
-[ALLOWED INLINE IMAGES — choose exactly two, spaced between teaching sections]
-{chr(10).join(f"- {path}" for path in sorted(INLINE_IMAGE_PATHS))}
+[ALLOWED INLINE IMAGES — choose THREE to FOUR, spaced between teaching sections, never the coverImage above. This list is already filtered to what fits this post; do not reach for anything outside it. The alt text shown here is exactly what will render — do not rewrite it.]
+{chr(10).join(f"- {path} — {INLINE_IMAGE_ALT.get(path, 'no description')}" for path in relevant_inline_images(topic_text, cover))}
 
 [VOICE SAMPLES — copy this tone, not this content]
 {voice}
@@ -642,9 +710,9 @@ ogImage.url: "{cover}"
         ],
         temperature=0.5,
     )
-    draft = fix_romanization(
+    draft = fix_exchange_linebreaks(fix_exchange_headings(fix_inline_image_alt(fix_inline_image_paths(fix_romanization(
         enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
-    )
+    )))))
     return revise_to_pass(
         draft, system, user, cover, iso_date, existing_posts,
         trend_seed=keyword_data if mode == "trend" else None,
@@ -694,6 +762,68 @@ def fix_romanization(text):
         )
 
     return ROMAN_PAIR.sub(sub, text)
+
+
+EXCHANGE_LINE = re.compile(r"^\s*(You|Them):")
+EXCHANGE_LINE_WITH_HEADING = re.compile(r"^\s*#{1,6}\s*(You|Them):")
+
+
+def fix_exchange_headings(text):
+    """The model sometimes writes the You:/Them: exchange as '### You:' /
+    '### Them:' instead of plain text — it is not asked to, but the ##-heavy
+    structure around it seems to invite it. That silently breaks the
+    both-sides-exchange gate (the line no longer starts with 'Them:') AND
+    inflates the FAQ question count (every exchange line counts as an H3),
+    so revisions kept failing on both counts without the model ever being
+    told the real cause. Stripped here instead of relying on the prompt."""
+    lines = text.split("\n")
+    for i, line in enumerate(lines):
+        if EXCHANGE_LINE_WITH_HEADING.match(line):
+            lines[i] = re.sub(r"^\s*#{1,6}\s*", "", line)
+    return "\n".join(lines)
+
+
+def fix_exchange_linebreaks(text):
+    """Markdown collapses a plain newline into a space, so a You:/Them:/You:
+    exchange typed as three consecutive lines renders as one run-on sentence
+    unless each line ends with a hard break (two trailing spaces). The model
+    does not reliably add that whitespace, so the code enforces it instead
+    of trusting the draft's exact formatting."""
+    lines = text.split("\n")
+    for i in range(len(lines) - 1):
+        if EXCHANGE_LINE.match(lines[i]) and EXCHANGE_LINE.match(lines[i + 1]):
+            lines[i] = lines[i].rstrip() + "  "
+    return "\n".join(lines)
+
+
+ASSET_PATH = re.compile(r"^(?:public/)?assets/blog/")
+
+
+def fix_inline_image_paths(text):
+    """The model occasionally drops the leading '/' from an image path
+    ('assets/blog/...' instead of '/assets/blog/...'). That fails the
+    allowed-path check every time, but 'invalid inline image' does not tell
+    the model *why* it is invalid, so revisions burned rounds swapping to a
+    different image instead of just fixing the slash. Normalized here so a
+    real path never gets rejected over one missing character."""
+    def sub(m):
+        alt, path = m.group(1), m.group(2)
+        if ASSET_PATH.match(path):
+            path = "/" + path.lstrip("/")
+        return f"![{alt}]({path})"
+
+    return re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", sub, text)
+
+
+def fix_inline_image_alt(text):
+    """Force the human-verified caption for every known image path, replacing
+    whatever the model imagined. See INLINE_IMAGE_ALT for why."""
+    def sub(m):
+        alt, path = m.group(1), m.group(2)
+        canonical = INLINE_IMAGE_ALT.get(path.strip())
+        return f"![{canonical}]({path})" if canonical else m.group(0)
+
+    return re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", sub, text)
 
 
 def body_word_count(text):
@@ -782,8 +912,24 @@ def fix_instructions(reasons):
             )
         elif r == "missing markdown table":
             steps.append(
-                "- Add a markdown table with a header row, a |---|---| separator row "
-                "and 4-6 data rows mapping situation to phrase."
+                "- Add ONE markdown table with a header row, a |---|---| separator row "
+                f"and up to {MAX_TABLE_ROWS} data rows mapping situation to phrase. "
+                f"At most {MAX_TABLE_COLS} columns — no romanization column."
+            )
+        elif r.startswith("too many tables"):
+            steps.append(
+                "- Merge everything into exactly ONE table and remove the extra table(s)."
+            )
+        elif r.startswith("table has") and "columns" in r:
+            steps.append(
+                f"- Cut the table down to at most {MAX_TABLE_COLS} columns (e.g. "
+                "situation -> phrase, or Korean -> English meaning). Move anything from "
+                "the removed column into the surrounding paragraph instead."
+            )
+        elif r.startswith("table has") and "rows" in r:
+            steps.append(
+                f"- Cut the table down to at most {MAX_TABLE_ROWS} rows. Keep only the "
+                "most useful situations; drop the rest rather than lengthening the table."
             )
         elif r == "CTA is H3 and merges into the FAQ":
             steps.append('- Change the CTA heading from "###" to "##".')
@@ -796,9 +942,15 @@ def fix_instructions(reasons):
             steps.append(f'- Remove this wording entirely: "{r.split(": ", 1)[1]}".')
         elif r == "body contains H1":
             steps.append('- Remove the "# " heading; the site renders the title.')
-        elif r.startswith("missing FAQ") or r.startswith("FAQ H3 count"):
+        elif r.startswith("missing FAQ") or r.startswith("FAQ H3 count too low"):
             steps.append(
-                '- End with "## Frequently Asked Questions" holding 4-6 "###" questions.'
+                '- End with "## Frequently Asked Questions" holding '
+                f'{MIN_FAQ_H3}-{MAX_FAQ_H3} "###" questions.'
+            )
+        elif r.startswith("FAQ H3 count too high"):
+            steps.append(
+                f"- Cut the FAQ down to {MAX_FAQ_H3} questions. Remove whichever ones "
+                "just restate something already said in the body."
             )
         elif r.startswith("title too long"):
             steps.append("- Shorten the title to 60 characters or fewer.")
@@ -808,9 +960,11 @@ def fix_instructions(reasons):
             steps.append("- Add the CTA block with the sulsul.app link.")
         elif r.startswith("inline image count"):
             steps.append(
-                "- Add exactly two Markdown images, spaced between teaching sections. "
-                "Choose only from the allowed inline-image list in the brief, use a "
-                "specific descriptive alt text, and keep images out of FAQ and CTA."
+                f"- Use {MIN_INLINE_IMAGES}-{MAX_INLINE_IMAGES} Markdown images total, "
+                "spaced through the teaching sections rather than clustered together. "
+                "Choose only from the allowed inline-image list in the brief, never the "
+                "same image twice, use a specific descriptive alt text, and keep images "
+                "out of the FAQ and CTA."
             )
         elif r.startswith("invalid inline image"):
             steps.append(
@@ -818,7 +972,13 @@ def fix_instructions(reasons):
                 "inline-image list in the brief."
             )
         elif r == "duplicate inline image":
-            steps.append("- Use two different inline images, not the same file twice.")
+            steps.append("- Use a different image in each spot, never the same file twice.")
+        elif r == "inline image repeats the cover image":
+            steps.append(
+                "- Replace whichever inline image matches the frontmatter coverImage "
+                "with a different one from the allowed list. The cover already shows "
+                "that photo once at the top of the page."
+            )
         elif r == "empty inline image alt text":
             steps.append(
                 "- Give both inline images descriptive English alt text naming the "
@@ -834,6 +994,22 @@ def fix_instructions(reasons):
                 "- Rewrite the blanket cultural claim as a narrow, situational fact. "
                 "Do not claim something is common in Korea or tell readers to always "
                 "ask for a discount."
+            )
+        elif r.startswith("missing romanization near"):
+            phrase = r.split(": ", 1)[1]
+            steps.append(
+                f'- "{phrase}" has no *italic Revised Romanization* within the same '
+                "sentence. Add it right after the bold Korean, every time a phrase "
+                "first appears — opening paragraph, blockquote, exchanges, table "
+                "cells, and FAQ answers included. A reader who cannot read Hangul "
+                "must be able to say every bold Korean phrase out loud."
+            )
+        elif r.startswith("bracket placeholder in Korean phrase"):
+            steps.append(
+                "- Replace the [Destination]-style bracket placeholder with one "
+                "concrete, real example (an actual place name) so the whole phrase "
+                "can carry real romanization. A fill-in-the-blank template cannot "
+                "be pronounced; a specific example can."
             )
         elif r == "generic Visit Korea homepage used as a source":
             steps.append(
@@ -877,21 +1053,74 @@ def revise_to_pass(
             ],
             temperature=0.5,
         )
-        candidate = fix_romanization(
+        candidate = fix_exchange_linebreaks(fix_exchange_headings(fix_inline_image_alt(fix_inline_image_paths(fix_romanization(
             enforce_frontmatter(strip_code_fences(raw), cover, iso_date)
-        )
+        )))))
         if len(validate_post(candidate, existing_posts, trend_seed=trend_seed)) <= len(reasons):
             draft = candidate
 
     return draft
 
 
-def has_table(text):
-    for line in text.splitlines():
-        stripped = line.strip()
-        if stripped and set(stripped) <= set("|-: ") and "-" in stripped and "|" in stripped:
-            return True
-    return False
+KOREAN_BOLD = re.compile(r"\*\*([^*\n]*[가-힣][^*\n]*)\*\*")
+ROMANIZATION_NEARBY = re.compile(r"\*[A-Za-z][^*\n]*\*")
+
+
+def missing_romanization(body):
+    """2026-08-03: the CEO caught three rounds of Korean phrases with no
+    romanization anywhere nearby (the opening paragraph, the blockquote, an
+    exchange) before this was ever a machine check — a human had to read the
+    live page to find it. A reader who cannot read Hangul yet cannot say a
+    bold Korean phrase unless *italic romanization* sits right next to it,
+    so every first mention of a phrase is checked here, not just hoped for
+    in the prompt. Short particles (-요, -이요?) are exempt: they are endings
+    explained in prose, not standalone phrases a reader looks up on their own.
+    """
+    seen_phrases = set()
+    missing = []
+    for m in KOREAN_BOLD.finditer(body):
+        phrase = m.group(1).strip()
+        if phrase in seen_phrases:
+            continue
+        if len(re.sub(r"[^가-힣]", "", phrase)) <= 2:
+            continue
+        if "[" in phrase or "]" in phrase:
+            # A fill-in-the-blank template ("[Destination]으로 가주세요") cannot be
+            # romanized as written — the model should not have written one, but
+            # a check that keeps demanding romanization for an English
+            # placeholder just loops forever instead of catching the real bug.
+            continue
+        window = body[m.end():m.end() + 80]
+        if not ROMANIZATION_NEARBY.search(window):
+            missing.append(phrase)
+        seen_phrases.add(phrase)
+    return missing
+
+
+def table_blocks(text):
+    """Return each markdown table as its list of raw lines (header, separator,
+    data rows), so the gate can check column/row counts, not just presence."""
+    blocks = []
+    lines = text.splitlines()
+    i = 0
+    while i < len(lines):
+        sep = lines[i + 1].strip() if i + 1 < len(lines) else ""
+        if (
+            "|" in lines[i]
+            and sep
+            and set(sep) <= set("|-: ")
+            and "-" in sep
+        ):
+            rows = [lines[i]]
+            j = i + 2
+            while j < len(lines) and "|" in lines[j] and lines[j].strip():
+                rows.append(lines[j])
+                j += 1
+            blocks.append(rows)
+            i = j
+            continue
+        i += 1
+    return blocks
 
 
 def validate_post(text, existing_posts, trend_seed=None):
@@ -926,8 +1155,11 @@ def validate_post(text, existing_posts, trend_seed=None):
         reasons.append(f"too long: {len(words)} words")
 
     inline_images = re.findall(r"!\[([^\]]*)\]\(([^)]+)\)", body)
-    if len(inline_images) != 2:
-        reasons.append(f"inline image count: {len(inline_images)} (need exactly 2)")
+    if len(inline_images) < MIN_INLINE_IMAGES or len(inline_images) > MAX_INLINE_IMAGES:
+        reasons.append(
+            f"inline image count: {len(inline_images)} "
+            f"(need {MIN_INLINE_IMAGES}-{MAX_INLINE_IMAGES})"
+        )
     else:
         paths = [path.strip() for _alt, path in inline_images]
         for path in paths:
@@ -936,6 +1168,9 @@ def validate_post(text, existing_posts, trend_seed=None):
                 break
         if len(set(paths)) != len(paths):
             reasons.append("duplicate inline image")
+        cover_m = re.search(r'(?mi)^coverImage:\s*["\']?([^"\'\n]+)["\']?\s*$', fm)
+        if cover_m and cover_m.group(1).strip() in paths:
+            reasons.append("inline image repeats the cover image")
         if any(not alt.strip() for alt, _path in inline_images):
             reasons.append("empty inline image alt text")
 
@@ -960,15 +1195,46 @@ def validate_post(text, existing_posts, trend_seed=None):
     ):
         reasons.append("generic Visit Korea homepage used as a source")
 
+    missing_roman = missing_romanization(body)
+    if missing_roman:
+        reasons.append(f"missing romanization near: {missing_roman[0][:40]}")
+
+    # A markdown link is also "**[text](url)**" — only flag a bracket that sits
+    # inside Korean text, never one immediately followed by "(", which means
+    # it is a link target rather than a fill-in-the-blank placeholder.
+    for m in re.finditer(r"\*\*([^*\n]*\[[A-Za-z][^\]]*\][^*\n]*)\*\*(?!\()", body):
+        if re.search(r"[가-힣]", m.group(1)) and "](" not in m.group(1):
+            reasons.append(f"bracket placeholder in Korean phrase: {m.group(0)[:40]}")
+            break
+
     if "## frequently asked questions" not in lower:
         reasons.append("missing FAQ section")
 
-    faq_h3 = len(re.findall(r"(?mi)^###\s+", body))
-    if faq_h3 < 4:
+    # Bug fixed 2026-08-03: this used to count every "###" in the whole post
+    # (exchanges, a mis-labelled table section, anything), not just the FAQ's
+    # own questions, so a normal post could be rejected over a number that had
+    # nothing to do with its actual FAQ. Only the text after the FAQ heading —
+    # up to the next "##" — counts.
+    faq_split = re.split(r"(?mi)^##\s+Frequently Asked Questions\s*$", body, maxsplit=1)
+    faq_section = re.split(r"(?m)^##\s+", faq_split[1])[0] if len(faq_split) == 2 else ""
+    faq_h3 = len(re.findall(r"(?m)^###\s+", faq_section))
+    if faq_h3 < MIN_FAQ_H3:
         reasons.append(f"FAQ H3 count too low: {faq_h3}")
+    elif faq_h3 > MAX_FAQ_H3:
+        reasons.append(f"FAQ H3 count too high: {faq_h3}")
 
-    if not has_table(text):
+    tables = table_blocks(body)
+    if not tables:
         reasons.append("missing markdown table")
+    elif len(tables) > 1:
+        reasons.append(f"too many tables: {len(tables)} (need exactly 1)")
+    else:
+        header_cols = [c for c in tables[0][0].split("|") if c.strip()]
+        if len(header_cols) > MAX_TABLE_COLS:
+            reasons.append(f"table has {len(header_cols)} columns; max is {MAX_TABLE_COLS}")
+        data_rows = tables[0][2:]
+        if len(data_rows) > MAX_TABLE_ROWS:
+            reasons.append(f"table has {len(data_rows)} rows; max is {MAX_TABLE_ROWS}")
 
     h2_count = len(re.findall(r"(?m)^##\s+", body))
     if h2_count > MAX_H2:
@@ -983,9 +1249,8 @@ def validate_post(text, existing_posts, trend_seed=None):
     if re.search(r"(?mi)^###\s+Say it out loud", body):
         reasons.append("CTA is H3 and merges into the FAQ")
 
-    faq_split = re.split(r"(?mi)^##\s+Frequently Asked Questions\s*$", body, maxsplit=1)
-    if len(faq_split) == 2:
-        for h3 in re.findall(r"(?m)^###\s+(.+)$", faq_split[1]):
+    if faq_section:
+        for h3 in re.findall(r"(?m)^###\s+(.+)$", faq_section):
             if "?" not in h3:
                 reasons.append(f"non-question H3 inside FAQ: {h3[:40]}")
                 break

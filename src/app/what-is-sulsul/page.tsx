@@ -335,7 +335,7 @@ export default function WhatIsSulsulPage() {
           <section className="mb-24 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="rounded-[2rem] border border-pink-100 bg-[#fff7f0] p-3 shadow-xl dark:border-pink-900/40">
               <Image
-                src="/assets/blog/covers/app-access-safe.png"
+                src="/assets/blog/covers/app-access.png"
                 width={1200}
                 height={630}
                 alt="SULSUL book QR path connecting readers to speaking practice in the web app"
