@@ -13,15 +13,7 @@ author:
 category: "K-Culture & Language"
 primaryKeyword: "How to compliment a Korean friend's cooking"
 keywords: ["Korean food compliments", "praising Korean dishes", "complimenting in Korean", "Korean dining etiquette", "expressing gratitude in Korean"]
-faq:
-  - q: "How do you say 'It's delicious' in Korean?"
-    a: "Say 'masisseoyo.' Add 'jeongmal' for 'really': 'jeongmal masisseoyo,' 'It's really delicious.'"
-  - q: "What is a polite way to compliment a Korean friend's cooking?"
-    a: "Say 'jeongmal masisseoyo,' then mention something you genuinely liked, such as 'gani ttak joayo,' 'the seasoning is just right,' or 'sikgami joayo,' 'the texture is good.'"
-  - q: "What should I say before and after a home-cooked meal?"
-    a: "Before eating, say 'jal meokgetseumnida.' After the meal, say 'jal meogeosseumnida' to thank the person who cooked for you."
-  - q: "Is it okay to say 'choegoyeyo,' 'it's the best,' after every bite?"
-    a: "It's grammatically fine but repeating it sounds automatic. A specific compliment about the seasoning, texture, or a dish you actually enjoyed sounds far more genuine."
+faq: []
 sources: []
 ---
 To compliment a Korean friend's cooking, say **정말 맛있어요** (*jeongmal masisseoyo*), "It's really delicious." Add one detail you actually noticed, like **간이 딱 좋아요** (*gani ttak joayo*), "The seasoning is just right." The polite **-요** ending works whether this is a new friend or someone you know well.
@@ -70,24 +62,6 @@ Before eating, **잘 먹겠습니다** (*jal meokgetseumnida*) carries the sense
 What usually goes wrong: learners say **최고예요** ("it's the best") after every single bite until it stops meaning anything. A cook notices one honest, specific line — the seasoning, the texture, a dish you'd ask about again — far more than five repeated superlatives.
 
 ![A cozy bedroom at night, set up for texting a friend in Korean](/assets/blog/scenes/messaging.jpg)
-
-## Frequently Asked Questions
-
-### How do you say "It's delicious" in Korean?
-
-Say **맛있어요** (*masisseoyo*). Add **정말** (*jeongmal*), "really," for extra emphasis.
-
-### What is a polite way to compliment a Korean friend's cooking?
-
-Say **정말 맛있어요**, then mention something you genuinely liked, such as **간이 딱 좋아요** (*gani ttak joayo*), "the seasoning is just right," or **식감이 좋아요** (*sikgami joayo*), "the texture is good."
-
-### What should I say before and after a home-cooked meal?
-
-Before eating, say **잘 먹겠습니다**. After the meal, say **잘 먹었습니다** to thank the person who cooked for you.
-
-### Is it okay to say 최고예요, "it's the best," after every bite?
-
-It's grammatically fine but repeating it sounds automatic. A specific compliment about the seasoning, texture, or a dish you actually enjoyed sounds far more genuine.
 
 ## Say it out loud, not just in your head
 

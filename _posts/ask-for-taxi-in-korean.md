@@ -13,13 +13,7 @@ author:
 category: "Travel Korean"
 primaryKeyword: "How to ask for a taxi in Korean?"
 keywords: ["how to ask for a taxi in Korean", "Korean taxi phrases", "requesting a taxi in Korean", "taxi Korean phrases", "Korean travel phrases"]
-faq:
-  - q: "How do you say 'Please call a taxi' in Korean?"
-    a: "Say **택시 불러주세요** — *taeksi bulreojuseyo* to mean 'Please call a taxi.'"
-  - q: "What if the taxi driver asks for my destination in Korean?"
-    a: "You can say your destination followed by **으로 가주세요** — *euro gajuseyo*, meaning 'Please go to [destination].'"
-  - q: "How do I ask for a receipt in Korean after a taxi ride?"
-    a: "Say **영수증 주세요** — *yeongsujeung juseyo* to ask for a receipt."
+faq: []
 sources: []
 ---
 To ask for a taxi in Korean, say **택시 불러주세요** — *taeksi bulreojuseyo*, meaning "Please call a taxi." This phrase is essential for travelers needing a quick ride. You can also use **택시 타고 싶어요** — *taeksi tago sipeoyo*, which means "I want to take a taxi."
@@ -71,20 +65,6 @@ Here's a table of useful phrases for various taxi-related situations:
 5. Upon arrival, ask for a receipt with **영수증 주세요** — *yeongsujeung juseyo*.
 
 ![SULSUL web app screen showing a Korean phrase card with a microphone icon for voice practice](/assets/blog/covers/app-screen-3.png)
-
-## Frequently Asked Questions
-
-### How do you say 'Please call a taxi' in Korean?
-
-Say **택시 불러주세요** — *taeksi bulreojuseyo* to mean "Please call a taxi."
-
-### What if the taxi driver asks for my destination in Korean?
-
-You can say your destination followed by **으로 가주세요** — *euro gajuseyo*, meaning "Please go to [destination]."
-
-### How do I ask for a receipt in Korean after a taxi ride?
-
-Say **영수증 주세요** — *yeongsujeung juseyo* to ask for a receipt.
 
 ## Say it out loud, not just in your head
 

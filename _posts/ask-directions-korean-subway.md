@@ -13,13 +13,7 @@ author:
 category: "Travel Korean"
 primaryKeyword: "How to ask for directions in Korean subway"
 keywords: ["Korean subway directions", "ask directions in Korean", "Korean travel phrases", "subway station in Korean", "Korean travel tips"]
-faq:
-  - q: "How do I ask where the subway station is in Korean?"
-    a: "Ask '지하철역이 어디예요?' (jihacheolyeogi eodiyeyo?), 'Where is the subway station?' Inside a station, swap '지하철역' (jihacheolyeok, subway station) for the line, platform, or exit you actually need."
-  - q: "What should I listen for when someone answers in Korean?"
-    a: "Catch '왼쪽' (oenjjok, left), '오른쪽' (oreunjjok, right), '곧장' (gotjang, straight), and any line or exit number. Repeat that one word with '-이요?' to confirm you heard it right."
-  - q: "What if I don't understand the Korean reply?"
-    a: "Say '다시 말씀해 주세요' (dasi malsseumhae juseyo), 'Please say that again,' or '천천히 말씀해 주세요' (cheoncheonhi malsseumhae juseyo), 'Please speak slowly.' Then repeat back the one detail you need to confirm."
+faq: []
 ---
 To ask for directions in a Korean subway, name the exact thing you need and add **어디예요?** (*eodiyeyo?*), "Where is it?" **2호선이 어디예요?** (*ihoseoni eodiyeyo?*) asks "Where is Line 2?" The polite **-요** ending works with any stranger, so one clear question is enough to get moving.
 
@@ -70,20 +64,6 @@ To check a transfer or your stop, ask **여기에서 갈아타요?** (*yeogieseo
 ## Ask for a specific exit
 
 Inside the station, **출구가 어디예요?** (*chulguga eodiyeyo?*) means "Where is the exit?" A numbered version is far more useful: **6번 출구가 어디예요?** (*yukbeon chulguga eodiyeyo?*), "Where is Exit 6?" If you're not sure which one you need, point at the place name on your phone and ask **몇 번 출구로 나가야 해요?** (*myeot beon chulguro nagaya haeyo?*), "Which exit should I use?" Notice **입구** (*ipgu*, entrance) and **출구** (*chulgu*, exit) look similar but are opposites — mixing them up is the most common exit mistake.
-
-## Frequently Asked Questions
-
-### How do I ask where the subway station is in Korean?
-
-Ask **지하철역이 어디예요?** (*jihacheolyeogi eodiyeyo?*), "Where is the subway station?" Inside a station, swap **지하철역** (*jihacheolyeok*, subway station) for the line, platform, or exit you actually need.
-
-### What should I listen for when someone answers in Korean?
-
-Catch **왼쪽** (*oenjjok*, left), **오른쪽** (*oreunjjok*, right), **곧장** (*gotjang*, straight), and any line or exit number. Repeat that one word with **-이요?** to confirm you heard it right.
-
-### What if I don't understand the Korean reply?
-
-Say **다시 말씀해 주세요** (*dasi malsseumhae juseyo*), "Please say that again," or **천천히 말씀해 주세요** (*cheoncheonhi malsseumhae juseyo*), "Please speak slowly." Then repeat back the one detail you need to confirm.
 
 ## Say it out loud, not just in your head
 

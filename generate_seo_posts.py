@@ -60,18 +60,16 @@ PREVIEW_DIR = os.path.join(ROOT, "_preview")
 # Enforced here rather than in the workflow files so a stale schedule
 # can never push us back into scaled-content territory.
 MAX_PER_RUN = {"trend": 2, "textbook": 3}
-# 2026-08-03: cut from 1000-1800 words after CEO feedback that posts were a wall
-# of text — too long, too many near-duplicate phrases, table broke on mobile.
-MIN_WORDS = 550
-MAX_WORDS = 800
-MIN_DISTINCT_PHRASES = 6
+# 2026-08-04: cut again after CEO feedback — FAQ duplicated the body and
+# posts still read too long on a phone. Target a tight teaching post + CTA only.
+MIN_WORDS = 320
+MAX_WORDS = 650
+MIN_DISTINCT_PHRASES = 5
 MAX_PHRASE_REPEATS = 5
 MIN_EXCHANGES = 1
-MAX_H2 = 8
-MIN_INLINE_IMAGES = 3
-MAX_INLINE_IMAGES = 4
-MIN_FAQ_H3 = 3
-MAX_FAQ_H3 = 4
+MAX_H2 = 6
+MIN_INLINE_IMAGES = 2
+MAX_INLINE_IMAGES = 3
 MAX_TABLE_COLS = 2
 MAX_TABLE_ROWS = 5
 
@@ -282,8 +280,8 @@ Match the VOICE SAMPLES supplied in the user message: warm, direct, specific, se
 1. NO H1 in the body. The site renders the frontmatter title as the H1. Start with the answer paragraph, then use ## and ### only.
 2. ANSWER-FIRST PARAGRAPH, 40-60 words: a complete, self-contained answer to the title query, containing the primary keyword and at least one concrete Korean phrase. It must make full sense when lifted out with zero surrounding context. This is the paragraph AI engines quote. EVERY Korean phrase here has *italic Revised Romanization* right next to it — a reader who cannot read Hangul yet must still be able to say it. Never drop the romanization to save words; cut something else instead.
 3. A "> " blockquote right after it, 3-5 bullets, each a full standalone sentence carrying one concrete fact (a phrase, a rule, a situation), and each Korean phrase in it followed by *italic Revised Romanization*, the same rule as above. No vague bullets. The answer paragraph and the blockquote may each name a phrase once; do not then re-teach that same phrase with a full block in the body.
-4. HARD LIMIT: at most 8 "##" headings in the whole file, counting FAQ and CTA. Use 4-5 teaching "##" sections, then "## Frequently Asked Questions", then the CTA "##" last. Every teaching H2 is a real question ("What do you actually say at a Korean cafe counter?") or a concrete task. Never "Understanding the Basics", never "Conclusion", never a label like "Table of Situations and Phrases" — put the markdown table and the numbered step list INSIDE a teaching section, under its "##", with NO heading of their own (not "##", not "###") introducing them.
-5. Each "##" section runs 80-140 words and must carry material found nowhere else in the post. Write in short, scannable paragraphs of 1-3 sentences — a reader skimming on a phone should be able to grab the point without reading every word. A section that only restates a phrase already taught is a failed section: delete it and write a different one.
+4. HARD LIMIT: at most 6 "##" headings in the whole file, counting the CTA. Use 3-4 teaching "##" sections, then the CTA "##" last. Do NOT include a Frequently Asked Questions section — FAQ answers just repeat the body and make the post too long for a phone. Every teaching H2 is a real question ("What do you actually say at a Korean cafe counter?") or a concrete task. Never "Understanding the Basics", never "Conclusion", never a label like "Table of Situations and Phrases" — put the markdown table and the numbered step list INSIDE a teaching section, under its "##", with NO heading of their own (not "##", not "###") introducing them.
+5. Each "##" section runs 60-110 words and must carry material found nowhere else in the post. Write in short, scannable paragraphs of 1-3 sentences — a reader skimming on a phone should be able to grab the point without reading every word. A section that only restates a phrase already taught is a failed section: delete it and write a different one.
 6. At least 1 section shows BOTH sides of the exchange. Understanding the reply is the part that actually defeats people, so write it out. An exchange is exactly three lines, in this order, and nothing else — no "Literal:", no "Use it when:", those belong only to the teaching blocks in section C:
 
    You: **한국어** — *romanization* — "English"
@@ -297,25 +295,22 @@ Match the VOICE SAMPLES supplied in the user message: warm, direct, specific, se
    staff member should use a phrase; the reader is the customer, not the staff.
 
 7. At least 1 section carries a "What usually goes wrong" line: the specific mistake a learner makes at this exact moment, and what to do instead.
-8. Never use the same Korean phrase in more than two places in the whole post. A row in the table counts as one of those two. Do not restate FAQ answers in the body or body content in the FAQ.
+8. Never use the same Korean phrase in more than two places in the whole post. A row in the table counts as one of those two.
 9. Every section stands alone: repeat the entity names ("SULSUL", "Korean", the situation) instead of "it / this / that" across sections.
 10. Include exactly ONE markdown TABLE with AT MOST 2 columns and AT MOST 5 rows (e.g. situation -> phrase, or Korean -> English meaning). Every cell is short — one phrase or a few words, never a full sentence, never a third column — so it renders cleanly on a phone screen without breaking. Every Korean phrase in the table still gets its *italic romanization* inside the same cell, right after the phrase — a table cell is not exempt from the romanization rule.
 11. Include one numbered step-by-step section, 3-5 steps, each step ONE short sentence starting with a verb, written so it could be lifted as a HowTo.
-12. FAQ section near the end: "## Frequently Asked Questions", then 3-4 questions as "###". Each answer 30-50 words, self-contained, phrased the way people actually ask an AI. The FAQ contains questions ONLY. Nothing else may sit under a "###" after this point.
-13. CTA block LAST, using the template in section E. Its heading is "##", never "###", or it merges into the FAQ.
-14. Length 550-800 English WORDS. Longer is not better: a reader on a phone abandons a wall of text. Cut ruthlessly — every sentence must teach something new — instead of padding with a restated phrase, an inflated sentence, or an extra FAQ item.
-15. Add THREE to FOUR inline Markdown images, spaced roughly every 100-150 words
+12. Do NOT write an FAQ section. No "## Frequently Asked Questions", no "###" question blocks. Put the one fact a reader would ask into the teaching sections instead.
+13. CTA block LAST, using the template in section E. Its heading is "##", never "###".
+14. Length 320-650 English WORDS. Longer is not better: a reader on a phone abandons a wall of text. Cut ruthlessly — every sentence must teach something new.
+15. Add TWO to THREE inline Markdown images, spaced through the teaching sections
     so the reader is never far from a visual break. Use only the image paths
     supplied in the user message, never the same one twice, and never the same
     file already used as COVER IMAGE — the cover renders once at the top of the
-    page already, so repeating it in the body wastes one of your three-to-four
-    slots on a photo the reader already saw. Choose images whose description in
-    the brief actually matches the section they sit in — a shopping-boutique
-    photo does not belong next to a restaurant section just because you need an
-    image there. Copy the alt text exactly as given in the brief; do not
-    paraphrase or invent your own, it is describing the real photo, not this
-    paragraph. Mix real-life scenes with speaking-practice screens. Do not put
-    an image before the answer, inside the FAQ, or inside the CTA.
+    page already, so repeating it in the body wastes a slot on a photo the
+    reader already saw. Choose images whose description in the brief actually
+    matches the section they sit in. Copy the alt text exactly as given in the
+    brief. Mix real-life scenes with speaking-practice screens. Do not put an
+    image before the answer or inside the CTA.
 
 ## C. Korean examples — mandatory format
 Teach 5-6 DISTINCT phrases — never the same phrase twice. Fewer, carefully chosen phrases beat many thin ones; pick only what this exact query needs. Every phrase uses exactly this block:
@@ -375,9 +370,7 @@ author:
 category: "one of: Survival Korean | Travel Korean | K-Culture & Language | Speaking Practice | Korean Basics"
 primaryKeyword: "the exact query you targeted"
 keywords: ["4-8 related long-tail queries this post actually answers"]
-faq:
-  - q: "word-for-word identical to an H3 in the FAQ section"
-    a: "word-for-word identical to that answer, plain text, no markdown"
+faq: []
 sources:
   - title: "outlet or site name"
     url: "https://..."
@@ -387,13 +380,13 @@ sources:
 [ ] Title is a query, <=60 chars, no banned phrasing
 [ ] Body has no H1
 [ ] First paragraph works as a standalone 40-60 word answer
-[ ] exactly 1 table (<=2 columns, <=5 rows), >= 1 numbered step list, 3-4 FAQ items
-[ ] frontmatter faq entries match the FAQ section word for word
+[ ] exactly 1 table (<=2 columns, <=5 rows), >= 1 numbered step list, NO FAQ section
+[ ] frontmatter faq is an empty list []
 [ ] Every Korean phrase uses the 4-line block and is natural
-[ ] Every bold Korean phrase, everywhere in the file — opening paragraph, blockquote, exchanges, table cells, FAQ answers — has *italic Revised Romanization* in the same sentence the first time it appears
+[ ] Every bold Korean phrase, everywhere in the file — opening paragraph, blockquote, exchanges, table cells — has *italic Revised Romanization* in the same sentence the first time it appears
 [ ] No banned claim, no invented number, no fabricated URL
 [ ] CTA block is last and links to sulsul.app with the UTM
-[ ] 550-800 words, 3-4 inline images spaced through the post, no wall of text
+[ ] 400-550 words, 2-3 inline images spaced through the post, no wall of text
 """
 
 def read_markdown_files(directory):
@@ -931,27 +924,23 @@ def fix_instructions(reasons):
                 f"- Cut the table down to at most {MAX_TABLE_ROWS} rows. Keep only the "
                 "most useful situations; drop the rest rather than lengthening the table."
             )
+        elif r == "FAQ section present":
+            steps.append(
+                '- Delete the entire "## Frequently Asked Questions" section and '
+                "every ### under it. Put any unique fact into a teaching section "
+                "instead — FAQ just repeats the body."
+            )
         elif r == "CTA is H3 and merges into the FAQ":
             steps.append('- Change the CTA heading from "###" to "##".')
-        elif r.startswith("non-question H3 inside FAQ"):
+        elif r.startswith("non-question H3"):
             steps.append(
-                "- Every \"###\" after the FAQ heading must be a question. Move anything "
-                "else out of the FAQ."
+                '- Remove leftover "###" headings. Teaching content uses "##" only; '
+                "there is no FAQ."
             )
         elif r.startswith("banned phrase"):
             steps.append(f'- Remove this wording entirely: "{r.split(": ", 1)[1]}".')
         elif r == "body contains H1":
             steps.append('- Remove the "# " heading; the site renders the title.')
-        elif r.startswith("missing FAQ") or r.startswith("FAQ H3 count too low"):
-            steps.append(
-                '- End with "## Frequently Asked Questions" holding '
-                f'{MIN_FAQ_H3}-{MAX_FAQ_H3} "###" questions.'
-            )
-        elif r.startswith("FAQ H3 count too high"):
-            steps.append(
-                f"- Cut the FAQ down to {MAX_FAQ_H3} questions. Remove whichever ones "
-                "just restate something already said in the body."
-            )
         elif r.startswith("title too long"):
             steps.append("- Shorten the title to 60 characters or fewer.")
         elif r.startswith("too many sulsul.app"):
@@ -964,7 +953,7 @@ def fix_instructions(reasons):
                 "spaced through the teaching sections rather than clustered together. "
                 "Choose only from the allowed inline-image list in the brief, never the "
                 "same image twice, use a specific descriptive alt text, and keep images "
-                "out of the FAQ and CTA."
+                "out of the CTA."
             )
         elif r.startswith("invalid inline image"):
             steps.append(
@@ -1207,21 +1196,13 @@ def validate_post(text, existing_posts, trend_seed=None):
             reasons.append(f"bracket placeholder in Korean phrase: {m.group(0)[:40]}")
             break
 
-    if "## frequently asked questions" not in lower:
-        reasons.append("missing FAQ section")
+    if "## frequently asked questions" in lower:
+        reasons.append("FAQ section present")
 
-    # Bug fixed 2026-08-03: this used to count every "###" in the whole post
-    # (exchanges, a mis-labelled table section, anything), not just the FAQ's
-    # own questions, so a normal post could be rejected over a number that had
-    # nothing to do with its actual FAQ. Only the text after the FAQ heading —
-    # up to the next "##" — counts.
-    faq_split = re.split(r"(?mi)^##\s+Frequently Asked Questions\s*$", body, maxsplit=1)
-    faq_section = re.split(r"(?m)^##\s+", faq_split[1])[0] if len(faq_split) == 2 else ""
-    faq_h3 = len(re.findall(r"(?m)^###\s+", faq_section))
-    if faq_h3 < MIN_FAQ_H3:
-        reasons.append(f"FAQ H3 count too low: {faq_h3}")
-    elif faq_h3 > MAX_FAQ_H3:
-        reasons.append(f"FAQ H3 count too high: {faq_h3}")
+    # Any leftover ### is almost always a leftover FAQ item — teaching posts
+    # use ## only (plus You:/Them: plain lines).
+    if re.search(r"(?m)^###\s+", body):
+        reasons.append("non-question H3 leftover — posts no longer use FAQ ###")
 
     tables = table_blocks(body)
     if not tables:
@@ -1248,12 +1229,6 @@ def validate_post(text, existing_posts, trend_seed=None):
 
     if re.search(r"(?mi)^###\s+Say it out loud", body):
         reasons.append("CTA is H3 and merges into the FAQ")
-
-    if faq_section:
-        for h3 in re.findall(r"(?m)^###\s+(.+)$", faq_section):
-            if "?" not in h3:
-                reasons.append(f"non-question H3 inside FAQ: {h3[:40]}")
-                break
 
     # Thin posts and good ones repeat a phrase 4-7 times alike; teaching a phrase
     # then using it in an exchange, a table row and an FAQ answer is normal. What

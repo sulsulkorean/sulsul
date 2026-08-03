@@ -13,15 +13,7 @@ author:
 category: "Travel Korean"
 primaryKeyword: "what to say if you lose your wallet in Korea"
 keywords: ["lost wallet Korean phrases", "report lost item in Korean", "Korean travel emergency phrases", "how to ask for help in Korean", "lost and found Korea"]
-faq:
-  - q: "What do I say if I lose my wallet in Korea?"
-    a: "Say 지갑을 잃어버렸어요 (jigabeul ireobeoryeosseoyo), 'I lost my wallet,' then tell staff where you last used it, such as 여기에서 잃어버렸어요 (yeogieseo ireobeoryeosseoyo), 'I lost it here.'"
-  - q: "How do I ask a convenience store or cafe if my wallet was turned in?"
-    a: "Ask 혹시 지갑 들어온 거 있어요? (hoksi jigap deureoon geo isseoyo?), 'Has a wallet possibly been turned in?'"
-  - q: "How do I ask for help in Korean?"
-    a: "Say 도와주세요 (dowajuseyo), 'Please help me,' right after you explain the problem, such as '카드를 잃어버렸어요. 도와주세요,' 'I lost my card. Please help me.'"
-  - q: "What is the emergency number in Korea?"
-    a: "112 reaches the police in Korea. Use it for theft; for a misplaced wallet, ask staff where you last used it first."
+faq: []
 sources: []
 ---
 If you lose your wallet in Korea, say **지갑을 잃어버렸어요** (*jigabeul ireobeoryeosseoyo*), "I lost my wallet," to the nearest staff member, then name where you last used it. Adding **여기에서 잃어버렸어요** (*yeogieseo ireobeoryeosseoyo*), "I lost it here," gives staff something to act on.
@@ -42,8 +34,6 @@ Them: **어디에서 잃어버렸어요?** — *eodieseo ireobeoryeosseoyo?* —
 You: **계산할 때 여기에서 봤어요.** — *gyesanhal ttae yeogieseo bwasseoyo.* — "I saw it here when I paid."
 
 What usually goes wrong: travelers open with a full backstory before saying what's actually missing. Lead with the loss itself; details come after.
-
-![SULSUL web app screen showing a Korean phrase card with a microphone icon for voice practice](/assets/blog/covers/app-screen-3.png)
 
 ## Ask the Last Place You Used It
 
@@ -81,24 +71,6 @@ You: **네, 맞아요! 감사합니다.** — *ne, majayo! gamsahamnida.* — "Y
 5. Call **112** only for an urgent situation, such as suspected theft.
 
 A note from Yona: what gets a wallet found is a short sentence, said fast to the right person.
-
-## Frequently Asked Questions
-
-### What do I say if I lose my wallet in Korea?
-
-Say **지갑을 잃어버렸어요** (*jigabeul ireobeoryeosseoyo*), "I lost my wallet," then tell staff where you last used it, such as **여기에서 잃어버렸어요** (*yeogieseo ireobeoryeosseoyo*), "I lost it here."
-
-### How do I ask a convenience store or cafe if my wallet was turned in?
-
-Ask **혹시 지갑 들어온 거 있어요?** (*hoksi jigap deureoon geo isseoyo?*), "Has a wallet possibly been turned in?"
-
-### How do I ask for help in Korean?
-
-Say **도와주세요** (*dowajuseyo*), "Please help me," right after you explain the problem, such as "카드를 잃어버렸어요. 도와주세요," "I lost my card. Please help me."
-
-### What is the emergency number in Korea?
-
-**112** reaches the police in Korea. Use it for theft; for a misplaced wallet, ask staff where you last used it first.
 
 ## Say it out loud, not just in your head
 

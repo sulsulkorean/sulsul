@@ -13,15 +13,7 @@ author:
 category: "K-Culture & Language"
 primaryKeyword: "How to greet someone in different Korean politeness levels"
 keywords: ["Korean greetings", "politeness levels in Korean", "Korean formal and informal greetings", "greet in Korean", "Korean language politeness", "haeyoche vs hapsyoche"]
-faq:
-  - q: "What are the different levels of politeness in Korean greetings?"
-    a: "Beginners mainly meet casual haeche, everyday polite haeyoche, and formal polite hapsyoche. The right choice depends on the relationship and the setting, not on age alone."
-  - q: "How do you greet a friend in Korean?"
-    a: "With a close friend who already uses casual speech with you, 'annyeong' is a natural 'Hi.' If the friendship is new, keep the everyday polite greeting instead."
-  - q: "What is the formal way to greet someone in Korean?"
-    a: "'Annyeonghasimnikka' is hapsyoche, formal polite speech. It suits ceremonies, broadcasts, speeches, and deliberately formal introductions, not every conversation with an older coworker."
-  - q: "How do you greet someone politely in Korean?"
-    a: "Use 'annyeonghaseyo' for most everyday interactions with unfamiliar adults, service staff, neighbors, and acquaintances. It is the safe default when you are unsure."
+faq: []
 sources: []
 ---
 To greet someone in Korean, match the level to the relationship. Use **안녕하세요** (*annyeonghaseyo*) with most adults you don't know well, casual **안녕** (*annyeong*) only with close friends, and formal **안녕하십니까** (*annyeonghasimnikka*) for ceremonies or broadcasts. **해요체** (*haeyoche*) is the safe default when you're unsure which one fits.
@@ -75,24 +67,6 @@ The most common mistake is switching to **안녕** with someone your own age jus
 Watch for **오빠**, **언니**, **형**, and **누나** too: they depend on gender, relative age, and an accepted relationship, so a name or title like **선생님** (*seonsaengnim*) is safer at first.
 
 ![SULSUL web app screen showing a Korean phrase card with a microphone icon for voice practice](/assets/blog/covers/app-screen-3.png)
-
-## Frequently Asked Questions
-
-### What are the different levels of politeness in Korean greetings?
-
-Beginners mainly meet casual **해체**, everyday polite **해요체**, and formal polite **합쇼체**. The right choice depends on the relationship and the setting, not on age alone.
-
-### How do you greet a friend in Korean?
-
-With a close friend who already uses casual speech with you, **안녕** is a natural "Hi." If the friendship is new, keep the everyday polite greeting instead.
-
-### What is the formal way to greet someone in Korean?
-
-**안녕하십니까** is **합쇼체**, formal polite speech. It suits ceremonies, broadcasts, speeches, and deliberately formal introductions, not every conversation with an older coworker.
-
-### How do you greet someone politely in Korean?
-
-Use **안녕하세요** for most everyday interactions with unfamiliar adults, service staff, neighbors, and acquaintances. It is the safe default when you are unsure.
 
 ## Say it out loud, not just in your head
 

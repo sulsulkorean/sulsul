@@ -13,13 +13,7 @@ author:
 category: "Survival Korean"
 primaryKeyword: "What to say when buying clothes in Korea"
 keywords: ["buying clothes in Korean", "Korean shopping phrases", "clothing store Korean phrases", "Korean phrases for shopping"]
-faq:
-  - q: "What should I say when I want to try on clothes in Korea?"
-    a: "Ask 입어 봐도 돼요? (ibeo bwado dwaeyo?), meaning Can I try it on? If staff point you to a fitting room, follow their lead instead of inventing a longer sentence."
-  - q: "How do I ask for a different size in Korean?"
-    a: "Say 다른 사이즈 있어요? (dareun saijeu isseoyo?), Do you have another size? Or be specific: 이 사이즈로 있어요? (i saijeuro isseoyo?), Do you have this in this size?"
-  - q: "How do I say I am just looking in Korean?"
-    a: "Say 그냥 구경하고 있어요 (geunyang gugyeonghago isseoyo), I'm just browsing. It politely answers staff who ask if you are looking for something."
+faq: []
 sources: []
 ---
 When buying clothes in Korea, start with **이거 얼마예요?** (*igeo eolmayeyo?*), "How much is this?," and ask if you can try items on with **입어 봐도 돼요?** (*ibeo bwado dwaeyo?*). Add **다른 사이즈 있어요?** (*dareun saijeu isseoyo?*) when you need another size. These three lines cover browsing, fitting, and price without a long speech.
@@ -72,20 +66,6 @@ If you need a bag, ask **봉투 주세요** (*bongtu juseyo*), "A bag, please." 
 3. Ask the try-on question before entering the fitting room.
 4. Ask for another size if the first one does not fit.
 5. Pay with **카드로 할게요**.
-
-## Frequently Asked Questions
-
-### What should I say when I want to try on clothes in Korea?
-
-Ask **입어 봐도 돼요?**, meaning "Can I try it on?" If staff point you to a fitting room, follow their lead instead of inventing a longer sentence.
-
-### How do I ask for a different size in Korean?
-
-Ask for another size, or be specific: **이 사이즈로 있어요?**, "Do you have this in this size?"
-
-### How do I say I am just looking in Korean?
-
-Say **그냥 구경하고 있어요**, "I'm just browsing." It politely answers staff who ask if you are looking for something.
 
 ## Say it out loud, not just in your head
 

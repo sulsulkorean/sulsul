@@ -69,6 +69,12 @@
   color: #FE64AB;
 }
 
+/* Korean example phrases are bolded in posts — same brand pink as the CTA link */
+.markdown strong {
+  color: #d1226e;
+  font-weight: 700;
+}
+
 @media (max-width: 640px) {
   .markdown img {
     @apply my-8 rounded-xl;

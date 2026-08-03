@@ -13,15 +13,7 @@ author:
 category: "Travel Korean"
 primaryKeyword: "how to check into a hotel in Korean"
 keywords: ["Korean hotel check-in phrases", "hotel check-in Korean language", "Korean travel phrases", "hotel reservation Korean", "Korean phrases for travelers"]
-faq:
-  - q: "What do I say to check into a hotel in Korean?"
-    a: "Say 체크인하려고 왔어요 (chekeuinharyeogo wasseoyo), 'I'm here to check in.' Have your booking confirmation ready for the name check that follows."
-  - q: "How do I ask for my room number in Korean?"
-    a: "Ask 제 방 번호가 몇 번이에요? (je bang beonhoga myeot beonieyo?), 'What is my room number?' Repeat the number back as a question to confirm it."
-  - q: "What if I don't understand the receptionist?"
-    a: "Say 다시 말씀해 주세요 (dasi malsseumhae juseyo), 'Please say that again,' or 천천히 말씀해 주세요 (cheoncheonhi malsseumhae juseyo), 'Please speak slowly.'"
-  - q: "How do I report a problem with my hotel room in Korean?"
-    a: "Say 방에 문제가 있어요 (bange munjega isseoyo), 'There's a problem with the room,' then name the issue, such as the air conditioner not working."
+faq: []
 sources: []
 ---
 To check into a hotel in Korean, walk up to the desk and say **체크인하려고 왔어요** (*chekeuinharyeogo wasseoyo*), "I'm here to check in." The receptionist then asks your reservation name, hands over a room card, and states the checkout time — catching that reply matters as much as the opening line.
@@ -42,8 +34,6 @@ Them: **신분증 좀 보여 주시겠어요?** — *sinbunjeung jom boyeo jusig
 You: **네, 여기 있어요.** — *ne, yeogi isseoyo.* — "Yes, here it is."
 
 Hand over whichever ID your booking confirmation actually lists — requirements differ by hotel.
-
-![SULSUL web app screen showing a Korean phrase card with a microphone icon for voice practice](/assets/blog/covers/app-screen-3.png)
 
 ## Ask About Your Room, Wi-Fi, and Breakfast
 
@@ -80,24 +70,6 @@ Report it right away, not at checkout, and someone is sent up the same day.
 5. Close with **감사합니다** (*gamsahamnida*), "Thank you."
 
 A note from Yona: guests usually memorize the opening line, then freeze at the receptionist's reply — that reply is the half worth rehearsing.
-
-## Frequently Asked Questions
-
-### What do I say to check into a hotel in Korean?
-
-Say **체크인하려고 왔어요** (*chekeuinharyeogo wasseoyo*), "I'm here to check in." Have your booking confirmation ready for the name check that follows.
-
-### How do I ask for my room number in Korean?
-
-Ask **제 방 번호가 몇 번이에요?** (*je bang beonhoga myeot beonieyo?*), "What is my room number?" Repeat the number back as a question to confirm it.
-
-### What if I don't understand the receptionist?
-
-Say **다시 말씀해 주세요** (*dasi malsseumhae juseyo*), "Please say that again," or **천천히 말씀해 주세요** (*cheoncheonhi malsseumhae juseyo*), "Please speak slowly."
-
-### How do I report a problem with my hotel room in Korean?
-
-Say **방에 문제가 있어요** (*bange munjega isseoyo*), "There's a problem with the room," then name the issue, such as the air conditioner not working.
 
 ## Say it out loud, not just in your head
 

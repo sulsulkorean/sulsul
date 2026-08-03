@@ -13,15 +13,7 @@ author:
 category: "Survival Korean"
 primaryKeyword: "Korean phrases for bargaining in markets"
 keywords: ["how to bargain in Korean", "Korean market phrases", "asking for a lower price in Korean", "fixed price in Korean", "Korean shopping phrases"]
-faq:
-  - q: "What Korean phrase do I use to ask for a lower price?"
-    a: "Where a seller has signaled flexibility, ask 조금 깎아 주실 수 있어요? (jogeum kkakka jusil su isseoyo?), 'Could you lower the price a little?' Ask once, then accept the answer."
-  - q: "Can you bargain at every market in Korea?"
-    a: "No. Treat posted prices as fixed unless a seller indicates a lower price or bundle is available. Many market stalls use fixed prices."
-  - q: "How do I ask if a price is fixed in Korean?"
-    a: "Ask 정찰제예요? (jeongchaljeyeyo?), 'Is it fixed-price?' If yes, treat the number on the tag as final."
-  - q: "What do I say if the seller says no to a lower price?"
-    a: "Say 알겠습니다 (algetseumnida), 'I understand,' then pay the stated price or say 생각해 볼게요 (saenggakhae bolgeyo), 'I'll think about it.'"
+faq: []
 sources: []
 ---
 Korean phrases for bargaining in markets start with **이거 얼마예요?** (*igeo eolmayeyo?*), "How much is this?" A lower price is only worth asking when a seller signals flexibility — most Korean shops, market stalls included, run on fixed prices.
@@ -42,8 +34,6 @@ Them: **만 오천 원이에요. 정찰제예요.** — *man ocheon wonieyo. jeo
 You: **알겠습니다.** — *algetseumnida.* — "I understand."
 
 What usually goes wrong: learners keep pushing after hearing **정찰제예요** (*jeongchaljeyeyo*). That answer ends it — accepting it politely is correct, not weaker.
-
-![SULSUL web app screen showing a Korean phrase card with a microphone icon for voice practice](/assets/blog/covers/app-screen-3.png)
 
 ## Ask Once, Only Where the Seller Signals Room
 
@@ -83,24 +73,6 @@ If the price doesn't work, close with **생각해 볼게요** (*saenggakhae bolg
 4. Accept the answer with **감사합니다** (*gamsahamnida*) or **생각해 볼게요**.
 
 A note from Yona: the useful skill isn't a lower number — it's asking once and recognizing a fixed-price answer.
-
-## Frequently Asked Questions
-
-### What Korean phrase do I use to ask for a lower price?
-
-Where a seller has signaled flexibility, ask **조금 깎아 주실 수 있어요?** (*jogeum kkakka jusil su isseoyo?*), "Could you lower the price a little?" Ask once, then accept the answer.
-
-### Can you bargain at every market in Korea?
-
-No. Treat posted prices as fixed unless a seller indicates a lower price or bundle is available. Many market stalls use fixed prices.
-
-### How do I ask if a price is fixed in Korean?
-
-Ask **정찰제예요?** (*jeongchaljeyeyo?*), "Is it fixed-price?" If yes, treat the number on the tag as final.
-
-### What do I say if the seller says no to a lower price?
-
-Say **알겠습니다** (*algetseumnida*), "I understand," then pay the stated price or say **생각해 볼게요** (*saenggakhae bolgeyo*), "I'll think about it."
 
 ## Say it out loud, not just in your head
 

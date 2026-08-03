@@ -13,15 +13,7 @@ author:
 category: "Travel Korean"
 primaryKeyword: "What to say when ordering coffee in Korean"
 keywords: ["ordering coffee in Korean", "Korean cafe phrases", "how to order in Korean", "Korean phrases for ordering", "Korean speaking practice"]
-faq:
-  - q: "How do I order a latte in Korean?"
-    a: "Say 라테 한 잔 주세요 (rate han jan juseyo), One latte, please. Menus also print 라떼 — both spellings are understood at any Korean cafe counter."
-  - q: "How do I say my coffee is to go?"
-    a: "Say 가지고 갈게요 (gajigo galgeyo), I'll take it to go. 테이크아웃 할게요 (teikeuaut halgeyo) is another common, clear option baristas hear constantly."
-  - q: "How do I ask what the barista recommends?"
-    a: "Ask 뭐가 맛있어요? (mwoga masisseoyo?), literally What is delicious?, which naturally means What is good here? Baristas will point to a seasonal or popular drink."
-  - q: "What if I do not understand the barista?"
-    a: "Say 죄송하지만 다시 말씀해 주세요 (joesonghajiman dasi malsseumhae juseyo), Sorry, please say that again. Add 천천히 말씀해 주세요 to ask them to slow down."
+faq: []
 sources: []
 ---
 To order coffee in Korean, name the drink and add **주세요** (*juseyo*), "please give me." **아메리카노 한 잔 주세요** (*amerikano han jan juseyo*) means "One Americano, please." Answer temperature, size, and for-here/to-go with one short phrase each.
@@ -72,24 +64,6 @@ A common mistake is answering the size question before the temperature question 
 Ask first, then request the change. **두유로 바꿀 수 있어요?** (*duyuro bakkul su isseoyo?*) means "Can you change it to soy milk?" If they say yes, follow with **두유로 바꿔 주세요** (*duyuro bakkwo juseyo*).
 
 For an allergy, ask **우유가 들어가요?** (*uyuga deureogayo?*), "Does it contain milk?" so staff can check the recipe instead of guessing.
-
-## Frequently Asked Questions
-
-### How do I order a latte in Korean?
-
-Say **라테 한 잔 주세요** (*rate han jan juseyo*), "One latte, please." Menus also print **라떼** — both spellings are understood at any Korean cafe counter.
-
-### How do I say my coffee is to go?
-
-Say **가지고 갈게요** (*gajigo galgeyo*), "I'll take it to go." **테이크아웃 할게요** (*teikeuaut halgeyo*) is another common, clear option baristas hear constantly.
-
-### How do I ask what the barista recommends?
-
-Ask **뭐가 맛있어요?** (*mwoga masisseoyo?*), literally "What is delicious?", which naturally means "What is good here?" Baristas will point to a seasonal or popular drink.
-
-### What if I do not understand the barista?
-
-Say **죄송하지만 다시 말씀해 주세요** (*joesonghajiman dasi malsseumhae juseyo*), "Sorry, please say that again." Add **천천히 말씀해 주세요** (*cheoncheonhi malsseumhae juseyo*) to ask them to slow down.
 
 ## Say it out loud, not just in your head
 
