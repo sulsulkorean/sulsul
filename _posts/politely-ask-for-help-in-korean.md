@@ -1,134 +1,98 @@
 ---
 title: "How to Politely Ask for Help in Korean"
-excerpt: "To ask for help in Korean, use '도와주세요' for 'Please help me.' It's a polite way to request assistance. Learn more phrases to navigate daily situations."
+excerpt: "To politely ask for help in Korean, say '도와주세요' (dowajuseyo), 'Please help me,' then name the exact problem so a stranger knows how to respond."
 slug: "politely-ask-for-help-in-korean"
 date: "2026-08-02T16:57:39.000Z"
-updated: "2026-08-02T16:57:39.000Z"
-coverImage: "/assets/blog/covers/app-screen-1.png"
+updated: "2026-08-04T00:00:00.000Z"
+coverImage: "/assets/blog/covers/app-screen-2.png"
 ogImage:
-  url: "/assets/blog/covers/app-screen-1.png"
+  url: "/assets/blog/covers/app-screen-2.png"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
 category: "Survival Korean"
 primaryKeyword: "How to politely ask for help in Korean"
-keywords: ["Korean help phrases", "asking for assistance in Korean", "polite Korean requests", "Korean survival phrases", "Korean for beginners", "Korean speaking practice"]
+keywords: ["Korean help phrases", "asking for assistance in Korean", "polite Korean requests", "Korean survival phrases", "Korean speaking practice"]
 faq:
-  - q: "What is the phrase for 'Please help me' in Korean?"
-    a: "도와주세요 (dowajuseyo) means 'Please help me.' When possible, add the specific problem so the listener knows what you need."
-  - q: "How do you ask for directions politely in Korean?"
-    a: "Ask 실례합니다. 이 주소가 어디예요? (Sillyehamnida. I jusoga eodiyeyo?), meaning 'Excuse me. Where is this address?'"
-  - q: "What should I say if I didn't understand something in Korean?"
-    a: "잘 모르겠어요 (jal moreugesseoyo) means 'I'm not sure' or 'I don't really understand,' depending on context."
-  - q: "How do I ask someone to repeat something in Korean?"
-    a: "You can ask them to repeat by saying '다시 한 번 말씀해 주세요' (dasi han beon malsseumhae juseyo), meaning 'Please say it again.'"
+  - q: "What is the most common way to say please help me in Korean?"
+    a: "Say 도와주세요 (dowajuseyo). It is polite haeyoche and works with any stranger. Add the specific problem right after it so the listener knows what kind of help you actually need."
+  - q: "How do I politely ask a stranger for directions?"
+    a: "Open with 실례합니다 (sillyehamnida), Excuse me, then show your destination and ask 이 주소가 어디예요? (i jusoga eodiyeyo?), Where is this address? A specific question is easier to answer than a general one."
+  - q: "What should I say if I do not understand the reply?"
+    a: "Say 잘 모르겠어요 (jal moreugesseoyo), I do not understand. Follow it with 천천히 말씀해 주세요 (cheoncheonhi malsseumhae juseyo), Please speak slowly, or 다시 한번 말씀해 주세요 for a repeat."
+sources: []
 ---
-The direct Korean for "Please help me" is **도와주세요** (*dowajuseyo*). It is polite **해요체** (*haeyoche*) and useful when the need is obvious or urgent. In an ordinary store, station, or restaurant, however, a specific request is easier to answer: "Please show me this address," "Could you say that slowly?" or "I'm looking for this item."
+To politely ask for help in Korean, say **도와주세요** (*dowajuseyo*), "please help me," in a level tone. It is polite **해요체** (*haeyoche*) and works with any stranger. Strangers answer fastest when you follow it with the exact problem — a lost item, an unclear address, a word you missed — instead of the bare phrase alone.
 
-A reliable beginner pattern is:
+> - Open with **실례합니다** (*sillyehamnida*), "Excuse me," before interrupting a stranger.
+> - Say **도움이 필요해요** (*doumi piryohaeyo*), "I need help," when you don't have time to explain more.
+> - If you can't follow the reply, say **천천히 말씀해 주세요** (*cheoncheonhi malsseumhae juseyo*), "Please speak slowly."
+> - For a real emergency, **경찰을 불러 주세요** (*gyeongchareul bulleo juseyo*), "Please call the police," is direct on purpose.
 
-**실례합니다. + problem or request + 주세요/어디예요? + 감사합니다.**  
-*Sillyehamnida. + problem or request + juseyo/eodiyeyo? + gamsahamnida.*  
-"Excuse me. + [request] + please/where is it? + Thank you."
+![SULSUL mascot Sulsuli waving hello, with the tagline Don't freeze in Seoul, speak Korean for real](/assets/blog/covers/app-screen-1.png)
 
-This opening politely gets a stranger's attention. It signals that you recognize the interruption. You do not need to deliver the whole pattern perfectly; a clear noun, a polite ending, and a map or photo can do a great deal of work.
+## How do you ask a stranger for directions?
 
-## Core help phrases
-
-| Need | Korean | Revised Romanization | Natural English |
-|---|---|---|---|
-| General help | **도와주세요.** | *dowajuseyo.* | "Please help me." |
-| Explaining a need | **도움이 필요해요.** | *doumi piryohaeyo.* | "I need help." |
-| Getting attention | **실례합니다.** | *sillyehamnida.* | "Excuse me." |
-| Finding a place | **이 주소가 어디예요?** | *i jusoga eodiyeyo?* | "Where is this address?" |
-| Asking someone to show you | **지도에서 보여 주세요.** | *jidoeseo boyeo juseyo.* | "Please show me on the map." |
-| Asking for repetition | **다시 한 번 말씀해 주세요.** | *dasi han beon malsseumhae juseyo.* | "Please say that once more." |
-| Asking for slower speech | **천천히 말씀해 주세요.** | *cheoncheonhi malsseumhae juseyo.* | "Please speak slowly." |
-| Saying you are unsure | **잘 모르겠어요.** | *jal moreugesseoyo.* | "I'm not sure." / "I don't really understand." |
-| Looking for an item | **이 제품을 찾고 있어요.** | *i jepumeul chatgo isseoyo.* | "I'm looking for this product." |
-| Asking availability | **이거 있어요?** | *igeo isseoyo?* | "Do you have this?" |
-| Asking permission | **여기 앉아도 돼요?** | *yeogi anjado dwaeyo?* | "May I sit here?" |
-| Asking for a charger | **충전기 좀 빌릴 수 있어요?** | *chungjeongi jom billil su isseoyo?* | "Could I borrow a charger?" |
-| Reporting a loss | **지갑을 잃어버렸어요.** | *jigabeul ireobeoryeosseoyo.* | "I lost my wallet." |
-| Thanking formally | **감사합니다.** | *gamsahamnida.* | "Thank you." |
-
-The small word **좀** (*jom*) literally means "a little," but in requests it can soften the sentence. It does not make every command polite by itself. The ending and tone still matter. **-아/어 주세요** asks someone to do an action for you; **-(으)ㄹ 수 있어요?** asks whether something is possible and often sounds less direct.
-
-![Traveler checking directions on a Korean subway platform](/assets/blog/scenes/transport.jpg)
-
-## Asking for directions without getting lost in the answer
-
-Instead of the broad **길 좀 가르쳐 주세요** (*gil jom gareuchyeo juseyo*), "Please tell me the way," show a destination and ask a focused question. This reduces the Korean you need to understand.
+Show your destination on your phone rather than describing it from memory — a name or address travels better than a guess at pronunciation.
 
 You: **실례합니다. 이 주소가 어디예요?** — *sillyehamnida. i jusoga eodiyeyo?* — "Excuse me. Where is this address?"  
 Them: **여기서 오른쪽으로 가세요.** — *yeogiseo oreunjjogeuro gaseyo.* — "Go right from here."  
-You: **지도에서 보여 주세요.** — *jidoeseo boyeo juseyo.* — "Please show me on the map."
+You: **감사합니다.** — *gamsahamnida.* — "Thank you."
 
-Listen for **오른쪽** (*oreunjjok*, "right"), **왼쪽** (*oenjjok*, "left"), **직진** (*jikjin*, "straight ahead"), and **건너편** (*geonneopyeon*, "the opposite side"). If the explanation becomes too fast, ask **천천히 말씀해 주세요**. **말씀** is the honorific noun for speech, making the request respectful toward the listener.
+Naming the address, not the route, is what makes this exchange short. A passerby can point at one thing far more easily than they can narrate several turns to someone who might not follow.
 
-## Getting help in a shop
+![Turnstiles and platform signage at a Seoul subway station](/assets/blog/scenes/transport.jpg)
 
-Staff interactions normally use polite or formal speech. You can point to a photo rather than guessing a product's Korean name.
+## What do you say when you can't follow the answer?
 
-You: **이 제품을 찾고 있어요.** — *i jepumeul chatgo isseoyo.* — "I'm looking for this product."  
-Them: **지금은 품절이에요.** — *jigeumeun pumjeorieyo.* — "It's sold out right now."  
-You: **비슷한 제품 있어요?** — *biseuthan jepum isseoyo?* — "Do you have a similar product?"
+A fast reply in Korean is the part that actually defeats most learners, not the asking. Handle it in one line instead of guessing.
 
-This exchange is more useful than jumping straight to **얼마예요?** (*eolmayeyo?*, "How much is it?") when the real problem is finding an alternative. At a clothing shop, **입어 봐도 돼요?** (*ibeo bwado dwaeyo?*) asks, "May I try it on?" At a convenience store, **봉투 주세요** (*bongtu juseyo*) means "A bag, please."
+You: **죄송하지만 잘 모르겠어요.** — *joesonghajiman jal moreugesseoyo.* — "I'm sorry, but I don't understand."  
+Them: **영어 할 줄 아세요?** — *yeongeo hal jul aseyo?* — "Do you know English?"  
+You: **아니요, 다시 한번 말씀해 주세요.** — *aniyo, dasi hanbeon malsseumhae juseyo.* — "No, please say that once more."
 
-## Repairing a communication breakdown
+**잘 모르겠어요** (*jal moreugesseoyo*) admits confusion without pretending; **다시 한번 말씀해 주세요** (*dasi hanbeon malsseumhae juseyo*) asks for a specific repeat, which is easier to act on than a blank stare.
 
-You do not have to pretend you understood. A short repair phrase keeps the conversation moving and is more precise than repeating "Korean is difficult."
+## What can you say when you lose something?
 
-You: **죄송하지만 잘 모르겠어요.** — *joesonghajiman jal moreugesseoyo.* — "I'm sorry, but I don't really understand."  
-Them: **영어로 설명해 드릴까요?** — *yeongeoro seolmyeonghae deurilkkayo?* — "Shall I explain it in English?"  
-You: **네, 가능하면 부탁드려요.** — *ne, ganeunghamyeon butakdeuryeoyo.* — "Yes, if possible, please."
+Name the item and the fact plainly — **지갑을 잃어버렸어요** (*jigabeul ireobeoryeosseoyo*), "I lost my wallet," gives staff something concrete to act on immediately.
 
-**부탁드려요** (*butakdeuryeoyo*) is a deferential way to say "I ask this favor of you." It works when the requested action is already clear. It is not a complete substitute for explaining what you need.
+| Situation | Say this |
+|---|---|
+| Get attention | 실례합니다 (*sillyehamnida*) |
+| Name a lost item | 지갑을 잃어버렸어요 (*jigabeul ireobeoryeosseoyo*) |
+| Ask where to go | 분실물 센터가 어디예요? (*bunsilmul senteoga eodiyeyo?*) |
+| Ask for slower speech | 천천히 말씀해 주세요 (*cheoncheonhi malsseumhae juseyo*) |
+| Call for real danger | 경찰을 불러 주세요 (*gyeongchareul bulleo juseyo*) |
 
-![SULSUL mobile lesson screen for practicing polite requests](/assets/blog/covers/app-screen-1.png)
+Follow the table top to bottom in an actual loss: get attention first, then name the item, then ask where to go. Skipping straight to the last row leaves the listener without context.
 
-## Urgent help and ordinary requests are different
+![SULSUL web app screen showing a Korean phrase card with a microphone icon for voice practice](/assets/blog/covers/app-screen-3.png)
 
-If you are in immediate danger, **도와주세요!** said loudly is appropriate. For police, say **경찰을 불러 주세요** (*gyeongchareul bulleo juseyo*), "Please call the police." For a medical emergency, **구급차를 불러 주세요** (*gugeupchareul bulleo juseyo*) means "Please call an ambulance." These are direct because speed matters.
+## Why does 도와줘 sound wrong to a stranger?
 
-For a routine favor, avoid the casual **도와줘** (*dowajwo*) with strangers. It is **해체** (*haeche*), suitable for close relationships when casual speech has been established. Also avoid assuming that adding **안녕하세요** before an unclear request will make it easy to answer. State the concrete need, show supporting information, and confirm the next step.
+The casual **도와줘** (*dowajwo*) drops the polite ending, and Korean speakers notice a dropped ending faster than a foreign accent. It's **해체**, reserved for close friends and family who already speak casually with each other.
 
-No phrase guarantees that a passerby can help. They may not know the place, have the item, or have time. **잘 모르겠어요** from the other person can simply mean "I'm not sure." A polite close such as **네, 감사합니다** (*ne, gamsahamnida*), "Okay, thank you," lets both people move on comfortably.
+With any stranger, staff member, or older person, use **도와주세요** instead. If the favor is bigger than a quick word — someone changed their plans for you — say **부탁드려요** (*butakdeuryeoyo*), "I ask this favor of you," which sounds noticeably more grateful than a plain thank-you.
 
-## A step-by-step request you can build
+## Frequently Asked Questions
 
-1. **Get attention:** Use the polite attention-getter introduced above in a normal voice.
-2. **Name the problem:** Use a short sentence such as **지갑을 잃어버렸어요**, "I lost my wallet."
-3. **Make one clear request:** Try **분실물 센터가 어디예요?** (*bunsilmul senteoga eodiyeyo?*), "Where is the lost-and-found?"
-4. **Repair if needed:** Ask **다시 한 번 말씀해 주세요** or show a translated sentence.
-5. **Confirm the answer:** Point and ask **이쪽이에요?** (*ijjogieyo?*), "Is it this way?"
-6. **Close politely:** Say **감사합니다** after the interaction.
+### What is the most common way to say please help me in Korean?
 
-## Frequently asked questions
-
-### What is the phrase for "Please help me" in Korean?
-
-Use **도와주세요** (*dowajuseyo*). It is polite and direct. If the situation is not urgent, follow it with the problem or replace it with a more specific request.
+Say **도와주세요** (*dowajuseyo*). It is polite **해요체** and works with any stranger. Add the specific problem right after it so the listener knows what kind of help you actually need.
 
 ### How do I politely ask a stranger for directions?
 
-Begin with **실례합니다**, then show the destination and ask **이 주소가 어디예요?** This is easier for both speakers than requesting a long route explanation without identifying the destination.
+Open with **실례합니다** (*sillyehamnida*), "Excuse me," then show your destination and ask **이 주소가 어디예요?** (*i jusoga eodiyeyo?*), "Where is this address?" A specific question is easier to answer than a general one.
 
-### What can I say when I do not understand?
+### What should I say if I do not understand the reply?
 
-**잘 모르겠어요** means "I'm not sure" or "I don't really understand." To request an action, add **천천히 말씀해 주세요** for slower speech or **다시 한 번 말씀해 주세요** for repetition.
+Say **잘 모르겠어요** (*jal moreugesseoyo*), "I don't understand." Follow it with **천천히 말씀해 주세요** (*cheoncheonhi malsseumhae juseyo*), "Please speak slowly," or **다시 한번 말씀해 주세요** for a repeat.
 
-### Is 도와줘 rude?
+## Say it out loud, not just in your head
 
-It is not inherently rude among close friends or family who use casual speech. With an unfamiliar adult, it is too casual; use **도와주세요**.
+Reading **도와주세요** here is not the same as saying it while a stranger is already waiting for you to finish your sentence.
 
-### Should I use 죄송합니다 or 실례합니다 first?
+SULSUL is a speaking gym for exactly that moment: pick a survival pattern, say it out loud, get an instant fix from the AI pronunciation coach, then run the real situation as a mission. The 100-pattern PDF workbook comes along as a bonus.
 
-Use **실례합니다** to get attention or interrupt politely. **죄송합니다** (*joesonghamnida*) is a formal apology, though speakers also use it before a request when they feel they are inconveniencing someone.
-
-## Practice the whole exchange with SULSUL
-
-Knowing one request helps; handling the reply is what makes it useful. SULSUL lets you say practical patterns aloud, receive pronunciation feedback, and rehearse situation-based missions. Practice all three turns—your request, the likely answer, and your follow-up—before you need them.
-
-**[Start speaking with SULSUL](https://sulsul.app/?utm_source=blog&utm_medium=post&utm_campaign=seo)**
+**[Start speaking with SULSUL here!!](https://sulsul.app/?utm_source=blog&utm_medium=post&utm_campaign=seo)**

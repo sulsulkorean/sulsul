@@ -1,160 +1,108 @@
 ---
-title: "How to Check Into a Hotel in Korean Without Freezing"
-excerpt: "Use a realistic Korean hotel check-in script, understand the receptionist’s questions, and ask clearly about breakfast, luggage, and room details."
+title: "How to Check Into a Hotel in Korean"
+excerpt: "To check into a hotel in Korean, say 체크인하려고 왔어요 (chekeuinharyeogo wasseoyo) at the desk, then give your name and confirm your room and checkout time."
 slug: "check-into-hotel-korean"
 date: "2026-08-02T16:57:39.000Z"
-updated: "2026-08-02T16:57:39.000Z"
-coverImage: "/assets/blog/covers/app-screen-2.png"
+updated: "2026-08-04T00:00:00.000Z"
+coverImage: "/assets/blog/covers/app-screen-1.png"
 ogImage:
-  url: "/assets/blog/covers/app-screen-2.png"
+  url: "/assets/blog/covers/app-screen-1.png"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
 category: "Travel Korean"
-primaryKeyword: "How to check into a hotel in Korean?"
-keywords: ["Korean hotel check-in phrases", "Korean travel survival phrases", "Korean hotel conversation", "hotel check-in Korean language", "check into hotel Korean phrases"]
+primaryKeyword: "how to check into a hotel in Korean"
+keywords: ["Korean hotel check-in phrases", "hotel check-in Korean language", "Korean travel phrases", "hotel reservation Korean", "Korean phrases for travelers"]
 faq:
-  - q: "What should I say to check into a hotel in Korean?"
-    a: "Say '체크인하려고 왔어요' (chekeuinharyeogo wasseoyo), meaning 'I'm here to check in.'"
-  - q: "How do I ask what my room number is?"
-    a: "After the receptionist finds your reservation, ask '제 방 번호가 몇 번이에요?' (je bang beonhoga myeot beonieyo?), meaning 'What is my room number?'"
-  - q: "What if I do not understand the receptionist?"
-    a: "Say '다시 말씀해 주세요' (dasi malsseumhae juseyo), meaning 'Please say that again.'"
-  - q: "How do I ask whether late checkout is available?"
-    a: "Ask '늦게 체크아웃할 수 있어요?' (neutge chekeuauthal su isseoyo?), meaning 'Can I check out late?'"
+  - q: "What do I say to check into a hotel in Korean?"
+    a: "Say 체크인하려고 왔어요 (chekeuinharyeogo wasseoyo), 'I'm here to check in.' Have your booking confirmation ready for the name check that follows."
+  - q: "How do I ask for my room number in Korean?"
+    a: "Ask 제 방 번호가 몇 번이에요? (je bang beonhoga myeot beonieyo?), 'What is my room number?' Repeat the number back as a question to confirm it."
+  - q: "What if I don't understand the receptionist?"
+    a: "Say 다시 말씀해 주세요 (dasi malsseumhae juseyo), 'Please say that again,' or 천천히 말씀해 주세요 (cheoncheonhi malsseumhae juseyo), 'Please speak slowly.'"
+  - q: "How do I report a problem with my hotel room in Korean?"
+    a: "Say 방에 문제가 있어요 (bange munjega isseoyo), 'There's a problem with the room,' then name the issue, such as the air conditioner not working."
+sources: []
 ---
-To check into a hotel in Korean, walk up to the front desk and say **안녕하세요. 체크인하려고 왔어요** (*annyeonghaseyo. chekeuinharyeogo wasseoyo*), “Hello. I’m here to check in.” The receptionist will normally confirm whether you have a reservation, ask for the reservation name or identification, and explain the room, breakfast, and checkout details.
+To check into a hotel in Korean, walk up to the desk and say **체크인하려고 왔어요** (*chekeuinharyeogo wasseoyo*), "I'm here to check in." The receptionist then asks your reservation name, hands over a room card, and states the checkout time — catching that reply matters as much as the opening line.
 
-The essential skill is knowing which person would say each line. **제 방 번호가 몇 번이에요?** (*je bang beonhoga myeot beonieyo?*), “What is my room number?”, is a guest’s question after the booking has been found—not a receptionist’s reply. The dialogues below preserve those roles and follow the order of a real check-in.
+> - Open with **체크인하려고 왔어요** (*chekeuinharyeogo wasseoyo*), "I'm here to check in," as soon as you reach the desk.
+> - Answer **예약하셨나요?** (*yeyakhasyeonnayo?*), "Do you have a reservation?" with **네, 예약했어요** (*ne, yeyakhaesseoyo*), "Yes, I made a reservation."
+> - Ask **제 방 번호가 몇 번이에요?** (*je bang beonhoga myeot beonieyo?*), "What is my room number?" if the receptionist doesn't say it clearly.
+> - If the reply is too fast, say **다시 말씀해 주세요** (*dasi malsseumhae juseyo*), "Please say that again."
 
-## Start With Your Reservation
+![SULSUL mascot Sulsuli looking upset beside the question Are you learning Korean the wrong way?](/assets/blog/covers/app-screen-2.png)
 
-Two natural opening lines are:
+## Give Your Name and Show ID
 
-- **체크인하려고 왔어요** (*chekeuinharyeogo wasseoyo*) — “I’m here to check in.”
-- **체크인하고 싶어요** (*chekeuinhago sipeoyo*) — “I would like to check in.”
+Right after your opening line, the receptionist checks the booking and usually asks **예약하셨나요?** (*yeyakhasyeonnayo?*), "Do you have a reservation?" Confirm with **네, 예약했어요** (*ne, yeyakhaesseoyo*), then give the exact name on the booking, not a nickname.
 
-The first sounds especially natural when stating why you came to the desk. The receptionist may answer **예약하셨나요?** (*yeyakhasyeonnayo?*), “Do you have a reservation?” You can say **네, 예약했어요** (*ne, yeyakhaesseoyo*), “Yes, I made a reservation.”
+You: **네, 예약했어요. 이름은 데이비드 김이에요.** — *ne, yeyakhaesseoyo. ireumeun Deibideu Gimieyo.* — "Yes, I made a reservation. The name is David Kim."  
+Them: **신분증 좀 보여 주시겠어요?** — *sinbunjeung jom boyeo jusigesseoyo?* — "Could you show me your ID, please?"  
+You: **네, 여기 있어요.** — *ne, yeogi isseoyo.* — "Yes, here it is."
 
-You: **안녕하세요. 체크인하려고 왔어요.** — *annyeonghaseyo. chekeuinharyeogo wasseoyo.* — “Hello. I’m here to check in.”  
-Them: **예약하셨나요?** — *yeyakhasyeonnayo?* — “Do you have a reservation?”  
-You: **네, 예약했어요.** — *ne, yeyakhaesseoyo.* — “Yes, I made a reservation.”
+Hand over whichever ID your booking confirmation actually lists — requirements differ by hotel.
 
-Have the booking confirmation and the identification requested by the property ready. Requirements differ by accommodation and reservation, so rely on the hotel’s instructions rather than assuming one document is always sufficient.
+![SULSUL web app screen showing a Korean phrase card with a microphone icon for voice practice](/assets/blog/covers/app-screen-3.png)
 
-![A traveler speaking with staff at a Korean hotel front desk](/assets/blog/scenes/small-talk.jpg)
+## Ask About Your Room, Wi-Fi, and Breakfast
 
-## Give the Name on the Booking
+Ask what you actually need before heading upstairs. Korean room numbers add **호** (*ho*) after the number, so **805호** means "room 805."
 
-The receptionist may ask **예약자 성함이 어떻게 되세요?** (*yeyakja seonghami eotteoke doeseyo?*), “What is the name on the reservation?” Here, **성함** (*seongham*) is the honorific word for someone’s name.
+| Ask this | What it means |
+|---|---|
+| 제 방 번호가 몇 번이에요? *(je bang beonhoga myeot beonieyo?)* | What is my room number? |
+| 와이파이 비밀번호가 뭐예요? *(waipai bimilbeonhoga mwoyeyo?)* | What is the Wi-Fi password? |
+| 조식이 포함되어 있어요? *(josigi pohamdoeeo isseoyo?)* | Is breakfast included? |
+| 짐을 맡길 수 있을까요? *(jimeul matgil su isseulkkayo?)* | Could I leave my luggage here? |
+| 늦게 체크아웃할 수 있어요? *(neutge chekeuauthal su isseoyo?)* | Can I check out late? |
 
-Answer with:
+What usually goes wrong: travelers nod at the room number instead of repeating it. Confirm it as a question — **805호요?** (*palbaeg-ohoyo?*) — before walking away.
 
-**예약자 이름은 [name]이에요** — *yeyakja ireumeun [name]ieyo* — “The reservation name is [name].”
+## Handle a Problem With the Room
 
-If your family name or given name may be difficult to hear, show the confirmation and say:
+If something in the room is actually broken, name it directly instead of describing the symptom in English.
 
-**여기 예약 확인서 있어요** — *yeogi yeyak hwaginseo isseoyo* — “Here is the booking confirmation.”
+You: **방에 문제가 있어요. 에어컨이 안 돼요.** — *bange munjega isseoyo. eeokeoni an dwaeyo.* — "There's a problem with the room. The air conditioner isn't working."  
+Them: **확인해 드리겠습니다.** — *hwaginhae deurigetseumnida.* — "I'll check on that for you."  
+You: **감사합니다.** — *gamsahamnida.* — "Thank you."
 
-You: **예약자 이름은 마리아 로페스예요.** — *yeyakja ireumeun Maria Ropeseuyeyo.* — “The reservation name is Maria Lopez.”  
-Them: **신분증을 보여 주시겠어요?** — *sinbunjeungeul boyeo jusigesseoyo?* — “Could you show me your ID?”  
-You: **네, 여기 있어요.** — *ne, yeogi isseoyo.* — “Yes, here it is.”
+Report it right away, not at checkout, and someone is sent up the same day.
 
-The receptionist’s **-주시겠어요?** (*-jusigesseoyo?*) is a polite request. You do not need to copy its grammar in your answer; **네, 여기 있어요** is enough.
+![SULSUL mascot Sulsuli next to a breakdown of the app's 100 patterns and practice features](/assets/blog/covers/app-screen-4.png)
 
-## Confirm the Room and Hotel Details
+## A Five-Step Arrival Script
 
-Once the reservation is confirmed, staff may state **객실은 805호입니다** (*gaeksireun palbaeg-ohoimnida*), “Your room is number 805.” Korean room numbers use **호** (*ho*) after the number.
+1. Greet the desk with **안녕하세요** (*annyeonghaseyo*), "Hello."
+2. State why you're there and confirm your reservation.
+3. Give the exact name on your booking and show ID when asked.
+4. Confirm your room number and the checkout time before you leave the desk.
+5. Close with **감사합니다** (*gamsahamnida*), "Thank you."
 
-If you missed it, ask:
-
-- **제 방 번호가 몇 번이에요?** (*je bang beonhoga myeot beonieyo?*) — “What is my room number?”
-- **체크아웃은 몇 시예요?** (*chekeuauteun myeot siyeyo?*) — “What time is checkout?”
-- **와이파이 비밀번호가 뭐예요?** (*waipai bimilbeonhoga mwoyeyo?*) — “What is the Wi-Fi password?”
-- **엘리베이터가 어디에 있어요?** (*ellibeiteoga eodie isseoyo?*) — “Where is the elevator?”
-
-You: **체크아웃은 몇 시예요?** — *chekeuauteun myeot siyeyo?* — “What time is checkout?”  
-Them: **오전 열한 시입니다.** — *ojeon yeolhan siimnida.* — “It is 11 a.m.”  
-You: **네, 알겠습니다.** — *ne, algetseumnida.* — “Okay, I understand.”
-
-The time above is only an example dialogue, not a universal hotel policy. Confirm the time for your own booking.
-
-![SULSUL mobile lesson for rehearsing a Korean hotel check-in](/assets/blog/covers/app-screen-3.png)
-
-## Ask About Breakfast, Luggage, and Checkout
-
-Do not assume breakfast is included. Ask **조식이 포함되어 있어요?** (*josigi pohamdoeeo isseoyo?*), “Is breakfast included?” If it is, follow with **조식은 어디에서 먹어요?** (*josigeun eodieseo meogeoyo?*), “Where is breakfast served?” and **조식은 몇 시부터예요?** (*josigeun myeot sibuteoyeyo?*), “What time does breakfast start?”
-
-For luggage storage, say:
-
-**짐을 맡길 수 있을까요?** — *jimeul matgil su isseulkkayo?* — “Could I leave my luggage here?”
-
-Use it before the room is ready or after checkout, but confirm the property’s storage rules. For a later departure, ask:
-
-**늦게 체크아웃할 수 있어요?** — *neutge chekeuauthal su isseoyo?* — “Can I check out late?”
-
-Late checkout depends on availability and may have conditions, so wait for the receptionist’s answer rather than treating the request as confirmed.
-
-## Fix Misunderstandings and Report a Problem
-
-Front-desk explanations can be fast because they include times, floor numbers, and facility names. These repair phrases are more useful than pretending you understood:
-
-- **다시 말씀해 주세요** (*dasi malsseumhae juseyo*) — “Please say that again.”
-- **천천히 말씀해 주세요** (*cheoncheonhi malsseumhae juseyo*) — “Please speak slowly.”
-- **적어 주세요** (*jeogeo juseyo*) — “Please write it down.”
-- **잘 못 들었어요** (*jal mot deureosseoyo*) — “I didn’t hear that well.”
-
-For a room issue, start with **방에 문제가 있어요** (*bange munjega isseoyo*), “There is a problem with the room,” and then identify it. For example, **에어컨이 안 돼요** (*eeokeoni an dwaeyo*) means “The air conditioner is not working.”
-
-You: **방에 문제가 있어요. 에어컨이 안 돼요.** — *bange munjega isseoyo. eeokeoni an dwaeyo.* — “There is a problem with the room. The air conditioner isn’t working.”  
-Them: **확인해 드리겠습니다.** — *hwaginhae deurigetseumnida.* — “I’ll check it for you.”  
-You: **감사합니다.** — *gamsahamnida.* — “Thank you.”
-
-If the issue cannot be resolved, ask **다른 방으로 바꿔 주실 수 있어요?** (*dareun bangeuro bakkwo jusil su isseoyo?*), “Could you change me to another room?” Whether that is possible depends on the hotel’s availability and policies.
-
-## A Seven-Step Check-In Script
-
-1. Greet the receptionist: **안녕하세요** (*annyeonghaseyo*).
-2. State your purpose: **체크인하려고 왔어요** (*chekeuinharyeogo wasseoyo*).
-3. Confirm the booking: **네, 예약했어요** (*ne, yeyakhaesseoyo*).
-4. Give the reservation name: **예약자 이름은 [name]이에요** (*yeyakja ireumeun [name]ieyo*).
-5. Show the requested document: **네, 여기 있어요** (*ne, yeogi isseoyo*).
-6. Confirm key details: **체크아웃은 몇 시예요?** (*chekeuauteun myeot siyeyo?*).
-7. End with **감사합니다** (*gamsahamnida*), “Thank you.”
-
-| Need | Korean | Revised Romanization | Meaning |
-|---|---|---|---|
-| Start check-in | 체크인하려고 왔어요 | *chekeuinharyeogo wasseoyo* | I’m here to check in |
-| Confirm a booking | 네, 예약했어요 | *ne, yeyakhaesseoyo* | Yes, I made a reservation |
-| Show confirmation | 여기 예약 확인서 있어요 | *yeogi yeyak hwaginseo isseoyo* | Here is the booking confirmation |
-| Ask room number | 제 방 번호가 몇 번이에요? | *je bang beonhoga myeot beonieyo?* | What is my room number? |
-| Ask checkout time | 체크아웃은 몇 시예요? | *chekeuauteun myeot siyeyo?* | What time is checkout? |
-| Ask about breakfast | 조식이 포함되어 있어요? | *josigi pohamdoeeo isseoyo?* | Is breakfast included? |
-| Store luggage | 짐을 맡길 수 있을까요? | *jimeul matgil su isseulkkayo?* | Could I leave my luggage? |
-| Request repetition | 다시 말씀해 주세요 | *dasi malsseumhae juseyo* | Please say that again |
+A note from Yona: guests usually memorize the opening line, then freeze at the receptionist's reply — that reply is the half worth rehearsing.
 
 ## Frequently Asked Questions
 
-### What should I say to check into a hotel in Korean?
+### What do I say to check into a hotel in Korean?
 
-Say **안녕하세요. 체크인하려고 왔어요** (*annyeonghaseyo. chekeuinharyeogo wasseoyo*), “Hello. I’m here to check in.” Then be ready to give the name on the reservation.
+Say **체크인하려고 왔어요** (*chekeuinharyeogo wasseoyo*), "I'm here to check in." Have your booking confirmation ready for the name check that follows.
 
-### How do I ask what my room number is?
+### How do I ask for my room number in Korean?
 
-After the receptionist has found your booking, ask **제 방 번호가 몇 번이에요?** (*je bang beonhoga myeot beonieyo?*), “What is my room number?” This is the guest’s line.
+Ask **제 방 번호가 몇 번이에요?** (*je bang beonhoga myeot beonieyo?*), "What is my room number?" Repeat the number back as a question to confirm it.
 
-### What if I do not understand the receptionist?
+### What if I don't understand the receptionist?
 
-Say **다시 말씀해 주세요** (*dasi malsseumhae juseyo*), “Please say that again,” or **천천히 말씀해 주세요** (*cheoncheonhi malsseumhae juseyo*), “Please speak slowly.”
+Say **다시 말씀해 주세요** (*dasi malsseumhae juseyo*), "Please say that again," or **천천히 말씀해 주세요** (*cheoncheonhi malsseumhae juseyo*), "Please speak slowly."
 
-### How do I ask whether late checkout is available?
+### How do I report a problem with my hotel room in Korean?
 
-Ask **늦게 체크아웃할 수 있어요?** (*neutge chekeuauthal su isseoyo?*), “Can I check out late?” The hotel will tell you whether it is available and explain any conditions.
+Say **방에 문제가 있어요** (*bange munjega isseoyo*), "There's a problem with the room," then name the issue, such as the air conditioner not working.
 
-## Rehearse the Information, Not Just the Greeting
+## Say it out loud, not just in your head
 
-Practice saying your booking name, listening for a time, and asking for repetition. Those are the moments that usually require an answer, while the opening phrase simply starts the process.
+Reading **체크인하려고 왔어요** here isn't the same as saying it while a real receptionist is waiting for your answer.
 
-SULSUL turns practical beginner Korean into short speaking patterns and phone-friendly missions. Rehearse both sides of the hotel conversation so the receptionist’s first question does not catch you off guard.
+SULSUL is a speaking gym for exactly that moment: pick a survival pattern, say it out loud, get an instant fix from the AI pronunciation coach, then run the real situation as a mission. The 100-pattern PDF workbook comes along as a bonus.
 
-**[Start speaking with SULSUL](https://sulsul.app/?utm_source=blog&utm_medium=post&utm_campaign=seo)**
+**[Start speaking with SULSUL here!!](https://sulsul.app/?utm_source=blog&utm_medium=post&utm_campaign=seo)**

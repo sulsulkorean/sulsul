@@ -105,7 +105,7 @@ export default function WhatIsSulsulPage() {
         <article className="mx-auto mb-28 max-w-6xl">
           <section className="relative mb-24 grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
-              <p className="mb-5 inline-flex rounded-full bg-pink-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-pink-600 dark:bg-pink-950/50 dark:text-pink-300">
+              <p className="mb-5 inline-flex rounded-full bg-[#fff1f7] px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#FE64AB] dark:bg-pink-950/50 dark:text-pink-300">
                 Book + interactive web app
               </p>
               <h1 className="max-w-3xl text-5xl font-black tracking-[-0.05em] sm:text-6xl lg:text-7xl">
@@ -123,7 +123,7 @@ export default function WhatIsSulsulPage() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
                   href={appLink("what_is_hero")}
-                  className="rounded-full bg-[#FE64AB] px-7 py-4 text-center font-bold text-white shadow-lg shadow-pink-200 transition hover:-translate-y-0.5 hover:bg-pink-500 dark:shadow-none"
+                  className="rounded-full bg-[#FE64AB] px-7 py-4 text-center font-bold text-white shadow-lg shadow-[#FE64AB]/30 transition hover:-translate-y-0.5 hover:bg-[#e84d96] dark:shadow-none"
                 >
                   Open the speaking app →
                 </a>
@@ -148,8 +148,8 @@ export default function WhatIsSulsulPage() {
             </div>
           </section>
 
-          <section className="mb-24 rounded-[2rem] border border-[#FE64AB]/20 bg-[#fff4ed] px-6 py-12 text-slate-950 shadow-sm sm:px-12 lg:px-16">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#d94487]">
+          <section className="mb-24 rounded-[2rem] border border-[#FE64AB]/30 bg-[#fff1f7] px-6 py-12 text-slate-950 shadow-sm sm:px-12 lg:px-16">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE64AB]">
               Why SULSUL exists
             </p>
             <h2 className="mt-4 max-w-4xl text-3xl font-black tracking-tight sm:text-4xl">
@@ -195,7 +195,7 @@ export default function WhatIsSulsulPage() {
               ].map(([label, title, copy]) => (
                 <div
                   key={title}
-                  className="rounded-3xl border border-pink-100 bg-[#fffaf6] p-7 shadow-lg shadow-pink-100/60 dark:border-pink-900/40 dark:bg-slate-900 dark:shadow-none"
+                  className="rounded-3xl border border-[#FE64AB]/25 bg-[#fff1f7] p-7 shadow-lg shadow-[#FE64AB]/15 dark:border-pink-900/40 dark:bg-slate-900 dark:shadow-none"
                 >
                   <p className="text-sm font-black tracking-[0.14em] text-[#FE64AB]">
                     {label}
@@ -241,7 +241,7 @@ export default function WhatIsSulsulPage() {
                   "A visual format made for quick review before and during a trip",
                 ].map((item) => (
                   <li key={item} className="flex gap-3 text-base leading-7">
-                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-pink-100 text-sm font-black text-pink-600 dark:bg-pink-950">
+                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#fff1f7] text-sm font-black text-[#FE64AB] dark:bg-pink-950">
                       ✓
                     </span>
                     <span>{item}</span>
@@ -298,10 +298,10 @@ export default function WhatIsSulsulPage() {
 
           <section
             id="how-it-works"
-            className="mb-24 scroll-mt-8 rounded-[2rem] bg-pink-50 px-6 py-14 dark:bg-pink-950/20 sm:px-12"
+            className="mb-24 scroll-mt-8 rounded-[2rem] bg-[#fff1f7] px-6 py-14 dark:bg-pink-950/20 sm:px-12"
           >
             <div className="mx-auto max-w-4xl text-center">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-pink-600 dark:text-pink-300">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#FE64AB] dark:text-pink-300">
                 The SULSUL loop
               </p>
               <h2 className="mt-4 text-4xl font-black tracking-tight">
@@ -333,7 +333,7 @@ export default function WhatIsSulsulPage() {
           </section>
 
           <section className="mb-24 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="rounded-[2rem] border border-pink-100 bg-[#fff7f0] p-3 shadow-xl dark:border-pink-900/40">
+            <div className="rounded-[2rem] border border-[#FE64AB]/25 bg-[#fff1f7] p-3 shadow-xl dark:border-pink-900/40">
               <Image
                 src="/assets/blog/covers/app-access.png"
                 width={1200}
@@ -434,7 +434,7 @@ export default function WhatIsSulsulPage() {
               </p>
               <a
                 href={appLink("what_is_final")}
-                className="mt-9 inline-flex rounded-full bg-[#FE64AB] px-8 py-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-pink-500"
+                className="mt-9 inline-flex rounded-full bg-[#FE64AB] px-8 py-4 font-black text-white transition hover:-translate-y-0.5 hover:bg-[#e84d96]"
               >
                 Start speaking with {SITE_NAME} →
               </a>
