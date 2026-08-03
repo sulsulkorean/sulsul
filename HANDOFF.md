@@ -37,16 +37,22 @@ sulsul-blog 이어서 진행. HANDOFF.md의 §5 남은 일부터.
 ## 1. 이 프로젝트가 하는 일
 
 `blog.sulsul.app` — SULSUL 앱으로 사람을 데려오는 영어 블로그입니다.
-GitHub Actions가 정해진 시각에 GPT-4o로 초안을 만들고, 검증을 통과한 글은 검토 요청으로 보냅니다.
-사람이 승인한 글만 공개됩니다.
 
-| 언제 | 무엇 | 몇 개 | 발행 방식 |
-|---|---|---|---|
-| 매일 오전 9시 | 트렌드 기반 글 | 2개 | **초안만 만들고 대표님 승인 후 발행** |
-| 평일 오후 9시 | 교재 기반 글 | 3개 | **초안만 만들고 대표님 승인 후 발행** |
+### 발행 모드 (2026-08-04 현재)
 
-발행량을 이 수준으로 낮춘 이유는 구글의 "대량 생성 콘텐츠" 제재를 피하기 위해서입니다.
-(월 900개 → 약 100개)
+**OpenAI 자동 생성은 일시 중지.** 아침/저녁 GitHub Actions 스케줄(cron)을 껐습니다.
+글은 Cursor 채팅에서 쓰고 `_posts/`에 넣은 뒤 `main`에 올리면 Vercel이 배포합니다.
+OpenAI API 호출 비용은 0원입니다. (Cursor 구독만)
+
+다시 자동 생성하려면 `.github/workflows/trend_9am.yml` / `textbook_9pm.yml`의
+`schedule` 주석을 풀고 푸시하면 됩니다. **비용 결정을 먼저 받을 것.**
+
+| 이전 자동 스케줄 (지금은 꺼짐) | 무엇 | 몇 개 |
+|---|---|---|
+| 매일 오전 9시 | 트렌드 기반 초안 | 2개 |
+| 평일 오후 9시 | 교재 기반 초안 | 3개 |
+
+`generate_seo_posts.py`와 품질 게이트는 남겨 둠 — 나중에 스케줄만 다시 켜면 됩니다.
 
 ---
 
@@ -76,8 +82,8 @@ GitHub Actions가 정해진 시각에 GPT-4o로 초안을 만들고, 검증을 �
 | `generate_seo_posts.py` | 글 생성기. 프롬프트, 품질 게이트, 자동 수정 루프 |
 | `tools/check_public_copy.py` | 공개 문구 검사기. 발행 차단 장치 |
 | `tools/romanize.py` | 한글 → 로마자 정확 변환 |
-| `.github/workflows/trend_9am.yml` | 매일 오전 트렌드 초안 → 검토 요청 |
-| `.github/workflows/textbook_9pm.yml` | 평일 저녁 교재 초안 → 검토 요청 |
+| `.github/workflows/trend_9am.yml` | **PAUSED** — 스케줄 꺼짐. 수동(workflow_dispatch)만 가능 |
+| `.github/workflows/textbook_9pm.yml` | **PAUSED** — 스케줄 꺼짐. 수동(workflow_dispatch)만 가능 |
 | `src/app/what-is-sulsul/page.tsx` | 브랜드 정의 페이지 |
 | `public/llms.txt`, `llms-full.txt` | AI 검색엔진용 브리핑 |
 | `_posts/` | 공개된 글 |
