@@ -4,9 +4,9 @@ excerpt: "Korean phrases for bargaining in markets start with 이거 얼마예�
 slug: "korean-phrases-bargaining-markets"
 date: "2026-08-02T16:57:39.000Z"
 updated: "2026-08-04T00:00:00.000Z"
-coverImage: "/assets/blog/scenes/shopping.jpg"
+coverImage: "/assets/blog/scenes/market.jpg"
 ogImage:
-  url: "/assets/blog/scenes/shopping.jpg"
+  url: "/assets/blog/scenes/market.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
@@ -23,7 +23,7 @@ Korean phrases for bargaining in markets start with **이거 얼마예요?** (*i
 > - Where flexibility is signaled, ask once: **조금 깎아 주실 수 있어요?** (*jogeum kkakka jusil su isseoyo?*), "Could you lower the price a little?"
 > - Accept the answer with **알겠습니다** (*algetseumnida*), "I understand."
 
-![SULSUL mascot Sulsuli looking upset beside the question Are you learning Korean the wrong way?](/assets/blog/covers/app-screen-2.png)
+![Interior of a bright clothing boutique in Seoul](/assets/blog/scenes/boutique.jpg)
 
 ## Check the Price Before You Ask for Less
 

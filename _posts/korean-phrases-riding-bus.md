@@ -4,9 +4,9 @@ excerpt: "Korean phrases for riding the bus start with '이 버스 명동 가요
 slug: "korean-phrases-riding-bus"
 date: "2026-08-04T02:00:00.000Z"
 updated: "2026-08-04T02:00:00.000Z"
-coverImage: "/assets/blog/scenes/transport.jpg"
+coverImage: "/assets/blog/scenes/bus.jpg"
 ogImage:
-  url: "/assets/blog/scenes/transport.jpg"
+  url: "/assets/blog/scenes/bus.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
@@ -23,7 +23,7 @@ Korean phrases for riding the bus come down to two moments: getting on and getti
 > - Signal your stop clearly: **내려 주세요** (*naeryeo juseyo*), "Please let me off here."
 > - Check the next stop: **다음 정류장이 뭐예요?** (*daeum jeongnyujangi mwoyeyo?*), "What is the next stop?"
 
-![SULSUL mascot Sulsuli looking upset beside the question Are you learning Korean the wrong way?](/assets/blog/covers/app-screen-2.png)
+![Yellow Korean taxi waiting on a Seoul street at dusk](/assets/blog/scenes/taxi.jpg)
 
 ## How do you board the right bus?
 

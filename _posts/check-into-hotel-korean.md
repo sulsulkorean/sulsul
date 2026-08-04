@@ -4,9 +4,9 @@ excerpt: "To check into a hotel in Korean, say 체크인하려고 왔어요 (che
 slug: "check-into-hotel-korean"
 date: "2026-08-02T16:57:39.000Z"
 updated: "2026-08-04T00:00:00.000Z"
-coverImage: "/assets/blog/covers/app-screen-1.png"
+coverImage: "/assets/blog/scenes/hotel.jpg"
 ogImage:
-  url: "/assets/blog/covers/app-screen-1.png"
+  url: "/assets/blog/scenes/hotel.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
@@ -23,7 +23,7 @@ To check into a hotel in Korean, walk up to the desk and say **체크인하려�
 > - Ask **제 방 번호가 몇 번이에요?** (*je bang beonhoga myeot beonieyo?*), "What is my room number?" if the receptionist doesn't say it clearly.
 > - If the reply is too fast, say **다시 말씀해 주세요** (*dasi malsseumhae juseyo*), "Please say that again."
 
-![SULSUL mascot Sulsuli looking upset beside the question Are you learning Korean the wrong way?](/assets/blog/covers/app-screen-2.png)
+![Travelers asking for directions on a Seoul sidewalk](/assets/blog/scenes/ask-help.jpg)
 
 ## Give Your Name and Show ID
 

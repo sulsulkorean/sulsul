@@ -4,9 +4,9 @@ excerpt: "If you lose your wallet in Korea, say 지갑을 잃어버렸어요 (ji
 slug: "lose-wallet-korea"
 date: "2026-08-02T16:57:39.000Z"
 updated: "2026-08-04T00:00:00.000Z"
-coverImage: "/assets/blog/scenes/transport.jpg"
+coverImage: "/assets/blog/scenes/lost-wallet.jpg"
 ogImage:
-  url: "/assets/blog/scenes/transport.jpg"
+  url: "/assets/blog/scenes/lost-wallet.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
@@ -23,7 +23,7 @@ If you lose your wallet in Korea, say **지갑을 잃어버렸어요** (*jigabeu
 > - Ask **혹시 지갑 들어온 거 있어요?** (*hoksi jigap deureoon geo isseoyo?*), "Has a wallet possibly been turned in?"
 > - Add **도와주세요** (*dowajuseyo*), "Please help me," only after you've stated the problem.
 
-![SULSUL mascot Sulsuli looking upset beside the question Are you learning Korean the wrong way?](/assets/blog/covers/app-screen-2.png)
+![Travelers asking for directions on a Seoul sidewalk](/assets/blog/scenes/ask-help.jpg)
 
 ## Say What Happened, Not a Long Story
 

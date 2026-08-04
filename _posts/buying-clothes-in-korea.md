@@ -4,9 +4,9 @@ excerpt: "When buying clothes in Korea, say '입어 봐도 돼요?' (ibeo bwado 
 slug: "buying-clothes-in-korea"
 date: "2026-08-02T16:57:39.000Z"
 updated: "2026-08-04T00:00:00.000Z"
-coverImage: "/assets/blog/scenes/shopping.jpg"
+coverImage: "/assets/blog/scenes/boutique.jpg"
 ogImage:
-  url: "/assets/blog/scenes/shopping.jpg"
+  url: "/assets/blog/scenes/boutique.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
@@ -23,7 +23,7 @@ When buying clothes in Korea, start with **이거 얼마예요?** (*igeo eolmaye
 > - Point at the size tag and ask if they have that size.
 > - Pay with **카드로 할게요** (*kadeuro halgeyo*), "I'll pay by card."
 
-![SULSUL mascot Sulsuli waving hello, with the tagline Don't freeze in Seoul, speak Korean for real](/assets/blog/covers/app-screen-1.png)
+![Racks of clothes inside a Korean clothing boutique](/assets/blog/scenes/shopping.jpg)
 
 ## How do you ask for help without freezing?
 

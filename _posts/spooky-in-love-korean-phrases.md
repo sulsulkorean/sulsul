@@ -4,9 +4,9 @@ excerpt: "Korean phrases from Spooky in Love — like '괜찮아요?' to check o
 slug: "spooky-in-love-korean-phrases"
 date: "2026-08-04T02:00:00.000Z"
 updated: "2026-08-04T02:00:00.000Z"
-coverImage: "/assets/blog/covers/start-speaking.png"
+coverImage: "/assets/blog/scenes/comfort-night.jpg"
 ogImage:
-  url: "/assets/blog/covers/start-speaking.png"
+  url: "/assets/blog/scenes/comfort-night.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"

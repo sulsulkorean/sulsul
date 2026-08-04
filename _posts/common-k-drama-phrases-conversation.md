@@ -4,9 +4,9 @@ excerpt: "Common K-drama phrases you can actually use include '괜찮아요' (gw
 slug: "common-k-drama-phrases-conversation"
 date: "2026-08-02T16:57:39.000Z"
 updated: "2026-08-04T00:00:00.000Z"
-coverImage: "/assets/blog/covers/start-speaking.png"
+coverImage: "/assets/blog/scenes/kdrama-night.jpg"
 ogImage:
-  url: "/assets/blog/covers/start-speaking.png"
+  url: "/assets/blog/scenes/kdrama-night.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
@@ -23,7 +23,7 @@ Common K-drama phrases you can safely reuse in real conversation include **괜�
 > - **잘됐어요!** (*jaldwaesseoyo!*) reacts to good news: "That's great."
 > - **수고하셨어요.** (*sugohasyeosseoyo.*), "Thank you for your hard work," fits after any real effort.
 
-![Counter of a cozy Korean cafe with pastries and a coffee machine](/assets/blog/scenes/cafe.jpg)
+![Quiet Seoul street at night under soft streetlights](/assets/blog/scenes/comfort-night.jpg)
 
 ## Why a drama line isn't automatically a safe script
 

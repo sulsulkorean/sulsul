@@ -4,9 +4,9 @@ excerpt: "To ask for a taxi in Korean, say **택시 불러주세요** — *taeks
 slug: "ask-for-taxi-in-korean"
 date: "2026-08-03T15:32:37.000Z"
 updated: "2026-08-03T15:32:37.000Z"
-coverImage: "/assets/blog/scenes/transport.jpg"
+coverImage: "/assets/blog/scenes/taxi.jpg"
 ogImage:
-  url: "/assets/blog/scenes/transport.jpg"
+  url: "/assets/blog/scenes/taxi.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
@@ -28,7 +28,7 @@ To ask for a taxi in Korean, say **택시 불러주세요** — *taeksi bulreoju
 
 When you need to request a taxi, use **택시 타고 싶어요** — *taeksi tago sipeoyo*. This is a polite and effective way to express your desire to take a taxi, whether you're at a hotel, restaurant, or on the street.
 
-![SULSUL mascot Sulsuli waving hello, with the tagline Don't freeze in Seoul, speak Korean for real](/assets/blog/covers/app-screen-1.png)
+![Turnstiles and platform signage at a Seoul subway station](/assets/blog/scenes/transport.jpg)
 
 ## How to Communicate Your Destination
 

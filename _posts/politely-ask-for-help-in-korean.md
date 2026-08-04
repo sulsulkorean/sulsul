@@ -4,9 +4,9 @@ excerpt: "To politely ask for help in Korean, say '도와주세요' (dowajuseyo)
 slug: "politely-ask-for-help-in-korean"
 date: "2026-08-02T16:57:39.000Z"
 updated: "2026-08-04T04:00:00.000Z"
-coverImage: "/assets/blog/covers/app-screen-2.png"
+coverImage: "/assets/blog/scenes/ask-help.jpg"
 ogImage:
-  url: "/assets/blog/covers/app-screen-2.png"
+  url: "/assets/blog/scenes/ask-help.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
@@ -23,7 +23,7 @@ To politely ask for help in Korean, say **도와주세요** (*dowajuseyo*), "ple
 > - If the reply is too fast, say **천천히 말씀해 주세요** (*cheoncheonhi malsseumhae juseyo*), "Please speak slowly."
 > - For real danger: **경찰을 불러 주세요** (*gyeongchareul bulleo juseyo*), "Please call the police."
 
-![SULSUL mascot Sulsuli waving hello, with the tagline Don't freeze in Seoul, speak Korean for real](/assets/blog/covers/app-screen-1.png)
+![A riverside park near a Seoul university at sunset](/assets/blog/scenes/small-talk.jpg)
 
 ## How do you ask a stranger for directions?
 

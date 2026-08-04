@@ -4,9 +4,9 @@ excerpt: "To greet someone in Korean, use '안녕하세요' (annyeonghaseyo) wit
 slug: "greet-korean-politeness-levels"
 date: "2026-08-02T16:57:39.000Z"
 updated: "2026-08-04T00:00:00.000Z"
-coverImage: "/assets/blog/covers/whats-inside.png"
+coverImage: "/assets/blog/scenes/greeting.jpg"
 ogImage:
-  url: "/assets/blog/covers/whats-inside.png"
+  url: "/assets/blog/scenes/greeting.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
@@ -23,7 +23,7 @@ To greet someone in Korean, match the level to the relationship. Use **안녕하
 > - **안녕하십니까.** (*annyeonghasimnikka.*), formal **하십시오체** (*hasipsioche*), also called **합쇼체** (*hapsyoche*), fits ceremonies and speeches.
 > - Being the same age as someone does not automatically make casual speech appropriate.
 
-![SULSUL mascot Sulsuli waving hello, with the tagline Don't freeze in Seoul, speak Korean for real](/assets/blog/covers/app-screen-1.png)
+![A riverside park near a Seoul university at sunset](/assets/blog/scenes/small-talk.jpg)
 
 ## The three levels a beginner actually needs
 

@@ -4,9 +4,9 @@ excerpt: "Korean fan phrases at a K-pop concert include '화이팅!' to cheer yo
 slug: "korean-phrases-kpop-concert"
 date: "2026-08-04T02:00:00.000Z"
 updated: "2026-08-04T02:00:00.000Z"
-coverImage: "/assets/blog/covers/app-screen-1.png"
+coverImage: "/assets/blog/scenes/concert.jpg"
 ogImage:
-  url: "/assets/blog/covers/app-screen-1.png"
+  url: "/assets/blog/scenes/concert.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
@@ -25,7 +25,7 @@ When [STARNEWS covered aespa's debut appearance at Lollapalooza Chicago on Augus
 > - Show love directly: **사랑해요!** (*saranghaeyo!*), "I love you!"
 > - Express you've missed them: **보고 싶었어요!** (*bogo sipeosseoyo!*), "I missed you so much!"
 
-![A riverside park near a Seoul university at sunset](/assets/blog/scenes/small-talk.jpg)
+![Quiet Seoul street at night under soft streetlights](/assets/blog/scenes/comfort-night.jpg)
 
 ## Which phrases work in the concert venue itself?
 

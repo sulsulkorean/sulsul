@@ -7,10 +7,22 @@ export const SCENES = {
   cafe: "/assets/blog/scenes/cafe.jpg",
   convenienceStore: "/assets/blog/scenes/convenience-store.jpg",
   transport: "/assets/blog/scenes/transport.jpg",
+  taxi: "/assets/blog/scenes/taxi.jpg",
+  bus: "/assets/blog/scenes/bus.jpg",
+  lostWallet: "/assets/blog/scenes/lost-wallet.jpg",
+  hotel: "/assets/blog/scenes/hotel.jpg",
+  askHelp: "/assets/blog/scenes/ask-help.jpg",
+  greeting: "/assets/blog/scenes/greeting.jpg",
+  homeCooking: "/assets/blog/scenes/home-cooking.jpg",
+  market: "/assets/blog/scenes/market.jpg",
+  boutique: "/assets/blog/scenes/boutique.jpg",
   restaurant: "/assets/blog/scenes/restaurant.jpg",
   shopping: "/assets/blog/scenes/shopping.jpg",
   smallTalk: "/assets/blog/scenes/small-talk.jpg",
   messaging: "/assets/blog/scenes/messaging.jpg",
+  kdrama: "/assets/blog/scenes/kdrama-night.jpg",
+  comfort: "/assets/blog/scenes/comfort-night.jpg",
+  concert: "/assets/blog/scenes/concert.jpg",
 } as const;
 
 export const BRAND_COVERS = {

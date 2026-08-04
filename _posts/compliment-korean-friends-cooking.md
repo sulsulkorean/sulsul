@@ -4,9 +4,9 @@ excerpt: "To compliment a Korean friend's cooking, say '정말 맛있어요' (je
 slug: "compliment-korean-friends-cooking"
 date: "2026-08-02T16:57:39.000Z"
 updated: "2026-08-04T00:00:00.000Z"
-coverImage: "/assets/blog/scenes/small-talk.jpg"
+coverImage: "/assets/blog/scenes/home-cooking.jpg"
 ogImage:
-  url: "/assets/blog/scenes/small-talk.jpg"
+  url: "/assets/blog/scenes/home-cooking.jpg"
 author:
   name: Yona
   picture: "/assets/blog/authors/yona.png"
