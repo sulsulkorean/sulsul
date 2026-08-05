@@ -38,21 +38,22 @@ sulsul-blog 이어서 진행. HANDOFF.md의 §5 남은 일부터.
 
 `blog.sulsul.app` — SULSUL 앱으로 사람을 데려오는 영어 블로그입니다.
 
-### 발행 모드 (2026-08-04 현재)
+### 발행 모드 (2026-08-05 현재)
 
-**OpenAI 자동 생성은 일시 중지.** 아침/저녁 GitHub Actions 스케줄(cron)을 껐습니다.
-글은 Cursor 채팅에서 쓰고 `_posts/`에 넣은 뒤 `main`에 올리면 Vercel이 배포합니다.
-OpenAI API 호출 비용은 0원입니다. (Cursor 구독만)
+**하루 4편 자동 발행 ON** (대표님 승인 2026-08-05).
 
-다시 자동 생성하려면 `.github/workflows/trend_9am.yml` / `textbook_9pm.yml`의
-`schedule` 주석을 풀고 푸시하면 됩니다. **비용 결정을 먼저 받을 것.**
+| 스케줄 (KST) | 무엇 | 몇 개 | 발행 |
+|---|---|---|---|
+| 매일 오전 9시 | K-컬처 / 트렌드 (k-pop·k-drama·idol·music·food) | 2 | 게이트 통과 → **main 직푸시** → Vercel |
+| 매일 오후 9시 | 교재 기반 생존 한국어 | 2 | 동일 |
 
-| 이전 자동 스케줄 (지금은 꺼짐) | 무엇 | 몇 개 |
-|---|---|---|
-| 매일 오전 9시 | 트렌드 기반 초안 | 2개 |
-| 평일 오후 9시 | 교재 기반 초안 | 3개 |
+**표지 이미지:** `_posts`에 이미 쓰인 커버를 피해서 `public/assets/blog/scenes/` 미사용 파일을 먼저 씀. 남는 장면이 없을 때만 OpenAI DALL·E로 1장 생성해 같은 폴더에 저장. 뉴스·아이돌·드라마 스틸은 쓰지 않음.
 
-`generate_seo_posts.py`와 품질 게이트는 남겨 둠 — 나중에 스케줄만 다시 켜면 됩니다.
+**비용:** OpenAI 글 생성(매일 최대 4편) + 표지 생성은 풀이 빌 때만. secrets `OPENAI` 필요.
+
+수동 1회 테스트: GitHub Actions에서 해당 워크플로 → **Run workflow**.
+
+일시 중지가 필요하면 워크플로 YAML의 `schedule`을 다시 주석 처리하고 푸시.
 
 ---
 
@@ -65,13 +66,13 @@ OpenAI API 호출 비용은 0원입니다. (Cursor 구독만)
 - 한글 로마자 표기 자동 교정 (`tools/romanize.py`)
 - **공개 문구 검사기 (`tools/check_public_copy.py`)** — §4 참고
 - 도메인 연결 완료, GitHub 토큰 재발급 완료, Vercel 환경변수 설정 완료
-- **트렌드 글감 수집 수정 + 트렌드 글 승인제 전환 (2026-08-02)** — §4 사고 3 참고
-- **게이트 통과율이 실행 기록에 남음** — GitHub Actions 실행 페이지 맨 위에 "통과 n / 전체 m" 표 표시
-- **교재 글도 승인제로 전환 (2026-08-03)** — 통과해도 바로 공개하지 않고 PR에서 대기
-- **검수 완료 글 10편 일괄 공개 (2026-08-03)** — 초기 색인·페이지별 데이터 수집을 함께 시작
-- **본문 이미지 의무화** — 글마다 상황 이미지 1장 + 말하기 연습 이미지 1장, 모바일 스타일 적용
+- **트렌드 글감 수집 수정 (2026-08-02)** — §4 사고 3 참고
+- **게이트 통과율이 실행 기록에 남음** — GitHub Actions 실행 페이지 Summary
+- **검수 완료 글 일괄 공개 + 표지 중복 해소 (2026-08-03~05)**
+- **하루 2+2 자동발행 재개 + 직배포 (2026-08-05)** — PR 승인제 해제, 표지 풀 우선·부족 시 생성
+- **본문 이미지 의무화** — 글마다 상황 이미지 + 말하기 연습 이미지, 모바일 스타일 적용
 - **품질검사 보강** — 이미지 수·경로, 근거 없는 할인율·문화 일반화, 가짜 출처 추가 검사
-- **`/what-is-sulsul` 서비스 소개 페이지 전면 개편 (2026-08-03)** — 앱 마스터 문서 기준으로 교재·웹앱·연결 방식·FAQ를 다시 쓰고 실제 이미지 5장 배치
+- **`/what-is-sulsul` 서비스 소개 페이지 전면 개편 (2026-08-03)**
 
 ---
 
@@ -82,8 +83,8 @@ OpenAI API 호출 비용은 0원입니다. (Cursor 구독만)
 | `generate_seo_posts.py` | 글 생성기. 프롬프트, 품질 게이트, 자동 수정 루프 |
 | `tools/check_public_copy.py` | 공개 문구 검사기. 발행 차단 장치 |
 | `tools/romanize.py` | 한글 → 로마자 정확 변환 |
-| `.github/workflows/trend_9am.yml` | **PAUSED** — 스케줄 꺼짐. 수동(workflow_dispatch)만 가능 |
-| `.github/workflows/textbook_9pm.yml` | **PAUSED** — 스케줄 꺼짐. 수동(workflow_dispatch)만 가능 |
+| `.github/workflows/trend_9am.yml` | 매일 09:00 KST — K-컬처 2편 → main 직배포 |
+| `.github/workflows/textbook_9pm.yml` | 매일 21:00 KST — 교재 2편 → main 직배포 |
 | `src/app/what-is-sulsul/page.tsx` | 브랜드 정의 페이지 |
 | `public/llms.txt`, `llms-full.txt` | AI 검색엔진용 브리핑 |
 | `_posts/` | 공개된 글 |
@@ -192,38 +193,33 @@ python3 tools/check_public_copy.py
 
 ---
 
-## 5. 남은 일 (2026-08-03 갱신)
+## 5. 남은 일 (2026-08-05 갱신)
 
 ### 지금 상태
 
-- 공개 글: 검수 완료 글 10개 + 안내문 1개
-- 발행 대기: 없음
-- 10편 전체 검사 결과: 1,200~1,500단어, 이미지 각 2장, 제목 중복 없음, 공개 문구 검사·사이트 빌드 통과
-- 신규 글: 트렌드 2편·교재 3편 단위로 생성하되 검토 요청에서 승인 후 공개
+- 자동발행: **ON** — 매일 교재 2 + K-컬처 2, main 직배포
+- 표지: 장면 풀 우선, 부족 시 DALL·E 생성
+- 공개 글: 런칭·검수 글 + 이후 자동/수동 발행분 (홈에서 확인)
 
 ### 우선순위 높음
 
-1. **일괄 공개 결과 확인**
-   - 블로그 홈·사이트맵·RSS에 10편이 나타나는지
-   - 폰 본문에서 이미지 2장이 폭에 맞고 찌그러지지 않는지
-   - Google Search Console에서 색인 상태와 페이지별 노출 데이터를 확인
+1. **자동 스케줄 첫 실행 확인**
+   - [Trend K-Culture](https://github.com/sulsulkorean/sulsul_blog/actions/workflows/trend_9am.yml) / [Textbook](https://github.com/sulsulkorean/sulsul_blog/actions/workflows/textbook_9pm.yml)
+   - 원하면 **Run workflow**로 수동 1회 스모크 테스트
+   - 통과 0편(검색 실패·게이트)도 정상일 수 있음 — Summary 확인
+   - push 후 [blog.sulsul.app](https://blog.sulsul.app)에서 새 글·표지 확인 (§4 사고 4)
 
-2. **트렌드·교재 검토 요청 실제 생성 확인**
-   - 검색이 막히거나 게이트 통과 글이 없으면 0편이 정상
-   - 글이 생기면 PR이 열리고, Merge 전에는 공개되지 않아야 정상
+2. **게이트 통과율 보고 기준 조정** (데이터 본 뒤, 한 번에 하나씩)
 
-3. **검토 요청(PR) 자동 생성이 안 될 경우**
-   GitHub 저장소 설정에서 Actions가 PR을 만들 권한이 꺼져 있으면 자동 생성이 실패합니다.
-   그때는 실행 페이지에 "직접 열어주세요" 링크가 나오도록 해뒀습니다. 대표님 조작 1회로 해결됨.
-   설정 경로: 저장소 **Settings → Actions → General → Workflow permissions →
-   "Allow GitHub Actions to create and approve pull requests"** 체크
+3. **Actions → main write 권한**  
+   Settings → Actions → General → Workflow permissions → **Read and write**  
+   (직배포에 필요. PR 생성 허용은 더 이상 필수는 아님)
 
 ### 우선순위 낮음
 
 4. 프로필 사진 구도 선택 (A/B/C 중 — 현재 B 적용 중, 대표님 미확인)
 5. 토픽 클러스터 전략 (관련 글끼리 묶어 내부 링크)
-6. `duckduckgo-search` 패키지가 `ddgs` 로 이름이 바뀌었다는 경고가 뜸. 아직 작동하지만 언젠가 끊깁니다.
-   끊기면 트렌드 글감이 0편이 되고(안전한 실패), 그때 `ddgs` 로 옮기면 됩니다.
+6. `duckduckgo-search` → 언젠가 `ddgs` 로 이전 (끊기면 트렌드 0편 = 안전한 실패)
 
 ---
 
@@ -251,5 +247,5 @@ python3 tools/check_public_copy.py
 
 - [블로그 홈](https://blog.sulsul.app)
 - [소개 페이지](https://blog.sulsul.app/what-is-sulsul) — 가격 숫자가 없고, 앱으로 가는 링크만 있으면 정상
-- [자동 발행 기록](https://github.com/sulsulkorean/sulsul/actions) — 매일 돌아간 결과. 실행 하나를 눌러보시면 맨 위에 "통과 n / 전체 m" 표가 있습니다
-- [검토 대기 중인 초안](https://github.com/sulsulkorean/sulsul/pulls) — 트렌드·교재 초안. **Merge = 발행 / Close = 버림 / 안 누르면 그대로**
+- [자동 발행 기록](https://github.com/sulsulkorean/sulsul_blog/actions) — 매일 돌아간 결과. Summary에 통과 n / 전체 m
+- 옛 초안 PR이 남아 있으면 Close만 (이미 main에 있으면 Merge 금지)

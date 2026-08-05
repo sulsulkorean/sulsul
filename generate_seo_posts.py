@@ -15,8 +15,10 @@ from collections import Counter
 import subprocess
 import sys
 import random
+import hashlib
 from datetime import datetime
 from urllib.parse import urlparse
+from urllib.request import urlopen
 from openai import OpenAI
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "tools"))
@@ -59,7 +61,7 @@ PREVIEW_DIR = os.path.join(ROOT, "_preview")
 
 # Enforced here rather than in the workflow files so a stale schedule
 # can never push us back into scaled-content territory.
-MAX_PER_RUN = {"trend": 2, "textbook": 3}
+MAX_PER_RUN = {"trend": 2, "textbook": 2}
 # 2026-08-04: cut again after CEO feedback — FAQ duplicated the body and
 # posts still read too long on a phone. Target a tight teaching post + CTA only.
 MIN_WORDS = 320
@@ -80,6 +82,7 @@ TREND_QUERIES = [
     "k-pop",
     "k-drama",
     "korean idol",
+    "korean music k-pop",
     "korean movie film",
     "korean food k-culture",
 ]
@@ -189,6 +192,9 @@ FALLBACK_COVERS = [
 ]
 
 
+SCENES_DIR = os.path.join(ROOT, "public", "assets", "blog", "scenes")
+
+
 def relevant_inline_images(topic_text, cover):
     """2026-08-03: giving the model the full image list (even with accurate
     descriptions) still produced an off-topic pick — a cafe-counter photo
@@ -207,13 +213,140 @@ def relevant_inline_images(topic_text, cover):
     return sorted(pool)
 
 
-def pick_cover(topic_text):
-    """Choose a cover image that actually matches the post topic."""
+def used_cover_images(extra=None):
+    """Cover paths already claimed by published posts (+ in-run extras)."""
+    used = set(extra or [])
+    for filepath in glob.glob(os.path.join(BLOG_POSTS_DIR, "*.md")):
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                text = f.read()
+            m = re.search(r'^coverImage:\s*["\']?([^"\'\n]+)["\']?\s*$', text, re.M)
+            if m:
+                used.add(m.group(1).strip())
+        except OSError:
+            continue
+    return used
+
+
+def scene_web_path(filename):
+    return f"/assets/blog/scenes/{filename}"
+
+
+def scene_disk_path(web_path):
+    return os.path.join(ROOT, web_path.lstrip("/"))
+
+
+def list_unused_scene_covers(used):
+    """Every jpg/png under scenes/ that is not already a post cover."""
+    unused = []
+    if not os.path.isdir(SCENES_DIR):
+        return unused
+    for name in sorted(os.listdir(SCENES_DIR)):
+        if not name.lower().endswith((".jpg", ".jpeg", ".png", ".webp")):
+            continue
+        web = scene_web_path(name)
+        if web not in used and os.path.isfile(scene_disk_path(web)):
+            unused.append(web)
+    return unused
+
+
+def preferred_scene_for_topic(topic_text):
     text = (topic_text or "").lower()
     for pattern, image in IMAGE_RULES:
-        if re.search(pattern, text):
+        if image in SCENES.values() and re.search(pattern, text):
             return image
+    return None
+
+
+def resize_cover_file(path, max_width=1200):
+    try:
+        from PIL import Image
+    except ImportError:
+        return
+    try:
+        with Image.open(path) as im:
+            im = im.convert("RGB")
+            w, h = im.size
+            if w > max_width:
+                h = int(h * (max_width / float(w)))
+                im = im.resize((max_width, h), Image.Resampling.LANCZOS)
+            im.save(path, format="JPEG", quality=82, optimize=True)
+    except Exception as e:
+        print(f"  cover resize skipped ({e})")
+
+
+def generate_cover_image(topic_text, slug_hint=None):
+    """Create one unique scene cover via OpenAI Images when the pool is exhausted."""
+    os.makedirs(SCENES_DIR, exist_ok=True)
+    hint = (slug_hint or "scene").lower()
+    hint = re.sub(r"[^a-z0-9\-]+", "-", hint).strip("-")[:40] or "scene"
+    digest = hashlib.sha1((topic_text or hint).encode("utf-8")).hexdigest()[:8]
+    filename = f"{hint}-{digest}-cover.jpg"
+    web = scene_web_path(filename)
+    disk = scene_disk_path(web)
+
+    prompt = (
+        "Photorealistic 16:9 landscape blog cover for a Korean speaking-practice article. "
+        f"Topic: {(topic_text or 'Seoul daily life')[:220]}. "
+        "Authentic Seoul atmosphere, natural lighting, no logos, no watermarks, "
+        "no readable brand text, no celebrity or idol faces, no drama stills, "
+        "cinematic travel photography."
+    )
+    print(f"  generating cover image for {filename}...")
+    try:
+        response = get_client().images.generate(
+            model="dall-e-3",
+            prompt=prompt,
+            size="1792x1024",
+            quality="standard",
+            n=1,
+        )
+        image_url = response.data[0].url
+        with urlopen(image_url, timeout=120) as resp:
+            data = resp.read()
+        with open(disk, "wb") as out:
+            out.write(data)
+        resize_cover_file(disk)
+        print(f"  saved new cover: {web}")
+        return web
+    except Exception as e:
+        print(f"  cover generation failed ({e}); falling back to pool.")
+        return None
+
+
+def pick_cover(topic_text, used=None, slug_hint=None):
+    """Prefer an unused matching scene; generate only when the pool is empty."""
+    used = used_cover_images(used)
+    preferred = preferred_scene_for_topic(topic_text)
+    if (
+        preferred
+        and preferred not in used
+        and os.path.isfile(scene_disk_path(preferred))
+    ):
+        return preferred
+
+    unused = list_unused_scene_covers(used)
+    if preferred and preferred in unused:
+        return preferred
+    # Prefer unused scenes that still match a looser topic keyword in the filename
+    text = (topic_text or "").lower()
+    for web in unused:
+        stem = os.path.basename(web).rsplit(".", 1)[0].replace("-", " ")
+        if any(tok and tok in text for tok in stem.split() if len(tok) > 3):
+            return web
+    if unused:
+        return unused[0]
+
+    generated = generate_cover_image(topic_text, slug_hint=slug_hint)
+    if generated:
+        return generated
+
+    # Last resort: brand / app screens (may duplicate — better than failing the run)
+    for path in FALLBACK_COVERS:
+        if path not in used:
+            return path
     return random.choice(FALLBACK_COVERS)
+
 
 BANNED_PHRASES = [
     "money-back",
@@ -667,13 +800,19 @@ Output: a numbered list only, no commentary.
     return keywords_list[:count]
 
 
-def generate_blog_post(keyword_data, library_content, voice_content, mode, existing_posts):
+def generate_blog_post(
+    keyword_data, library_content, voice_content, mode, existing_posts, used_covers=None
+):
     iso_date = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.000Z")
     if mode == "trend":
         topic_text = f"{keyword_data.get('title', '')} {keyword_data.get('snippet', '')}"
+        slug_hint = re.sub(r"[^a-z0-9]+", "-", (keyword_data.get("title") or "trend").lower())[:40]
     else:
         topic_text = str(keyword_data)
-    cover = pick_cover(topic_text)
+        slug_hint = re.sub(r"[^a-z0-9]+", "-", topic_text.lower())[:40]
+    cover = pick_cover(topic_text, used=used_covers, slug_hint=slug_hint)
+    if used_covers is not None:
+        used_covers.add(cover)
     existing_block = existing_posts_block(existing_posts)
     voice = (
         voice_content[:6000]
@@ -1374,7 +1513,7 @@ def write_run_summary(mode, results):
 def main():
     parser = argparse.ArgumentParser(description="SULSUL Blog Content Engine v2")
     parser.add_argument("--mode", choices=["textbook", "trend"], default="textbook")
-    parser.add_argument("--count", type=int, default=3, help="Posts to generate (default 3)")
+    parser.add_argument("--count", type=int, default=2, help="Posts to generate (default 2)")
     parser.add_argument(
         "--preview",
         action="store_true",
@@ -1423,11 +1562,17 @@ def main():
     print()
 
     results = []
+    used_covers = used_cover_images()
     for item in items:
         label = item["title"] if args.mode == "trend" else str(item)
         try:
             post = generate_blog_post(
-                item, library_content, voice_content, args.mode, existing
+                item,
+                library_content,
+                voice_content,
+                args.mode,
+                existing,
+                used_covers=used_covers,
             )
             saved = save_post(
                 post,
