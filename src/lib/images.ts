@@ -23,6 +23,10 @@ export const SCENES = {
   kdrama: "/assets/blog/scenes/kdrama-night.jpg",
   comfort: "/assets/blog/scenes/comfort-night.jpg",
   concert: "/assets/blog/scenes/concert.jpg",
+  pharmacy: "/assets/blog/scenes/pharmacy.jpg",
+  btsFans: "/assets/blog/scenes/bts-fans.jpg",
+  bbq: "/assets/blog/scenes/bbq.jpg",
+  convenienceHeat: "/assets/blog/scenes/convenience-heat.jpg",
 } as const;
 
 export const BRAND_COVERS = {

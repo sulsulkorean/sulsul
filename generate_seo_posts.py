@@ -132,6 +132,10 @@ SCENES = {
     "kdrama": "/assets/blog/scenes/kdrama-night.jpg",
     "comfort": "/assets/blog/scenes/comfort-night.jpg",
     "concert": "/assets/blog/scenes/concert.jpg",
+    "pharmacy": "/assets/blog/scenes/pharmacy.jpg",
+    "bts_fans": "/assets/blog/scenes/bts-fans.jpg",
+    "bbq": "/assets/blog/scenes/bbq.jpg",
+    "convenience_heat": "/assets/blog/scenes/convenience-heat.jpg",
 }
 
 BRAND_COVERS = {
@@ -145,6 +149,10 @@ BRAND_COVERS = {
 
 # (regex, image) — first match wins. Specific scenes before broad ones.
 IMAGE_RULES = [
+    (r"pharmacy|약|medicine|두통|drugstore|\bchemist\b", SCENES["pharmacy"]),
+    (r"\bbbq\b|samgyeopsal|grill|가위|korean barbecue|korean barbeque", SCENES["bbq"]),
+    (r"bts|army|weverse|보고 싶었어|힘이 됐", SCENES["bts_fans"]),
+    (r"데워|microwave|heating food|편의점.*heat", SCENES["convenience_heat"]),
     (r"cafe|coffee|barista|americano|latte", SCENES["cafe"]),
     (r"convenience store|\bgs25\b|7-?eleven|\bsnack|\bkiosk\b", SCENES["convenience"]),
     (r"\btaxi\b", SCENES["taxi"]),
@@ -263,6 +271,10 @@ INLINE_IMAGE_ALT = {
     SCENES["kdrama"]: "Cozy living room at night with a TV glowing softly",
     SCENES["comfort"]: "Quiet Seoul street at night under soft streetlights",
     SCENES["concert"]: "Concert crowd holding glowing lightsticks toward the stage",
+    SCENES["pharmacy"]: "Clean Korean pharmacy interior with medicine shelves and counter",
+    SCENES["bts_fans"]: "Concert crowd holding glowing purple and pink lightsticks",
+    SCENES["bbq"]: "Korean BBQ grill with scissors, tongs, and side dishes",
+    SCENES["convenience_heat"]: "Convenience-store counter with food ready for the microwave",
     "/assets/blog/covers/app-screen-1.png": "SULSUL mascot Sulsuli waving hello, with the tagline Don't freeze in Seoul, speak Korean for real",
     "/assets/blog/covers/app-screen-2.png": "SULSUL mascot Sulsuli looking upset beside the question Are you learning Korean the wrong way?",
     "/assets/blog/covers/app-screen-3.png": "SULSUL web app screen showing a Korean phrase card with a microphone icon for voice practice",
