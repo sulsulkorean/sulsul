@@ -1,12 +1,11 @@
 name: Textbook SEO Posts (9 PM KST)
 
 # Daily: 2 textbook posts. Gate-pass → push main → Vercel.
-# Cost: OpenAI text (+ optional cover image when scene pool is exhausted).
-# Re-enabled 2026-08-05 by CEO approval (pool-first covers, direct publish).
+# SCHEDULE OFF 2026-08-07: OpenAI API paused. Use macOS launchd + Cursor SDK instead
+# (scripts/run_blog_textbook_9pm.sh). Manual only here:
 on:
-  schedule:
-    # 12:00 UTC = 21:00 KST — every day
-    - cron: '0 12 * * *'
+  # schedule:
+  #   - cron: '0 12 * * *'
   workflow_dispatch:
 
 jobs:
